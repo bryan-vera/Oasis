@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="2956c3a81ff44742bbf4a3a7d5b6398c" Name="Diagram1">
+        <EntityTypeShape EntityType="oasisModel.cdg_revalorizacion" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="oasisModel.chat_principal" Width="1.5" PointX="12.75" PointY="8.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="oasisModel.chq_postergado" Width="1.5" PointX="8" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="oasisModel.clnt_cobro_validado" Width="1.5" PointX="5.75" PointY="1.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="oasisModel.clnt_factura_revision" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="oasisModel.departamentos" Width="1.5" PointX="5.75" PointY="13.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="oasisModel.enc_satisfaccion" Width="1.5" PointX="5.75" PointY="8.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="oasisModel.flt_conductores" Width="1.5" PointX="3" PointY="10.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="oasisModel.flt_despachos" Width="1.5" PointX="5.25" PointY="17.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="oasisModel.flt_recepcion_factura" Width="1.5" PointX="3" PointY="13.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="oasisModel.flt_rutas_localidad" Width="1.5" PointX="3" PointY="7.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="oasisModel.flt_rutas_principal" Width="1.5" PointX="3" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="oasisModel.flt_vehiculos" Width="1.5" PointX="3" PointY="33.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="oasisModel.invt_categoria" Width="1.5" PointX="10.75" PointY="1.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="oasisModel.invt_productos_movimientos" Width="1.5" PointX="12.75" PointY="12.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="oasisModel.mba_despachos" Width="1.5" PointX="14.75" PointY="8.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="oasisModel.mod_modulos_principal" Width="1.5" PointX="0.75" PointY="30.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="oasisModel.noti_noticias_principal" Width="1.5" PointX="14.75" PointY="11.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="oasisModel.pre_premios_principal" Width="1.5" PointX="15.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="oasisModel.pro_alarmas" Width="1.5" PointX="10" PointY="9.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="oasisModel.pro_facturas" Width="1.5" PointX="10" PointY="13" IsExpanded="true" />
+        <EntityTypeShape EntityType="oasisModel.pro_ordenes_compra" Width="1.5" PointX="10" PointY="15.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="oasisModel.pro_procesos_principal" Width="1.5" PointX="7.75" PointY="11.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="oasisModel.pro_responsables" Width="1.5" PointX="3" PointY="17.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="oasisModel.prov_oc_detalle" Width="1.5" PointX="15.25" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="oasisModel.rrhh_adelantos" Width="1.5" PointX="3" PointY="20.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="oasisModel.rrhh_cargos_laborales" Width="1.5" PointX="5.75" PointY="32.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="oasisModel.rrhh_faltas" Width="1.5" PointX="3" PointY="23.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="oasisModel.rrhh_sobretiempo" Width="1.5" PointX="3" PointY="26.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="oasisModel.tckt_archivos" Width="1.5" PointX="14.75" PointY="15.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="oasisModel.tckt_bitacora_ticket" Width="1.5" PointX="16.75" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="oasisModel.tckt_categoria" Width="1.5" PointX="1.5" PointY="55.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="oasisModel.tckt_eventos" Width="1.5" PointX="6" PointY="24.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="oasisModel.tckt_status" Width="1.5" PointX="16.75" PointY="12.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="oasisModel.tckt_subcategoria" Width="1.5" PointX="1.5" PointY="42.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="oasisModel.tckt_ticket_principal" Width="1.5" PointX="3.75" PointY="41.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="oasisModel.tckt_tipo" Width="1.5" PointX="16.75" PointY="15.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="oasisModel.tckt_uploading" Width="1.5" PointX="6" PointY="28.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="oasisModel.urb_guia_principal" Width="1.5" PointX="3" PointY="36.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="oasisModel.urb_ubigeo" Width="1.5" PointX="17.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="oasisModel.user_bitacora" Width="1.5" PointX="8" PointY="20" IsExpanded="true" />
+        <EntityTypeShape EntityType="oasisModel.user_login" Width="1.5" PointX="0.75" PointY="22.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="oasisModel.user_permisos" Width="1.5" PointX="3" PointY="30.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="oasisModel.val_vales_principal" Width="1.5" PointX="8" PointY="4.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="oasisModel.vend_planificacion" Width="1.5" PointX="18.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="oasisModel.vend_ubicaciones" Width="1.5" PointX="3" PointY="48.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="oasisModel.vend_vendedores" Width="1.5" PointX="3" PointY="51.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="oasisModel.chat_login_detalles" Width="1.5" PointX="18.75" PointY="8.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="oasisModel.clientes_sri" Width="1.5" PointX="10.75" PointY="18.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="oasisModel.emp_empresas" Width="1.5" PointX="18.75" PointY="11.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="oasisModel.invt_productos" Width="1.5" PointX="12.75" PointY="18.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="oasisModel.invt_productos_stock" Width="1.5" PointX="18.75" PointY="14.75" IsExpanded="true" />
+        <AssociationConnector Association="oasisModel.chq_postergado_ibfk_1" ManuallyRouted="false" />
+        <AssociationConnector Association="oasisModel.chq_postergado_ibfk_2" ManuallyRouted="false" />
+        <AssociationConnector Association="oasisModel.val_vales_principal_ibfk_1" ManuallyRouted="false" />
+        <AssociationConnector Association="oasisModel.val_vales_principal_ibfk_2" ManuallyRouted="false" />
+        <AssociationConnector Association="oasisModel.rrhh_cargos_laborales_ibfk_1" ManuallyRouted="false" />
+        <AssociationConnector Association="oasisModel.tckt_categoria_ibfk_1" ManuallyRouted="false" />
+        <AssociationConnector Association="oasisModel.user_bitacora_ibfk_4" ManuallyRouted="false" />
+        <AssociationConnector Association="oasisModel.user_bitacora_ibfk_5" ManuallyRouted="false" />
+        <AssociationConnector Association="oasisModel.flt_conductores_ibfk_1" ManuallyRouted="false" />
+        <AssociationConnector Association="oasisModel.flt_despachos_ibfk_6" ManuallyRouted="false" />
+        <AssociationConnector Association="oasisModel.flt_despachos_ibfk_1" ManuallyRouted="false" />
+        <AssociationConnector Association="oasisModel.flt_despachos_ibfk_2" ManuallyRouted="false" />
+        <AssociationConnector Association="oasisModel.flt_despachos_ibfk_3" ManuallyRouted="false" />
+        <AssociationConnector Association="oasisModel.flt_despachos_ibfk_4" ManuallyRouted="false" />
+        <AssociationConnector Association="oasisModel.flt_despachos_ibfk_5" ManuallyRouted="false" />
+        <AssociationConnector Association="oasisModel.flt_despachos_ibfk_7" ManuallyRouted="false" />
+        <AssociationConnector Association="oasisModel.flt_despachos_ibfk_8" ManuallyRouted="false" />
+        <AssociationConnector Association="oasisModel.flt_recepcion_factura_ibfk_1" ManuallyRouted="false" />
+        <AssociationConnector Association="oasisModel.flt_rutas_localidad_ibfk_1" ManuallyRouted="false" />
+        <AssociationConnector Association="oasisModel.user_permisos_ibfk_1" ManuallyRouted="false" />
+        <AssociationConnector Association="oasisModel.pro_alarmas_ibfk_1" ManuallyRouted="false" />
+        <AssociationConnector Association="oasisModel.pro_facturas_ibfk_1" ManuallyRouted="false" />
+        <AssociationConnector Association="oasisModel.pro_ordenes_compra_ibfk_1" ManuallyRouted="false" />
+        <AssociationConnector Association="oasisModel.pro_responsables_ibfk_1" ManuallyRouted="false" />
+        <AssociationConnector Association="oasisModel.rrhh_adelantos_ibfk_1" ManuallyRouted="false" />
+        <AssociationConnector Association="oasisModel.user_bitacora_ibfk_2" ManuallyRouted="false" />
+        <AssociationConnector Association="oasisModel.user_bitacora_ibfk_3" ManuallyRouted="false" />
+        <AssociationConnector Association="oasisModel.rrhh_faltas_ibfk_1" ManuallyRouted="false" />
+        <AssociationConnector Association="oasisModel.rrhh_sobretiempo_ibfk_1" ManuallyRouted="false" />
+        <AssociationConnector Association="oasisModel.tckt_subcategoria_ibfk_1" ManuallyRouted="false" />
+        <AssociationConnector Association="oasisModel.tckt_eventos_ibfk_1" ManuallyRouted="false" />
+        <AssociationConnector Association="oasisModel.tckt_eventos_ibfk_2" ManuallyRouted="false" />
+        <AssociationConnector Association="oasisModel.tckt_ticket_principal_ibfk_1" ManuallyRouted="false" />
+        <AssociationConnector Association="oasisModel.tckt_uploading_ibfk_2" ManuallyRouted="false" />
+        <AssociationConnector Association="oasisModel.tckt_uploading_ibfk_1" ManuallyRouted="false" />
+        <AssociationConnector Association="oasisModel.urb_guia_principal_ibfk_1" ManuallyRouted="false" />
+        <AssociationConnector Association="oasisModel.user_bitacora_ibfk_1" ManuallyRouted="false" />
+        <AssociationConnector Association="oasisModel.user_permisos_ibfk_2" ManuallyRouted="false" />
+        <AssociationConnector Association="oasisModel.vend_ubicaciones_ibfk_1" ManuallyRouted="false" />
+        <AssociationConnector Association="oasisModel.vend_vendedores_ibfk_1" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="oasisModel.invt_productos_gastos" Width="1.5" PointX="13" PointY="0.875" />
+        <AssociationConnector Association="oasisModel.invt_productos_gastos_ibfk_1" />
+        <AssociationConnector Association="oasisModel.prov_oc_detalle_ibfk_2" />
+        <EntityTypeShape EntityType="oasisModel.prov_oc_principal" Width="1.5" PointX="10" PointY="30" />
+        <AssociationConnector Association="oasisModel.prov_oc_principal_ibfk_1" />
+        <AssociationConnector Association="oasisModel.prov_oc_detalle_ibfk_1" />
+        </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

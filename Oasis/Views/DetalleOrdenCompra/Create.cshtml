@@ -1,0 +1,286 @@
+﻿@model Oasis.ViewModel.DetalleOrdenCompra
+
+@{
+    ViewBag.Title = "Create";
+    ViewBag.Modulo = "Órdenes de compra";
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="row">
+            <div class="col-12">
+                <!-- Main content -->
+                <div class="invoice p-3 mb-3">
+                    <div class="card-body">
+                        <!-- title row -->
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="row form-group">
+                                    <div class="col-md-4">
+                                        <select id="laboratorio" name="empresa" class="form-control">
+                                            <option selected="selected" value="">Escoger empresa</option>
+                                            <option value="LABOV">LABOVIDA</option>
+                                            <option value="LEBEN">LEBENFARMA</option>
+                                            <option value="FARMA">FARMALIGHT</option>
+                                            <option value="DANIV">DANIVET</option>
+                                            <option value="ANYUP">ANYUPA</option>
+                                            <option value="MEDIT">MEDITOTAL</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="col-md-8">
+                                        <h4 class="float-right">Fecha: @(DateTime.Now.ToString("dd/MM/yyyy"))</h4>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /.col -->
+                        </div>
+                        <!-- info row -->
+                        <div class="row invoice-info">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Proveedor</label>
+                                    @Html.DropDownList("Proveedor", ViewBag.Proveedores as IEnumerable<SelectListItem>,
+                                    new { @class = "js-example-basic-multiple-limit form-control", @multiple = "multiple" })
+                                </div>
+                                <!-- /.form-group -->
+                                <div class="form-group">
+                                    <label>Departamento</label>
+                                    @Html.DropDownList("id_dpto", ViewBag.Departamentos as IEnumerable<SelectListItem>,
+                                    new { @class = "js-example-basic-single form-control"})
+                                </div>
+                                <!-- /.form-group -->
+                            </div>
+                            <!-- /.col -->
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Fecha requerida</label>
+                                    <div class="input-group date" id="fecha_requerida_oc" data-target-input="nearest">
+                                        <input type="text" class="form-control datetimepicker-input" data-target="#fecha_requerida_oc"
+                                               data-inputmask-alias="datetime" data-inputmask-inputformat="dd/mm/yyyy" data-mask="" inputmode="numeric">
+                                        <div class="input-group-append" data-target="#fecha_requerida_oc" data-toggle="datetimepicker">
+                                            <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- /.form-group -->
+                                <div class="form-group">
+                                    <label>Memo</label>
+                                    <textarea class="form-control" rows="3" placeholder="..."></textarea>
+                                </div>
+                                <!-- /.form-group -->
+                            </div>
+                            <!-- /.col -->
+                        </div>
+                        <!-- /.row -->
+                        <!-- Table row -->
+                        <div class="row">
+                            <div class="col-12 table-responsive">
+                                <table class="table table-striped" id="tablaOrdenCompra">
+                                    <thead>
+                                        <tr>
+                                            <th style="width: 46.66%">Producto</th>
+                                            <th style="width: 10%">Cant</th>
+                                            <th style="width: 10%">V.U.</th>
+                                            <th style="width: 10%">DSCTO</th>
+                                            <th style="width: 13.34%">Subtotal</th>
+                                            <th style="width: 10%"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <select class="js-data-example-ajax col-md-12" id="productoDetalleOC">
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <input type="number"
+                                                       class="form-control form-control-border CantidadDetalleOC"
+                                                       id="CantidadDetalleOC"
+                                                       min="0" style="text-align: right;" />
+                                            </td>
+                                            <td>
+                                                <input type="number"
+                                                       class="form-control form-control-border ValorUnitarioOC"
+                                                       id="ValorUnitarioOC"
+                                                       min="0" step=".01" style="text-align: right;" />
+                                            </td>
+                                            <td>
+                                                <input type="number"
+                                                       class="form-control form-control-border DescuentoOC"
+                                                       id="DescuentoOC"
+                                                       min="0" style="text-align: right;" />
+                                            </td>
+                                            <td>
+                                                <input type="number"
+                                                       class="form-control form-control-border SubtotalDetalleOC"
+                                                       id="SubtotalDetalleOC"
+                                                       min="0" style="text-align: right;" disabled />
+                                            </td>
+                                            <td>
+                                                <button class="btn btn-danger BorrarFila" type="button"><i class="fa fa-trash"></i></button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!-- /.col -->
+                        </div>
+
+                        <div class="row col-md-6">
+                            <div class="form-group">
+                                <button class="btn btn-primary" onclick="AgregarFila()" type="button"><i class="fa fa-plus" style="padding-right:10px"></i>Agregar producto</button>
+                            </div>
+                        </div>
+                        <!-- /.row -->
+
+                        <div class="row justify-content-end">
+                            <!-- /.col -->
+                            <div class="col-md-5 form-group">
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <tbody>
+                                            <tr>
+                                                <th style="width:50%">Subtotal:</th>
+                                                <td>
+                                                    <div class="input-group">
+                                                        <div class="input-group-prepend">
+                                                            <span class="input-group-text">$</span>
+                                                        </div>
+                                                        <input type="number"
+                                                               class="form-control"
+                                                               id="SubtotalPrincipalOC"
+                                                               min="0" style="text-align: right;" disabled />
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th>IVA (12.00%)</th>
+                                                <td>
+                                                    <div class="input-group">
+                                                        <div class="input-group-prepend">
+                                                            <span class="input-group-text">$</span>
+                                                        </div>
+                                                        <input type="number"
+                                                               class="form-control form-control-border SubtotalDetalleOC"
+                                                               id="IVAPrincipalOC"
+                                                               min="0" style="text-align: right;" disabled />
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th>Total:</th>
+                                                <td>
+                                                    <div class="input-group">
+                                                        <div class="input-group-prepend">
+                                                            <span class="input-group-text">$</span>
+                                                        </div>
+                                                        <input type="number"
+                                                               class="form-control form-control-border SubtotalDetalleOC"
+                                                               id="TotalPrincipalOC"
+                                                               min="0" style="text-align: right;" disabled />
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <!-- /.col -->
+                        </div>
+                        <!-- /.row -->
+                        <!-- this row will not appear when printing -->
+                        <div class="row justify-content-end">
+                            <div class="btn-toolbar ">
+                                <div class="btn-group" role="group" aria-label="Basic example">
+                                    <button type="button" class="btn btn-danger me-md-2">
+                                        <i class="fas fa-ban"></i> Cancelar
+                                    </button>
+                                    <button type="button" class="btn btn-primary me-md-2">
+                                        <i class="far fa-credit-card"></i> Confirmar
+                                    </button>
+                                    @*<button type="button" class="btn btn-primary me-md-2">
+                                            <i class="fas fa-download"></i> Generate PDF
+                                        </button>*@
+                                </div>
+                            </div>
+
+                            @*<div class="row no-print">
+                                    <div class="col-12 d-grid gap-2 d-md-flex justify-content-md-end">
+                                        <button type="button" class="btn btn-default me-md-2">
+                                            <i class="fas fa-print"></i> Print
+                                        </button>
+                                        <button type="button" class="btn btn-success me-md-2">
+                                            <i class="far fa-credit-card"></i> Submit
+                                            Payment
+                                        </button>
+                                        <button type="button" class="btn btn-primary me-md-2">
+                                            <i class="fas fa-download"></i> Generate PDF
+                                        </button>
+                                    </div>
+                                </div>*@
+                        </div>
+                    </div>
+                </div>
+                <!-- /.invoice -->
+            </div><!-- /.col -->
+        </div>
+
+        @*<div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"></span>
+                </div>
+                <input type="text" class="form-control" placeholder="Username">
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.id_proveedor, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.id_proveedor, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.id_proveedor, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.fecha_documento, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.fecha_documento, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.fecha_documento, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.valor_total, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.valor_total, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.valor_total, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.anulada, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    <div class="checkbox">
+                        @Html.EditorFor(model => model.anulada)
+                        @Html.ValidationMessageFor(model => model.anulada, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Create" class="btn btn-default" />
+                </div>
+            </div>*@
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Regresar", "Index")
+</div>

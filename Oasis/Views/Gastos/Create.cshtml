@@ -1,0 +1,118 @@
+﻿@model Oasis.Models.invt_productos_gastos
+@using Oasis.Controllers;
+@using Oasis.Models;
+
+@{
+    ViewBag.Title = "Crear";
+    ViewBag.Modulo = "Producto";
+}
+
+
+@using (Html.BeginForm("Create", "Gastos", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="row">
+        <div class="col-md-12">
+            <hr />
+
+            <div class="card card-primary">
+                <div class="card-header">
+                    <h3 class="card-title">Nuevo producto</h3>
+                </div>
+
+                <div class="card-body">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.descripcion, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.descripcion, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.descripcion, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.valor_unitario, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.valor_unitario, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.valor_unitario, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.grupo_categoria, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @{
+                                OASISContext db = new OASISContext();
+                                List<invt_categoria> lista_categoria = db.invt_categoria.ToList();
+
+                                <select name="grupo_categoria" class="form-control">
+                                    @{
+                                        <option value="" disabled hidden selected>Selecciona la categoría</option>
+                                        foreach (invt_categoria cat in lista_categoria)
+                                        {
+                                            <option value="@cat.categoria">@cat.categoria</option>
+                                        }
+                                    }
+                                </select>
+                            }
+                            @*
+
+                @Html.EditorFor(model => model.grupo_categoria, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.grupo_categoria, "", new { @class = "text-danger" })*@
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.um, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.um, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.um, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.grava_iva, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            <div class="form-check">
+                                <input type="checkbox" name="grava_iva" class="form-check-input" id="grava_iva">
+                                <label class="form-check-label" for="grava_iva">IVA 12%</label>
+                            </div>
+                            @*@Html.CheckBoxFor(model=>model.grava_IVA, new { htmlAttributes = new { @class = "form-control" } })*@
+                            @*@Html.EditorFor(model => model.grava_iva, new { htmlAttributes = new { @class = "form-control" } })*@
+                            @Html.ValidationMessageFor(model => model.grava_iva, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="submit" value="Crear" class="btn btn-success" />
+                        </div>
+                    </div>
+
+                    @if (@ViewBag.SuccessMessage != null)
+                    {
+                        <div class="alert alert-success alert-dismissible">
+                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                            <h5><i class="icon fas fa-check"></i> Listo</h5>
+                            @ViewBag.SuccessMessage
+                        </div>
+                    }
+                    @if (@ViewBag.ProductoDuplicado != null)
+                    {
+                        <div class="alert alert-danger alert-dismissible">
+                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                            <h5><i class="icon fas fa-ban"></i> Alerta</h5>
+                            El producto ya se encuentra creado
+                        </div>
+                    }
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Regresar", "Index")
+</div>

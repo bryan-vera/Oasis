@@ -1,0 +1,66 @@
+﻿@model IEnumerable<Oasis.Models.prov_oc_principal>
+
+@{
+    ViewBag.Title = "Index";
+    ViewBag.Modulo = "Órdenes de compra";
+}
+
+
+<p>
+    @Html.ActionLink("Crear nueva", "Create")
+</p>
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body table-responsive p-0">
+                <table class="table table-hover text-nowrap">
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.id_oc_principal)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.id_proveedor)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.fecha_documento)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.valor_total)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.anulada)
+                        </th>
+                        <th></th>
+                    </tr>
+
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.id_oc_principal)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.id_proveedor)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.fecha_documento)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.valor_total)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.anulada)
+                            </td>
+                            <td>
+                                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                            </td>
+                        </tr>
+                    }
+
+                </table>
+                </div>
+            </div>
+        </div>
+    </div>
