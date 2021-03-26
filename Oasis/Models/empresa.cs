@@ -11,8 +11,7 @@ namespace Oasis.Models
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel;
-
+    
     public partial class empresa
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -84,6 +83,8 @@ namespace Oasis.Models
             this.transportista1 = new HashSet<transportista>();
             this.saldo_unidad_manejo = new HashSet<saldo_unidad_manejo>();
             this.recargo_lista_precios_cliente = new HashSet<recargo_lista_precios_cliente>();
+            this.detalle_flujo_aprobacion = new HashSet<detalle_flujo_aprobacion>();
+            this.factura_proveedor11 = new HashSet<factura_proveedor>();
         }
     
         public int id_empresa { get; set; }
@@ -92,14 +93,12 @@ namespace Oasis.Models
         public Nullable<int> id_entidad_origen { get; set; }
         public string usuario_creacion { get; set; }
         public string usuario_modificacion { get; set; }
-        [DisplayName("ACTIVO")]
         public bool activo { get; set; }
         public string codigo { get; set; }
         public string codigo_alterno { get; set; }
         public string cuenta_facebook { get; set; }
         public string cuenta_twitter { get; set; }
         public string descripcion { get; set; }
-        [DisplayName("EMAIL")]
         public string email1 { get; set; }
         public string email2 { get; set; }
         public string email3 { get; set; }
@@ -109,7 +108,6 @@ namespace Oasis.Models
         public Nullable<int> id_dispositivo_sincronizacion { get; set; }
         public int id_organizacion { get; set; }
         public int id_sucursal { get; set; }
-        [DisplayName("IDENTIFICACIÓN")]
         public string identificacion { get; set; }
         public bool indicador_aplica_descuento { get; set; }
         public bool indicador_cliente { get; set; }
@@ -120,7 +118,6 @@ namespace Oasis.Models
         public bool indicador_proveedor { get; set; }
         public Nullable<decimal> latitud { get; set; }
         public Nullable<decimal> longitud { get; set; }
-        [DisplayName("NOMBRE COMERCIAL")]
         public string nombre_comercial { get; set; }
         public string nombre_fiscal { get; set; }
         public string pagina_web { get; set; }
@@ -271,5 +268,9 @@ namespace Oasis.Models
         public virtual ICollection<saldo_unidad_manejo> saldo_unidad_manejo { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<recargo_lista_precios_cliente> recargo_lista_precios_cliente { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<detalle_flujo_aprobacion> detalle_flujo_aprobacion { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<factura_proveedor> factura_proveedor11 { get; set; }
     }
 }

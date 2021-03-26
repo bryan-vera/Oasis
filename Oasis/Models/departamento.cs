@@ -30,6 +30,7 @@ namespace Oasis.Models
             this.departamento_rubro = new HashSet<departamento_rubro>();
             this.rubro_departamento_cuenta_contable = new HashSet<rubro_departamento_cuenta_contable>();
             this.documento_digitalizado_departamento = new HashSet<documento_digitalizado_departamento>();
+            this.detalle_flujo_aprobacion = new HashSet<detalle_flujo_aprobacion>();
         }
     
         public int id_departamento { get; set; }
@@ -78,5 +79,7 @@ namespace Oasis.Models
         public virtual empleado empleado2 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<documento_digitalizado_departamento> documento_digitalizado_departamento { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<detalle_flujo_aprobacion> detalle_flujo_aprobacion { get; set; }
     }
 }

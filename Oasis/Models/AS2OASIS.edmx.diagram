@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="dfd32fbb2ee44dfa9089e4ea9e0ebd08" Name="Diagram1">
+        <EntityTypeShape EntityType="oasisAS2.GuiaUrbano" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="oasisAS2.presupuesto_cabecera" Width="1.5" PointX="3.75" PointY="1" />
+        <EntityTypeShape EntityType="oasisAS2.presupuesto_detalle" Width="1.5" PointX="6" PointY="1.125" />
+        <EntityTypeShape EntityType="oasisAS2.Cobros_Consolidado" Width="1.5" PointX="3.75" PointY="4.75" />
+        <EntityTypeShape EntityType="oasisAS2.NC_Consolidado" Width="1.5" PointX="5.75" PointY="4.75" />
+        <EntityTypeShape EntityType="oasisAS2.Ventas_Consolidado" Width="1.5" PointX="0.75" PointY="6.75" />
+        <AssociationConnector Association="oasisAS2.FK__presupues__id_pr__2D27B809" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

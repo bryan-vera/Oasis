@@ -90,6 +90,10 @@ namespace Oasis.Models
         public Nullable<int> id_transportista { get; set; }
         public Nullable<int> id_vehiculo { get; set; }
         public Nullable<int> id_zona { get; set; }
+        public string descripcion_flujo_aprobacion { get; set; }
+        public string tocken_flujo { get; set; }
+        public string usuario_aprobador { get; set; }
+        public string usuario_aprobador_flujo { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<anticipo_cliente> anticipo_cliente { get; set; }

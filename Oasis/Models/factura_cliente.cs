@@ -144,6 +144,10 @@ namespace Oasis.Models
         public Nullable<int> id_sucursal { get; set; }
         public Nullable<int> id_transportista { get; set; }
         public Nullable<int> id_zona { get; set; }
+        public string descripcion_anulacion { get; set; }
+        public string descripcion_factura_flor { get; set; }
+        public bool indicador_crear_factura_cliente_agil { get; set; }
+        public bool indicador_recepcion_automatica { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<anticipo_cliente> anticipo_cliente { get; set; }

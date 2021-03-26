@@ -30,6 +30,7 @@ namespace Oasis.Models
         public Nullable<decimal> valor_vestimenta { get; set; }
         public Nullable<decimal> valor_vivienda { get; set; }
         public int id_empleado { get; set; }
+        public decimal valor_turismo { get; set; }
     
         public virtual empleado empleado { get; set; }
     }

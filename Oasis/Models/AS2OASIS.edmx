@@ -1,0 +1,621 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="oasisAS2.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="presupuesto_cabecera">
+          <Key>
+            <PropertyRef Name="id_presupuesto" />
+          </Key>
+          <Property Name="id_presupuesto" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="empresa" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="sucursal" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="descripcion" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="fecha_desde" Type="date" Nullable="false" />
+          <Property Name="fecha_hasta" Type="date" Nullable="false" />
+          <Property Name="activo" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="presupuesto_detalle">
+          <Key>
+            <PropertyRef Name="id_presupuesto_detalle" />
+          </Key>
+          <Property Name="id_presupuesto_cabecera" Type="int" Nullable="false" />
+          <Property Name="id_vendedor" Type="int" Nullable="false" />
+          <Property Name="valor_venta" Type="float" />
+          <Property Name="valor_cobro" Type="float" />
+          <Property Name="id_presupuesto_detalle" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'oasis.dbo.Cobros_Consolidado' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+        <EntityType Name="Cobros_Consolidado">
+          <Key>
+            <PropertyRef Name="empresa" />
+            <PropertyRef Name="sucursal" />
+            <PropertyRef Name="estado" />
+            <PropertyRef Name="valor" />
+            <PropertyRef Name="codigo" />
+            <PropertyRef Name="nombre_comercial" />
+            <PropertyRef Name="id_vendedor" />
+          </Key>
+          <Property Name="empresa" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="sucursal" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="descripcion" Type="varchar" MaxLength="500" />
+          <Property Name="descripcion2" Type="varchar" MaxLength="500" />
+          <Property Name="estado" Type="int" Nullable="false" />
+          <Property Name="fecha_aplicacion" Type="datetime2" Precision="7" />
+          <Property Name="valor" Type="numeric" Precision="12" Scale="2" Nullable="false" />
+          <Property Name="codigo" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="nombre_comercial" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="id_vendedor" Type="int" Nullable="false" />
+          <Property Name="vendedor" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'oasis.dbo.GuiaUrbano' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+        <EntityType Name="GuiaUrbano">
+          <Key>
+            <PropertyRef Name="identificacion" />
+            <PropertyRef Name="id_guia_remision" />
+            <PropertyRef Name="id_organizacion" />
+            <PropertyRef Name="empresa" />
+            <PropertyRef Name="secuencial_factura" />
+            <PropertyRef Name="provincia" />
+            <PropertyRef Name="ciudad" />
+            <PropertyRef Name="parroquia" />
+            <PropertyRef Name="valor_factura" />
+            <PropertyRef Name="secuencial_guia" />
+            <PropertyRef Name="nombre_comercial" />
+            <PropertyRef Name="direccion" />
+            <PropertyRef Name="descripcion" />
+          </Key>
+          <Property Name="identificacion" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="id_guia_remision" Type="int" Nullable="false" />
+          <Property Name="id_organizacion" Type="int" Nullable="false" />
+          <Property Name="empresa" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="secuencial_factura" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="provincia" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ciudad" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="parroquia" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="fecha_factura" Type="datetime2" Precision="7" />
+          <Property Name="valor_factura" Type="numeric" Precision="14" Scale="2" Nullable="false" />
+          <Property Name="fecha_guia" Type="datetime2" Precision="7" />
+          <Property Name="descripcion" Type="varchar" MaxLength="2000" Nullable="false" />
+          <Property Name="email" Type="varchar" MaxLength="500" />
+          <Property Name="secuencial_guia" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="nombre_comercial" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="vendedor" Type="varchar" MaxLength="50" />
+          <Property Name="telefono1" Type="varchar" MaxLength="20" />
+          <Property Name="telefono2" Type="varchar" MaxLength="20" />
+          <Property Name="direccion" Type="varchar" MaxLength="1204" Nullable="false" />
+        </EntityType>
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'oasis.dbo.NC_Consolidado' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+        <EntityType Name="NC_Consolidado">
+          <Key>
+            <PropertyRef Name="empresa" />
+            <PropertyRef Name="nombre_fiscal" />
+            <PropertyRef Name="identificacion" />
+            <PropertyRef Name="numero_factura" />
+            <PropertyRef Name="fecha_factura" />
+            <PropertyRef Name="motivo_nc" />
+            <PropertyRef Name="fecha_documento" />
+            <PropertyRef Name="valor_nc" />
+          </Key>
+          <Property Name="empresa" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="sucursal" Type="varchar" MaxLength="50" />
+          <Property Name="nombre_fiscal" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="id_categoria_empresa" Type="int" />
+          <Property Name="nombre" Type="varchar" MaxLength="50" />
+          <Property Name="identificacion" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="numero_factura" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="fecha_factura" Type="date" Nullable="false" />
+          <Property Name="motivo_nc" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="secuencial_nc" Type="varchar" MaxLength="20" />
+          <Property Name="descripcion_documento" Type="varchar" MaxLength="2072" />
+          <Property Name="fecha_documento" Type="date" Nullable="false" />
+          <Property Name="numero_documento" Type="varchar" MaxLength="62" />
+          <Property Name="valor_nc" Type="numeric" Precision="12" Scale="2" Nullable="false" />
+          <Property Name="id_vendedor" Type="int" />
+          <Property Name="vendedor" Type="varchar" MaxLength="50" />
+          <Property Name="nombre_agente_comercial" Type="varchar" MaxLength="101" />
+        </EntityType>
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'oasis.dbo.Ventas_Consolidado' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+        <EntityType Name="Ventas_Consolidado">
+          <Key>
+            <PropertyRef Name="empresa" />
+            <PropertyRef Name="identificacion" />
+            <PropertyRef Name="id_organizacion" />
+            <PropertyRef Name="secuencial_factura" />
+            <PropertyRef Name="provincia" />
+            <PropertyRef Name="ciudad" />
+            <PropertyRef Name="parroquia" />
+            <PropertyRef Name="nombre_comercial" />
+            <PropertyRef Name="categoria" />
+            <PropertyRef Name="id_vendedor" />
+            <PropertyRef Name="direccion" />
+          </Key>
+          <Property Name="empresa" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="sucursal" Type="varchar" MaxLength="50" />
+          <Property Name="identificacion" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="id_organizacion" Type="int" Nullable="false" />
+          <Property Name="secuencial_factura" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="provincia" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ciudad" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="parroquia" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="fecha_factura" Type="datetime2" Precision="7" />
+          <Property Name="valor_factura" Type="numeric" Precision="15" Scale="2" />
+          <Property Name="fecha_guia" Type="datetime2" Precision="7" />
+          <Property Name="descripcion" Type="varchar" MaxLength="2000" />
+          <Property Name="email" Type="varchar" MaxLength="500" />
+          <Property Name="nombre_comercial" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="categoria" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="id_vendedor" Type="int" Nullable="false" />
+          <Property Name="vendedor" Type="varchar" MaxLength="50" />
+          <Property Name="telefono1" Type="varchar" MaxLength="20" />
+          <Property Name="telefono2" Type="varchar" MaxLength="20" />
+          <Property Name="direccion" Type="varchar" MaxLength="1204" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__presupues__id_pr__2D27B809">
+          <End Role="presupuesto_cabecera" Type="Self.presupuesto_cabecera" Multiplicity="1" />
+          <End Role="presupuesto_detalle" Type="Self.presupuesto_detalle" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="presupuesto_cabecera">
+              <PropertyRef Name="id_presupuesto" />
+            </Principal>
+            <Dependent Role="presupuesto_detalle">
+              <PropertyRef Name="id_presupuesto_cabecera" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="Presupuesto" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="empresa" Type="varchar" Mode="In" />
+          <Parameter Name="sucursal" Type="varchar" Mode="In" />
+          <Parameter Name="fecha_desde" Type="date" Mode="In" />
+          <Parameter Name="fecha_hasta" Type="date" Mode="In" />
+        </Function>
+        <EntityContainer Name="oasisAS2StoreContainer">
+          <EntitySet Name="presupuesto_cabecera" EntityType="Self.presupuesto_cabecera" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="presupuesto_detalle" EntityType="Self.presupuesto_detalle" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Cobros_Consolidado" EntityType="Self.Cobros_Consolidado" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Cobros_Consolidado].[empresa] AS [empresa], 
+    [Cobros_Consolidado].[sucursal] AS [sucursal], 
+    [Cobros_Consolidado].[descripcion] AS [descripcion], 
+    [Cobros_Consolidado].[descripcion2] AS [descripcion2], 
+    [Cobros_Consolidado].[estado] AS [estado], 
+    [Cobros_Consolidado].[fecha_aplicacion] AS [fecha_aplicacion], 
+    [Cobros_Consolidado].[valor] AS [valor], 
+    [Cobros_Consolidado].[codigo] AS [codigo], 
+    [Cobros_Consolidado].[nombre_comercial] AS [nombre_comercial], 
+    [Cobros_Consolidado].[id_vendedor] AS [id_vendedor], 
+    [Cobros_Consolidado].[vendedor] AS [vendedor]
+    FROM [dbo].[Cobros_Consolidado] AS [Cobros_Consolidado]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="GuiaUrbano" EntityType="Self.GuiaUrbano" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [GuiaUrbano].[identificacion] AS [identificacion], 
+    [GuiaUrbano].[id_guia_remision] AS [id_guia_remision], 
+    [GuiaUrbano].[id_organizacion] AS [id_organizacion], 
+    [GuiaUrbano].[empresa] AS [empresa], 
+    [GuiaUrbano].[secuencial_factura] AS [secuencial_factura], 
+    [GuiaUrbano].[provincia] AS [provincia], 
+    [GuiaUrbano].[ciudad] AS [ciudad], 
+    [GuiaUrbano].[parroquia] AS [parroquia], 
+    [GuiaUrbano].[fecha_factura] AS [fecha_factura], 
+    [GuiaUrbano].[valor_factura] AS [valor_factura], 
+    [GuiaUrbano].[fecha_guia] AS [fecha_guia], 
+    [GuiaUrbano].[descripcion] AS [descripcion], 
+    [GuiaUrbano].[email] AS [email], 
+    [GuiaUrbano].[secuencial_guia] AS [secuencial_guia], 
+    [GuiaUrbano].[nombre_comercial] AS [nombre_comercial], 
+    [GuiaUrbano].[vendedor] AS [vendedor], 
+    [GuiaUrbano].[telefono1] AS [telefono1], 
+    [GuiaUrbano].[telefono2] AS [telefono2], 
+    [GuiaUrbano].[direccion] AS [direccion]
+    FROM [dbo].[GuiaUrbano] AS [GuiaUrbano]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="NC_Consolidado" EntityType="Self.NC_Consolidado" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [NC_Consolidado].[empresa] AS [empresa], 
+    [NC_Consolidado].[sucursal] AS [sucursal], 
+    [NC_Consolidado].[nombre_fiscal] AS [nombre_fiscal], 
+    [NC_Consolidado].[id_categoria_empresa] AS [id_categoria_empresa], 
+    [NC_Consolidado].[nombre] AS [nombre], 
+    [NC_Consolidado].[identificacion] AS [identificacion], 
+    [NC_Consolidado].[numero_factura] AS [numero_factura], 
+    [NC_Consolidado].[fecha_factura] AS [fecha_factura], 
+    [NC_Consolidado].[motivo_nc] AS [motivo_nc], 
+    [NC_Consolidado].[secuencial_nc] AS [secuencial_nc], 
+    [NC_Consolidado].[descripcion_documento] AS [descripcion_documento], 
+    [NC_Consolidado].[fecha_documento] AS [fecha_documento], 
+    [NC_Consolidado].[numero_documento] AS [numero_documento], 
+    [NC_Consolidado].[valor_nc] AS [valor_nc], 
+    [NC_Consolidado].[id_vendedor] AS [id_vendedor], 
+    [NC_Consolidado].[vendedor] AS [vendedor], 
+    [NC_Consolidado].[nombre_agente_comercial] AS [nombre_agente_comercial]
+    FROM [dbo].[NC_Consolidado] AS [NC_Consolidado]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="Ventas_Consolidado" EntityType="Self.Ventas_Consolidado" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Ventas_Consolidado].[empresa] AS [empresa], 
+    [Ventas_Consolidado].[sucursal] AS [sucursal], 
+    [Ventas_Consolidado].[identificacion] AS [identificacion], 
+    [Ventas_Consolidado].[id_organizacion] AS [id_organizacion], 
+    [Ventas_Consolidado].[secuencial_factura] AS [secuencial_factura], 
+    [Ventas_Consolidado].[provincia] AS [provincia], 
+    [Ventas_Consolidado].[ciudad] AS [ciudad], 
+    [Ventas_Consolidado].[parroquia] AS [parroquia], 
+    [Ventas_Consolidado].[fecha_factura] AS [fecha_factura], 
+    [Ventas_Consolidado].[valor_factura] AS [valor_factura], 
+    [Ventas_Consolidado].[fecha_guia] AS [fecha_guia], 
+    [Ventas_Consolidado].[descripcion] AS [descripcion], 
+    [Ventas_Consolidado].[email] AS [email], 
+    [Ventas_Consolidado].[nombre_comercial] AS [nombre_comercial], 
+    [Ventas_Consolidado].[categoria] AS [categoria], 
+    [Ventas_Consolidado].[id_vendedor] AS [id_vendedor], 
+    [Ventas_Consolidado].[vendedor] AS [vendedor], 
+    [Ventas_Consolidado].[telefono1] AS [telefono1], 
+    [Ventas_Consolidado].[telefono2] AS [telefono2], 
+    [Ventas_Consolidado].[direccion] AS [direccion]
+    FROM [dbo].[Ventas_Consolidado] AS [Ventas_Consolidado]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK__presupues__id_pr__2D27B809" Association="Self.FK__presupues__id_pr__2D27B809">
+            <End Role="presupuesto_cabecera" EntitySet="presupuesto_cabecera" />
+            <End Role="presupuesto_detalle" EntitySet="presupuesto_detalle" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="oasisAS2" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="GuiaUrbano">
+          <Key>
+            <PropertyRef Name="id_organizacion" />
+            <PropertyRef Name="empresa" />
+            <PropertyRef Name="provincia" />
+            <PropertyRef Name="ciudad" />
+            <PropertyRef Name="parroquia" />
+            <PropertyRef Name="valor_factura" />
+            <PropertyRef Name="descripcion" />
+            <PropertyRef Name="secuencial_guia" />
+            <PropertyRef Name="nombre_comercial" />
+            <PropertyRef Name="direccion" />
+            <PropertyRef Name="secuencial_factura" />
+            <PropertyRef Name="id_guia_remision" />
+            <PropertyRef Name="identificacion" />
+          </Key>
+          <Property Name="id_organizacion" Type="Int32" Nullable="false" />
+          <Property Name="empresa" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="provincia" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ciudad" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="parroquia" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="fecha_factura" Type="DateTime" Precision="7" />
+          <Property Name="valor_factura" Type="Decimal" Precision="14" Scale="2" Nullable="false" />
+          <Property Name="fecha_guia" Type="DateTime" Precision="7" />
+          <Property Name="descripcion" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="email" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="secuencial_guia" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="nombre_comercial" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="vendedor" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="telefono1" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="telefono2" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="direccion" Type="String" MaxLength="1204" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="secuencial_factura" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="id_guia_remision" Type="Int32" Nullable="false" />
+          <Property Name="identificacion" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityContainer Name="as2oasis" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="GuiaUrbano" EntityType="Self.GuiaUrbano" />
+          <EntitySet Name="presupuesto_cabecera" EntityType="oasisAS2.presupuesto_cabecera" />
+          <EntitySet Name="presupuesto_detalle" EntityType="oasisAS2.presupuesto_detalle" />
+          <EntitySet Name="Cobros_Consolidado" EntityType="oasisAS2.Cobros_Consolidado" />
+          <EntitySet Name="NC_Consolidado" EntityType="oasisAS2.NC_Consolidado" />
+          <EntitySet Name="Ventas_Consolidado" EntityType="oasisAS2.Ventas_Consolidado" />
+          <AssociationSet Name="FK__presupues__id_pr__2D27B809" Association="oasisAS2.FK__presupues__id_pr__2D27B809">
+            <End Role="presupuesto_cabecera" EntitySet="presupuesto_cabecera" />
+            <End Role="presupuesto_detalle" EntitySet="presupuesto_detalle" />
+          </AssociationSet>
+          <FunctionImport Name="Presupuesto" ReturnType="Collection(oasisAS2.Presupuesto_Result)">
+            <Parameter Name="empresa" Mode="In" Type="String" />
+            <Parameter Name="sucursal" Mode="In" Type="String" />
+            <Parameter Name="fecha_desde" Mode="In" Type="DateTime" />
+            <Parameter Name="fecha_hasta" Mode="In" Type="DateTime" />
+          </FunctionImport>
+        </EntityContainer>
+        <EntityType Name="presupuesto_cabecera">
+          <Key>
+            <PropertyRef Name="id_presupuesto" />
+          </Key>
+          <Property Name="id_presupuesto" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="empresa" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="sucursal" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="descripcion" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="fecha_desde" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="fecha_hasta" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="activo" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="presupuesto_detalle" Relationship="oasisAS2.FK__presupues__id_pr__2D27B809" FromRole="presupuesto_cabecera" ToRole="presupuesto_detalle" />
+        </EntityType>
+        <EntityType Name="presupuesto_detalle">
+          <Key>
+            <PropertyRef Name="id_presupuesto_detalle" />
+          </Key>
+          <Property Name="id_presupuesto_cabecera" Type="Int32" Nullable="false" />
+          <Property Name="id_vendedor" Type="Int32" Nullable="false" />
+          <Property Name="valor_venta" Type="Double" />
+          <Property Name="valor_cobro" Type="Double" />
+          <Property Name="id_presupuesto_detalle" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="presupuesto_cabecera" Relationship="oasisAS2.FK__presupues__id_pr__2D27B809" FromRole="presupuesto_detalle" ToRole="presupuesto_cabecera" />
+        </EntityType>
+        <EntityType Name="Cobros_Consolidado">
+          <Key>
+            <PropertyRef Name="empresa" />
+            <PropertyRef Name="sucursal" />
+            <PropertyRef Name="estado" />
+            <PropertyRef Name="valor" />
+            <PropertyRef Name="codigo" />
+            <PropertyRef Name="nombre_comercial" />
+            <PropertyRef Name="id_vendedor" />
+          </Key>
+          <Property Name="empresa" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="sucursal" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="descripcion" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="descripcion2" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="estado" Type="Int32" Nullable="false" />
+          <Property Name="fecha_aplicacion" Type="DateTime" Precision="7" />
+          <Property Name="valor" Type="Decimal" Nullable="false" Precision="12" Scale="2" />
+          <Property Name="codigo" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="nombre_comercial" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="id_vendedor" Type="Int32" Nullable="false" />
+          <Property Name="vendedor" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="NC_Consolidado">
+          <Key>
+            <PropertyRef Name="empresa" />
+            <PropertyRef Name="nombre_fiscal" />
+            <PropertyRef Name="identificacion" />
+            <PropertyRef Name="numero_factura" />
+            <PropertyRef Name="fecha_factura" />
+            <PropertyRef Name="motivo_nc" />
+            <PropertyRef Name="fecha_documento" />
+            <PropertyRef Name="valor_nc" />
+          </Key>
+          <Property Name="empresa" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="sucursal" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="nombre_fiscal" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="id_categoria_empresa" Type="Int32" />
+          <Property Name="nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="identificacion" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="numero_factura" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="fecha_factura" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="motivo_nc" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="secuencial_nc" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="descripcion_documento" Type="String" MaxLength="2072" FixedLength="false" Unicode="false" />
+          <Property Name="fecha_documento" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="numero_documento" Type="String" MaxLength="62" FixedLength="false" Unicode="false" />
+          <Property Name="valor_nc" Type="Decimal" Nullable="false" Precision="12" Scale="2" />
+          <Property Name="id_vendedor" Type="Int32" />
+          <Property Name="vendedor" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="nombre_agente_comercial" Type="String" MaxLength="101" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Ventas_Consolidado">
+          <Key>
+            <PropertyRef Name="empresa" />
+            <PropertyRef Name="identificacion" />
+            <PropertyRef Name="id_organizacion" />
+            <PropertyRef Name="secuencial_factura" />
+            <PropertyRef Name="provincia" />
+            <PropertyRef Name="ciudad" />
+            <PropertyRef Name="parroquia" />
+            <PropertyRef Name="nombre_comercial" />
+            <PropertyRef Name="categoria" />
+            <PropertyRef Name="id_vendedor" />
+            <PropertyRef Name="direccion" />
+          </Key>
+          <Property Name="empresa" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="sucursal" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="identificacion" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="id_organizacion" Type="Int32" Nullable="false" />
+          <Property Name="secuencial_factura" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="provincia" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ciudad" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="parroquia" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="fecha_factura" Type="DateTime" Precision="7" />
+          <Property Name="valor_factura" Type="Decimal" Precision="15" Scale="2" />
+          <Property Name="fecha_guia" Type="DateTime" Precision="7" />
+          <Property Name="descripcion" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
+          <Property Name="email" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="nombre_comercial" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="categoria" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="id_vendedor" Type="Int32" Nullable="false" />
+          <Property Name="vendedor" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="telefono1" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="telefono2" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="direccion" Type="String" Nullable="false" MaxLength="1204" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <Association Name="FK__presupues__id_pr__2D27B809">
+          <End Type="oasisAS2.presupuesto_cabecera" Role="presupuesto_cabecera" Multiplicity="1" />
+          <End Type="oasisAS2.presupuesto_detalle" Role="presupuesto_detalle" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="presupuesto_cabecera">
+              <PropertyRef Name="id_presupuesto" />
+            </Principal>
+            <Dependent Role="presupuesto_detalle">
+              <PropertyRef Name="id_presupuesto_cabecera" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <ComplexType Name="Presupuesto_Result">
+          <Property Type="Int32" Name="id_vendedor" Nullable="false" />
+          <Property Type="String" Name="nombre_vendedor" Nullable="true" MaxLength="50" />
+          <Property Type="Double" Name="valor_venta" Nullable="true" />
+          <Property Type="Decimal" Name="ventas_brutas" Nullable="true" Precision="38" Scale="2" />
+          <Property Type="Decimal" Name="total_nc" Nullable="true" Precision="38" Scale="2" />
+          <Property Type="Decimal" Name="ventas_neta" Nullable="true" Precision="38" Scale="2" />
+          <Property Type="Double" Name="alcance_venta" Nullable="true" />
+          <Property Type="Double" Name="valor_cobro" Nullable="true" />
+          <Property Type="Decimal" Name="total_cobros" Nullable="true" Precision="38" Scale="2" />
+          <Property Type="Double" Name="alcance_cobro" Nullable="true" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="oasisAS2StoreContainer" CdmEntityContainer="as2oasis">
+          <EntitySetMapping Name="GuiaUrbano">
+            <EntityTypeMapping TypeName="oasisAS2.GuiaUrbano">
+              <MappingFragment StoreEntitySet="GuiaUrbano">
+                <ScalarProperty Name="identificacion" ColumnName="identificacion" />
+                <ScalarProperty Name="id_guia_remision" ColumnName="id_guia_remision" />
+                <ScalarProperty Name="secuencial_factura" ColumnName="secuencial_factura" />
+                <ScalarProperty Name="id_organizacion" ColumnName="id_organizacion" />
+                <ScalarProperty Name="empresa" ColumnName="empresa" />
+                <ScalarProperty Name="provincia" ColumnName="provincia" />
+                <ScalarProperty Name="ciudad" ColumnName="ciudad" />
+                <ScalarProperty Name="parroquia" ColumnName="parroquia" />
+                <ScalarProperty Name="fecha_factura" ColumnName="fecha_factura" />
+                <ScalarProperty Name="valor_factura" ColumnName="valor_factura" />
+                <ScalarProperty Name="fecha_guia" ColumnName="fecha_guia" />
+                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="secuencial_guia" ColumnName="secuencial_guia" />
+                <ScalarProperty Name="nombre_comercial" ColumnName="nombre_comercial" />
+                <ScalarProperty Name="vendedor" ColumnName="vendedor" />
+                <ScalarProperty Name="telefono1" ColumnName="telefono1" />
+                <ScalarProperty Name="telefono2" ColumnName="telefono2" />
+                <ScalarProperty Name="direccion" ColumnName="direccion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="presupuesto_cabecera">
+            <EntityTypeMapping TypeName="oasisAS2.presupuesto_cabecera">
+              <MappingFragment StoreEntitySet="presupuesto_cabecera">
+                <ScalarProperty Name="activo" ColumnName="activo" />
+                <ScalarProperty Name="fecha_hasta" ColumnName="fecha_hasta" />
+                <ScalarProperty Name="fecha_desde" ColumnName="fecha_desde" />
+                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+                <ScalarProperty Name="sucursal" ColumnName="sucursal" />
+                <ScalarProperty Name="empresa" ColumnName="empresa" />
+                <ScalarProperty Name="id_presupuesto" ColumnName="id_presupuesto" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="presupuesto_detalle">
+            <EntityTypeMapping TypeName="oasisAS2.presupuesto_detalle">
+              <MappingFragment StoreEntitySet="presupuesto_detalle">
+                <ScalarProperty Name="id_presupuesto_detalle" ColumnName="id_presupuesto_detalle" />
+                <ScalarProperty Name="valor_cobro" ColumnName="valor_cobro" />
+                <ScalarProperty Name="valor_venta" ColumnName="valor_venta" />
+                <ScalarProperty Name="id_vendedor" ColumnName="id_vendedor" />
+                <ScalarProperty Name="id_presupuesto_cabecera" ColumnName="id_presupuesto_cabecera" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Cobros_Consolidado">
+            <EntityTypeMapping TypeName="oasisAS2.Cobros_Consolidado">
+              <MappingFragment StoreEntitySet="Cobros_Consolidado">
+                <ScalarProperty Name="vendedor" ColumnName="vendedor" />
+                <ScalarProperty Name="id_vendedor" ColumnName="id_vendedor" />
+                <ScalarProperty Name="nombre_comercial" ColumnName="nombre_comercial" />
+                <ScalarProperty Name="codigo" ColumnName="codigo" />
+                <ScalarProperty Name="valor" ColumnName="valor" />
+                <ScalarProperty Name="fecha_aplicacion" ColumnName="fecha_aplicacion" />
+                <ScalarProperty Name="estado" ColumnName="estado" />
+                <ScalarProperty Name="descripcion2" ColumnName="descripcion2" />
+                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+                <ScalarProperty Name="sucursal" ColumnName="sucursal" />
+                <ScalarProperty Name="empresa" ColumnName="empresa" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="NC_Consolidado">
+            <EntityTypeMapping TypeName="oasisAS2.NC_Consolidado">
+              <MappingFragment StoreEntitySet="NC_Consolidado">
+                <ScalarProperty Name="nombre_agente_comercial" ColumnName="nombre_agente_comercial" />
+                <ScalarProperty Name="vendedor" ColumnName="vendedor" />
+                <ScalarProperty Name="id_vendedor" ColumnName="id_vendedor" />
+                <ScalarProperty Name="valor_nc" ColumnName="valor_nc" />
+                <ScalarProperty Name="numero_documento" ColumnName="numero_documento" />
+                <ScalarProperty Name="fecha_documento" ColumnName="fecha_documento" />
+                <ScalarProperty Name="descripcion_documento" ColumnName="descripcion_documento" />
+                <ScalarProperty Name="secuencial_nc" ColumnName="secuencial_nc" />
+                <ScalarProperty Name="motivo_nc" ColumnName="motivo_nc" />
+                <ScalarProperty Name="fecha_factura" ColumnName="fecha_factura" />
+                <ScalarProperty Name="numero_factura" ColumnName="numero_factura" />
+                <ScalarProperty Name="identificacion" ColumnName="identificacion" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="id_categoria_empresa" ColumnName="id_categoria_empresa" />
+                <ScalarProperty Name="nombre_fiscal" ColumnName="nombre_fiscal" />
+                <ScalarProperty Name="sucursal" ColumnName="sucursal" />
+                <ScalarProperty Name="empresa" ColumnName="empresa" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Ventas_Consolidado">
+            <EntityTypeMapping TypeName="oasisAS2.Ventas_Consolidado">
+              <MappingFragment StoreEntitySet="Ventas_Consolidado">
+                <ScalarProperty Name="direccion" ColumnName="direccion" />
+                <ScalarProperty Name="telefono2" ColumnName="telefono2" />
+                <ScalarProperty Name="telefono1" ColumnName="telefono1" />
+                <ScalarProperty Name="vendedor" ColumnName="vendedor" />
+                <ScalarProperty Name="id_vendedor" ColumnName="id_vendedor" />
+                <ScalarProperty Name="categoria" ColumnName="categoria" />
+                <ScalarProperty Name="nombre_comercial" ColumnName="nombre_comercial" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+                <ScalarProperty Name="fecha_guia" ColumnName="fecha_guia" />
+                <ScalarProperty Name="valor_factura" ColumnName="valor_factura" />
+                <ScalarProperty Name="fecha_factura" ColumnName="fecha_factura" />
+                <ScalarProperty Name="parroquia" ColumnName="parroquia" />
+                <ScalarProperty Name="ciudad" ColumnName="ciudad" />
+                <ScalarProperty Name="provincia" ColumnName="provincia" />
+                <ScalarProperty Name="secuencial_factura" ColumnName="secuencial_factura" />
+                <ScalarProperty Name="id_organizacion" ColumnName="id_organizacion" />
+                <ScalarProperty Name="identificacion" ColumnName="identificacion" />
+                <ScalarProperty Name="sucursal" ColumnName="sucursal" />
+                <ScalarProperty Name="empresa" ColumnName="empresa" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="Presupuesto" FunctionName="oasisAS2.Store.Presupuesto">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="oasisAS2.Presupuesto_Result">
+                <ScalarProperty Name="id_vendedor" ColumnName="id_vendedor" />
+                <ScalarProperty Name="nombre_vendedor" ColumnName="nombre_vendedor" />
+                <ScalarProperty Name="valor_venta" ColumnName="valor_venta" />
+                <ScalarProperty Name="ventas_brutas" ColumnName="ventas_brutas" />
+                <ScalarProperty Name="total_nc" ColumnName="total_nc" />
+                <ScalarProperty Name="ventas_neta" ColumnName="ventas_neta" />
+                <ScalarProperty Name="alcance_venta" ColumnName="alcance_venta" />
+                <ScalarProperty Name="valor_cobro" ColumnName="valor_cobro" />
+                <ScalarProperty Name="total_cobros" ColumnName="total_cobros" />
+                <ScalarProperty Name="alcance_cobro" ColumnName="alcance_cobro" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

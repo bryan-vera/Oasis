@@ -16,10 +16,12 @@ namespace Oasis.ViewModel
         public System.DateTime fecha_documento { get; set; }
         public decimal valor_total { get; set; }
         public bool anulada { get; set; }
-        public int id_producto { get; set; } 
-        public decimal cantidad_producto { get; set; }
-        public decimal valor_linea { get; set; }
+        //public int id_producto { get; set; } 
+        //public decimal cantidad_producto { get; set; }
+        //public decimal valor_linea { get; set; }
         public decimal descuento { get; set; }
+
+        public List<prov_oc_detalle> ListaDeDetalleOrdenCompra { get; set; }
 
     }
 }

@@ -66,6 +66,8 @@ namespace Oasis.Models
         public Nullable<int> id_transportista { get; set; }
         public Nullable<int> id_zona { get; set; }
         public bool indicador_genera_autoconsumo { get; set; }
+        public Nullable<int> id_canal { get; set; }
+        public int id_organizacion_proveedor { get; set; }
     
         public virtual transportista transportista { get; set; }
         public virtual tipo_orden_despacho tipo_orden_despacho { get; set; }
@@ -78,5 +80,6 @@ namespace Oasis.Models
         public virtual condicion_pago condicion_pago { get; set; }
         public virtual forma_pago forma_pago { get; set; }
         public virtual usuario usuario { get; set; }
+        public virtual canal canal { get; set; }
     }
 }

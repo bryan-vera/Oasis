@@ -1,4 +1,5 @@
 ﻿@model Oasis.ViewModel.DetalleOrdenCompra
+@using Oasis.Models;
 
 @{
     ViewBag.Title = "Create";
@@ -23,15 +24,10 @@
                             <div class="col-12">
                                 <div class="row form-group">
                                     <div class="col-md-4">
-                                        <select id="laboratorio" name="empresa" class="form-control">
-                                            <option selected="selected" value="">Escoger empresa</option>
-                                            <option value="LABOV">LABOVIDA</option>
-                                            <option value="LEBEN">LEBENFARMA</option>
-                                            <option value="FARMA">FARMALIGHT</option>
-                                            <option value="DANIV">DANIVET</option>
-                                            <option value="ANYUP">ANYUPA</option>
-                                            <option value="MEDIT">MEDITOTAL</option>
-                                        </select>
+                                        @Html.DropDownListFor(
+                                            model => model.empresa, 
+                                            new SelectList(ViewBag.Opciones, "Value", "Text"),
+                                            htmlAttributes: new { @class = "form-control" })
                                     </div>
 
                                     <div class="col-md-8">
@@ -46,13 +42,14 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Proveedor</label>
-                                    @Html.DropDownList("Proveedor", ViewBag.Proveedores as IEnumerable<SelectListItem>,
-                                    new { @class = "js-example-basic-multiple-limit form-control", @multiple = "multiple" })
+                                    <select name="id_proveedor" class="js-data-proveedor-ajax form-control" id="id_proveedor">
+                                    </select>
+
                                 </div>
                                 <!-- /.form-group -->
                                 <div class="form-group">
                                     <label>Departamento</label>
-                                    @Html.DropDownList("id_dpto", ViewBag.Departamentos as IEnumerable<SelectListItem>,
+                                    @Html.DropDownListFor( model=>model.id_dpto, ViewBag.Departamentos as IEnumerable<SelectListItem>,
                                     new { @class = "js-example-basic-single form-control"})
                                 </div>
                                 <!-- /.form-group -->
@@ -62,7 +59,7 @@
                                 <div class="form-group">
                                     <label>Fecha requerida</label>
                                     <div class="input-group date" id="fecha_requerida_oc" data-target-input="nearest">
-                                        <input type="text" class="form-control datetimepicker-input" data-target="#fecha_requerida_oc"
+                                        <input type="text" name="fecha_documento" id="fecha_documento" class="form-control datetimepicker-input" data-target="#fecha_requerida_oc"
                                                data-inputmask-alias="datetime" data-inputmask-inputformat="dd/mm/yyyy" data-mask="" inputmode="numeric">
                                         <div class="input-group-append" data-target="#fecha_requerida_oc" data-toggle="datetimepicker">
                                             <div class="input-group-text"><i class="fa fa-calendar"></i></div>
@@ -102,7 +99,7 @@
                                             <td>
                                                 <input type="number"
                                                        class="form-control form-control-border CantidadDetalleOC"
-                                                       id="CantidadDetalleOC"
+                                                       id="CantidadDetalleOC" name="cantidad_producto"
                                                        min="0" style="text-align: right;" />
                                             </td>
                                             <td>
@@ -120,11 +117,11 @@
                                             <td>
                                                 <input type="number"
                                                        class="form-control form-control-border SubtotalDetalleOC"
-                                                       id="SubtotalDetalleOC"
+                                                       id="SubtotalDetalleOC" name="valor_linea"
                                                        min="0" style="text-align: right;" disabled />
                                             </td>
                                             <td>
-                                                <button class="btn btn-danger BorrarFila" type="button"><i class="fa fa-trash"></i></button>
+                                                @*<button class="btn btn-danger BorrarFila" type="button"><i class="fa fa-trash"></i></button>*@
                                             </td>
                                         </tr>
                                     </tbody>
@@ -184,6 +181,7 @@
                                                         <input type="number"
                                                                class="form-control form-control-border SubtotalDetalleOC"
                                                                id="TotalPrincipalOC"
+                                                               name="valor_total"
                                                                min="0" style="text-align: right;" disabled />
                                                     </div>
                                                 </td>
@@ -202,7 +200,7 @@
                                     <button type="button" class="btn btn-danger me-md-2">
                                         <i class="fas fa-ban"></i> Cancelar
                                     </button>
-                                    <button type="button" class="btn btn-primary me-md-2">
+                                    <button type="button" id="submit" class="btn btn-primary me-md-2">
                                         <i class="far fa-credit-card"></i> Confirmar
                                     </button>
                                     @*<button type="button" class="btn btn-primary me-md-2">

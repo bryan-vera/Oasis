@@ -43,8 +43,11 @@ namespace Oasis.Models
         public int periodo_promocion { get; set; }
         public bool predeterminado { get; set; }
         public int tipo_promocion { get; set; }
+        public bool indicador_descuento_unidad { get; set; }
+        public Nullable<int> id_zona { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<promocion_producto> promocion_producto { get; set; }
+        public virtual zona zona { get; set; }
     }
 }

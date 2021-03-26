@@ -57,5 +57,6 @@ namespace Oasis.Models
         public Nullable<decimal> utilidades { get; set; }
         public Nullable<decimal> valor_jornada_reducida { get; set; }
         public Nullable<decimal> valorRetenido { get; set; }
+        public Nullable<decimal> deducibleTurismo { get; set; }
     }
 }

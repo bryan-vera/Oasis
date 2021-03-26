@@ -103,6 +103,7 @@ namespace Oasis.Models
             this.detalle_asiento = new HashSet<detalle_asiento>();
             this.detalle_configuracion_extracto_bancario1 = new HashSet<detalle_configuracion_extracto_bancario>();
             this.subcategoria_producto9 = new HashSet<subcategoria_producto>();
+            this.detalle_forma_cobro = new HashSet<detalle_forma_cobro>();
         }
     
         public int id_cuenta_contable { get; set; }
@@ -309,5 +310,7 @@ namespace Oasis.Models
         public virtual ICollection<detalle_configuracion_extracto_bancario> detalle_configuracion_extracto_bancario1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<subcategoria_producto> subcategoria_producto9 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<detalle_forma_cobro> detalle_forma_cobro { get; set; }
     }
 }

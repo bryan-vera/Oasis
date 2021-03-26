@@ -27,6 +27,7 @@ namespace Oasis.Models
             this.prefactura_cliente = new HashSet<prefactura_cliente>();
             this.sector = new HashSet<sector>();
             this.version_lista_precios = new HashSet<version_lista_precios>();
+            this.promocion = new HashSet<promocion>();
         }
     
         public int id_zona { get; set; }
@@ -64,5 +65,7 @@ namespace Oasis.Models
         public virtual ICollection<sector> sector { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<version_lista_precios> version_lista_precios { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<promocion> promocion { get; set; }
     }
 }

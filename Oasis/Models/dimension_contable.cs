@@ -87,6 +87,12 @@ namespace Oasis.Models
             this.recepcion_proveedor = new HashSet<recepcion_proveedor>();
             this.gasto_producto_factura_proveedor4 = new HashSet<gasto_producto_factura_proveedor>();
             this.equipo = new HashSet<equipo>();
+            this.detalle_flujo_aprobacion = new HashSet<detalle_flujo_aprobacion>();
+            this.detalle_flujo_aprobacion1 = new HashSet<detalle_flujo_aprobacion>();
+            this.detalle_flujo_aprobacion2 = new HashSet<detalle_flujo_aprobacion>();
+            this.detalle_flujo_aprobacion3 = new HashSet<detalle_flujo_aprobacion>();
+            this.detalle_flujo_aprobacion4 = new HashSet<detalle_flujo_aprobacion>();
+            this.empleado1 = new HashSet<empleado>();
         }
     
         public int id_dimension_contable { get; set; }
@@ -253,5 +259,17 @@ namespace Oasis.Models
         public virtual ICollection<gasto_producto_factura_proveedor> gasto_producto_factura_proveedor4 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<equipo> equipo { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<detalle_flujo_aprobacion> detalle_flujo_aprobacion { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<detalle_flujo_aprobacion> detalle_flujo_aprobacion1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<detalle_flujo_aprobacion> detalle_flujo_aprobacion2 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<detalle_flujo_aprobacion> detalle_flujo_aprobacion3 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<detalle_flujo_aprobacion> detalle_flujo_aprobacion4 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<empleado> empleado1 { get; set; }
     }
 }

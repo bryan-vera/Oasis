@@ -107,5 +107,6 @@ namespace Oasis.Models
         public virtual dimension_contable dimension_contable4 { get; set; }
         public virtual forma_pago forma_pago1 { get; set; }
         public virtual punto_de_venta punto_de_venta { get; set; }
+        public virtual cuenta_contable cuenta_contable { get; set; }
     }
 }

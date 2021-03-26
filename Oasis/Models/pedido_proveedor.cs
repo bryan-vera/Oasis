@@ -77,6 +77,10 @@ namespace Oasis.Models
         public Nullable<int> id_proyecto { get; set; }
         public Nullable<int> id_solicitud_compra { get; set; }
         public int id_sucursal { get; set; }
+        public string descripcion_flujo_aprobacion { get; set; }
+        public string tocken_flujo { get; set; }
+        public string usuario_aprobador { get; set; }
+        public string usuario_aprobador_flujo { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<anticipo_proveedor> anticipo_proveedor { get; set; }

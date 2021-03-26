@@ -654,5 +654,7 @@ namespace Oasis.Models
         public virtual DbSet<v_vacacion> v_vacacion { get; set; }
         public virtual DbSet<v_vendedor> v_vendedor { get; set; }
         public virtual DbSet<v_ventas> v_ventas { get; set; }
+        public virtual DbSet<detalle_flujo_aprobacion> detalle_flujo_aprobacion { get; set; }
+        public virtual DbSet<flujo_aprobacion> flujo_aprobacion { get; set; }
     }
 }

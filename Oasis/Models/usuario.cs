@@ -46,6 +46,8 @@ namespace Oasis.Models
             this.usuario_cuenta_contable = new HashSet<usuario_cuenta_contable>();
             this.usuario_sucursal = new HashSet<usuario_sucursal>();
             this.rol = new HashSet<rol>();
+            this.detalle_flujo_aprobacion = new HashSet<detalle_flujo_aprobacion>();
+            this.detalle_flujo_aprobacion1 = new HashSet<detalle_flujo_aprobacion>();
         }
     
         public int id_usuario { get; set; }
@@ -156,5 +158,9 @@ namespace Oasis.Models
         public virtual ICollection<usuario_sucursal> usuario_sucursal { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<rol> rol { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<detalle_flujo_aprobacion> detalle_flujo_aprobacion { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<detalle_flujo_aprobacion> detalle_flujo_aprobacion1 { get; set; }
     }
 }

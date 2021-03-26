@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Oasis.ViewModel.DetalleOrdenCompra>
+﻿@model IEnumerable<Oasis.Models.prov_oc_principal>
 
 @{
     ViewBag.Title = "Index";
@@ -26,18 +26,6 @@
         <th>
             @Html.DisplayNameFor(model => model.anulada)
         </th>
-        <th>
-            @Html.DisplayNameFor(model => model.id_producto)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.cantidad_producto)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.valor_linea)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.descuento)
-        </th>
         <th></th>
     </tr>
 
@@ -59,21 +47,9 @@
             @Html.DisplayFor(modelItem => item.anulada)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.id_producto)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.cantidad_producto)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.valor_linea)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.descuento)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+            @Html.ActionLink("Imprimir", "Imprimir", new { id = item.id_oc_principal }, new { target = "_blank" }) |
+            @Html.ActionLink("Enviar", "Enviar", new { id = item.id_oc_principal }) |
+            @Html.ActionLink("Anular", "Delete", new { id = item.id_oc_principal })
         </td>
     </tr>
 }

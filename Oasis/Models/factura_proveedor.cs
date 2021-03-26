@@ -89,6 +89,7 @@ namespace Oasis.Models
         public Nullable<int> id_sucursal { get; set; }
         public Nullable<int> id_tipo_operacion { get; set; }
         public Nullable<int> id_empresa_reembolso { get; set; }
+        public Nullable<int> id_empresa_descuento { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<activo_fijo> activo_fijo { get; set; }
@@ -132,5 +133,6 @@ namespace Oasis.Models
         public virtual ICollection<factura_proveedor_importacion> factura_proveedor_importacion { get; set; }
         public virtual recepcion_proveedor recepcion_proveedor { get; set; }
         public virtual tipo_operacion tipo_operacion { get; set; }
+        public virtual empresa empresa11 { get; set; }
     }
 }

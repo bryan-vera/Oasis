@@ -69,6 +69,10 @@ namespace Oasis.Models
         public string texto_cuerpo_correo_solicitud_compra { get; set; }
         public string texto_cuerpo_correo_transferencia_entre_bodega { get; set; }
         public string texto_cuerpo_correo_vencimiento_factura_cliente { get; set; }
+        public bool indicador_notificar_pedido_cliente_aprobacion { get; set; }
+        public bool indicador_notificar_pedido_proveedor_aprobacion { get; set; }
+        public string texto_cuerpo_correo_pedido_cliente_aprobacion { get; set; }
+        public string texto_cuerpo_correo_pedido_proveedor_aprobacion { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<contacto> contacto { get; set; }

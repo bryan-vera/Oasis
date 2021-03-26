@@ -2457,6 +2457,28 @@
         <AssociationConnector Association="AS2Model.impuesto_categoria" ManuallyRouted="false" />
         <AssociationConnector Association="AS2Model.permiso_accion" ManuallyRouted="false" />
         <AssociationConnector Association="AS2Model.usuario_rol" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="AS2Model.detalle_flujo_aprobacion" Width="1.5" PointX="100.25" PointY="801.5" />
+        <EntityTypeShape EntityType="AS2Model.flujo_aprobacion" Width="1.5" PointX="98" PointY="801" />
+        <AssociationConnector Association="AS2Model.FK_mwl5py25uq9faswyhf0r65pnk" />
+        <AssociationConnector Association="AS2Model.FK_drvpi8x7679mf28hmjgybceo4" />
+        <AssociationConnector Association="AS2Model.FK_pvvjr752vne5vhr96d33vbcr5" />
+        <AssociationConnector Association="AS2Model.FK_roif4mydjt5qp2uv7k29vvu38" />
+        <AssociationConnector Association="AS2Model.FK_3tc63cdlpp7kh631vrlrf0u2a" />
+        <AssociationConnector Association="AS2Model.FK_ajnbv3qunyt3v1dy15om5ra83" />
+        <AssociationConnector Association="AS2Model.FK_coc3917q5y75yye9497xpogf5" />
+        <AssociationConnector Association="AS2Model.FK_dq801vugjh23ygski1o81um43" />
+        <AssociationConnector Association="AS2Model.FK_e7ck8sjam8irjhuwjry0rpc66" />
+        <AssociationConnector Association="AS2Model.FK_ex30rinc6164k4ff5qbcd6iqs" />
+        <AssociationConnector Association="AS2Model.FK_g4ylf97vtfcwhqn7lwy1cy30e" />
+        <AssociationConnector Association="AS2Model.FK_knoqttpqphaju4nsxtcylysbs" />
+        <AssociationConnector Association="AS2Model.FK_nntww7nfgf5jowihexdnqr6to" />
+        <AssociationConnector Association="AS2Model.FK_q2m831awuji9uejgj6ggb70tv" />
+        <AssociationConnector Association="AS2Model.FK_y9hcu84486wiraadmwgv0puw" />
+        <AssociationConnector Association="AS2Model.FK_yrf81mr0eq1srryvspox52b9" />
+        <AssociationConnector Association="AS2Model.FK_sapwrcwofeq0dx7diqb2kckjk" />
+        <AssociationConnector Association="AS2Model.FK_f6nivgmawwm90l986wxlwgk40" />
+        <AssociationConnector Association="AS2Model.FK_88mur34tf4e2to0r8j95nx0o1" />
+        <AssociationConnector Association="AS2Model.FK_9rot5up3dr30qxe2ibnrx8buq" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

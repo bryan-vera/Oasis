@@ -45,5 +45,6 @@ namespace Oasis.Models
         public virtual detalle_forma_cobro detalle_forma_cobro { get; set; }
         public virtual empresa empresa { get; set; }
         public virtual factura_cliente factura_cliente { get; set; }
+        public virtual sucursal sucursal { get; set; }
     }
 }

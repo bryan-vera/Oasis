@@ -83,6 +83,7 @@ namespace Oasis.Models
         public decimal costo_indirectos_estandar { get; set; }
         public decimal costo_mano_de_obra_estandar { get; set; }
         public decimal costo_materiales_estandar { get; set; }
+        public string numero_referencia { get; set; }
     
         public virtual bodega bodega { get; set; }
         public virtual detalle_despacho_cliente detalle_despacho_cliente { get; set; }

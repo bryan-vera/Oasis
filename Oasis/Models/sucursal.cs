@@ -83,6 +83,7 @@ namespace Oasis.Models
             this.tarea_programada = new HashSet<tarea_programada>();
             this.usuario_sucursal = new HashSet<usuario_sucursal>();
             this.ubicacion_activo = new HashSet<ubicacion_activo>();
+            this.garantia_cliente = new HashSet<garantia_cliente>();
         }
     
         public int id_sucursal { get; set; }
@@ -247,5 +248,7 @@ namespace Oasis.Models
         public virtual ICollection<usuario_sucursal> usuario_sucursal { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ubicacion_activo> ubicacion_activo { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<garantia_cliente> garantia_cliente { get; set; }
     }
 }

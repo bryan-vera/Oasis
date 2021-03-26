@@ -46,9 +46,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="BouncyCastle.Crypto, Version=1.8.5.0, Culture=neutral, PublicKeyToken=0e99375e54769942">
-      <HintPath>..\packages\BouncyCastle.1.8.5\lib\BouncyCastle.Crypto.dll</HintPath>
+    <Reference Include="BouncyCastle.Crypto, Version=1.8.6.0, Culture=neutral, PublicKeyToken=0e99375e54769942">
+      <HintPath>..\packages\BouncyCastle.1.8.6.1\lib\BouncyCastle.Crypto.dll</HintPath>
     </Reference>
+    <Reference Include="CrystalDecisions.CrystalReports.Engine, Version=13.0.4000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
+    <Reference Include="CrystalDecisions.ReportSource, Version=13.0.4000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
+    <Reference Include="CrystalDecisions.Shared, Version=13.0.4000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
@@ -57,6 +60,9 @@
     </Reference>
     <Reference Include="Google.Protobuf, Version=3.11.4.0, Culture=neutral, PublicKeyToken=a7d26565bac4d604, processorArchitecture=MSIL">
       <HintPath>..\packages\Google.Protobuf.3.11.4\lib\net45\Google.Protobuf.dll</HintPath>
+    </Reference>
+    <Reference Include="itextsharp, Version=5.5.13.2, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <HintPath>..\packages\iTextSharp.5.5.13.2\lib\itextsharp.dll</HintPath>
     </Reference>
     <Reference Include="K4os.Compression.LZ4, Version=1.1.11.0, Culture=neutral, PublicKeyToken=2186fa9121ef231d, processorArchitecture=MSIL">
       <HintPath>..\packages\K4os.Compression.LZ4.1.1.11\lib\net46\K4os.Compression.LZ4.dll</HintPath>
@@ -152,6 +158,11 @@
     </Reference>
     <Reference Include="System.Drawing" />
     <Reference Include="System.Drawing.Design" />
+    <Reference Include="System.IO, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IO.4.3.0\lib\net462\System.IO.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Management" />
     <Reference Include="System.Memory, Version=4.0.1.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Memory.4.5.3\lib\netstandard2.0\System.Memory.dll</HintPath>
@@ -253,13 +264,27 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\Bodega\GuiasRemisionController.cs" />
+    <Compile Include="Controllers\Credito\CreditoController.cs" />
     <Compile Include="Controllers\GastosController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\InventarioGastosController.cs" />
     <Compile Include="Controllers\InventarioItemController.cs" />
+    <Compile Include="Controllers\Proveedores\CrystalReport1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CrystalReport1.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Controllers\Proveedores\DetalleOrdenCompraController.cs" />
     <Compile Include="Controllers\Proveedores\OrdenesCompraController.cs" />
     <Compile Include="Controllers\Proveedores\ProveedorController.cs" />
+    <Compile Include="Controllers\Proveedores\rptOC.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rptOC.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Controllers\UsuarioController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -336,6 +361,21 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>AS2.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AS2OASIS.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AS2OASIS.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AS2OASIS.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AS2OASIS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AS2OASIS.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AS2OASIS.edmx</DependentUpon>
     </Compile>
     <Compile Include="Models\asiento.cs">
       <DependentUpon>AS2.tt</DependentUpon>
@@ -504,6 +544,9 @@
     </Compile>
     <Compile Include="Models\cobro.cs">
       <DependentUpon>AS2.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Cobros_Consolidado.cs">
+      <DependentUpon>AS2OASIS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\codigo_forma_pagoSRI.cs">
       <DependentUpon>AS2.tt</DependentUpon>
@@ -794,6 +837,9 @@
       <DependentUpon>AS2.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\detalle_finiquito_empleado.cs">
+      <DependentUpon>AS2.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\detalle_flujo_aprobacion.cs">
       <DependentUpon>AS2.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\detalle_flujo_caja.cs">
@@ -1162,6 +1208,9 @@
     <Compile Include="Models\flt_vehiculos.cs">
       <DependentUpon>OASIS.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\flujo_aprobacion.cs">
+      <DependentUpon>AS2.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\flujo_caja.cs">
       <DependentUpon>AS2.tt</DependentUpon>
     </Compile>
@@ -1203,6 +1252,9 @@
     </Compile>
     <Compile Include="Models\grupo_trabajo.cs">
       <DependentUpon>AS2.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GuiaUrbano.cs">
+      <DependentUpon>AS2OASIS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\guia_aerea.cs">
       <DependentUpon>AS2.tt</DependentUpon>
@@ -1427,6 +1479,9 @@
     <Compile Include="Models\movimiento_unidad_manejo.cs">
       <DependentUpon>AS2.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\NC_Consolidado.cs">
+      <DependentUpon>AS2OASIS.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\nivel_centro_costo.cs">
       <DependentUpon>AS2.tt</DependentUpon>
     </Compile>
@@ -1607,11 +1662,17 @@
     <Compile Include="Models\presupuesto.cs">
       <DependentUpon>AS2.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\presupuesto_cabecera.cs">
+      <DependentUpon>AS2OASIS.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\presupuesto_cartera.cs">
       <DependentUpon>AS2.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\presupuesto_compra.cs">
       <DependentUpon>AS2.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\presupuesto_detalle.cs">
+      <DependentUpon>AS2OASIS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\presupuesto_formulacion.cs">
       <DependentUpon>AS2.tt</DependentUpon>
@@ -1621,6 +1682,9 @@
     </Compile>
     <Compile Include="Models\presupuesto_materia_prima.cs">
       <DependentUpon>AS2.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Presupuesto_Result.cs">
+      <DependentUpon>AS2OASIS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\presupuesto_ventas.cs">
       <DependentUpon>AS2.tt</DependentUpon>
@@ -2249,6 +2313,9 @@
     <Compile Include="Models\vend_vendedores.cs">
       <DependentUpon>OASIS.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Ventas_Consolidado.cs">
+      <DependentUpon>AS2OASIS.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\venta_ats.cs">
       <DependentUpon>AS2.tt</DependentUpon>
     </Compile>
@@ -2346,6 +2413,12 @@
       <DependentUpon>AS2.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Reporte\Reporte.cs" />
     <Compile Include="ViewModel\DetalleOrdenCompra.cs" />
     <Compile Include="ViewModel\InventarioItemViewModel.cs" />
   </ItemGroup>
@@ -4262,6 +4335,7 @@
     <Content Include="Content\FrontEnd\plugins\uplot\uPlot.iife.js" />
     <Content Include="Content\FrontEnd\plugins\uplot\uPlot.iife.min.js" />
     <Content Include="Content\FrontEnd\plugins\uplot\uPlot.min.css" />
+    <Content Include="Content\js\OrdenCompra.js" />
     <Content Include="Content\js\site.js" />
     <Content Include="Content\lib\bootstrap\dist\css\bootstrap-grid.css" />
     <Content Include="Content\lib\bootstrap\dist\css\bootstrap-grid.min.css" />
@@ -4298,6 +4372,16 @@
       <DependentUpon>AS2.edmx</DependentUpon>
       <LastGenOutput>AS2.cs</LastGenOutput>
     </Content>
+    <Content Include="Models\AS2OASIS.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>AS2OASIS.edmx</DependentUpon>
+      <LastGenOutput>AS2OASIS.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\AS2OASIS.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>AS2OASIS.edmx</DependentUpon>
+      <LastGenOutput>AS2OASIS.cs</LastGenOutput>
+    </Content>
     <Content Include="Models\OASIS.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>OASIS.edmx</DependentUpon>
@@ -4308,6 +4392,20 @@
       <DependentUpon>OASIS.edmx</DependentUpon>
       <LastGenOutput>OASIS.cs</LastGenOutput>
     </Content>
+    <EntityDeploy Include="Models\AS2OASIS.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>AS2OASIS.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\AS2OASIS.edmx.diagram">
+      <DependentUpon>AS2OASIS.edmx</DependentUpon>
+    </Content>
+    <None Include="Properties\PublishProfiles\Default Settings.pubxml" />
+    <None Include="Resources\ANYUPA.JPG" />
+    <None Include="Resources\DANIVET.JPG" />
+    <None Include="Resources\FARMALIGHT.JPG" />
+    <None Include="Resources\labovida.jpg" />
+    <None Include="Resources\LEBENFARMA.JPG" />
+    <None Include="Resources\MEDITOTAL.JPG" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Content\FrontEnd\build\config\.eslintrc.json" />
@@ -4535,6 +4633,8 @@
     <Content Include="Views\OrdenesCompra\Create.cshtml" />
     <Content Include="Views\DetalleOrdenCompra\Index.cshtml" />
     <Content Include="Views\DetalleOrdenCompra\Create.cshtml" />
+    <Content Include="Views\GuiasRemision\Index.cshtml" />
+    <Content Include="Views\Credito\Consolidado.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -4556,6 +4656,21 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+    <Service Include="{C0C07587-41A7-46C8-8FBD-3F9C8EBE2DDC}" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Controllers\Proveedores\CrystalReport1.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CrystalReport1.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controllers\Proveedores\rptOC.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptOC.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

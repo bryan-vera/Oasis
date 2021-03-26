@@ -42,5 +42,6 @@ namespace Oasis.Models
         public string numero { get; set; }
         public int tipo_documento { get; set; }
         public int tipo_emision { get; set; }
+        public bool indicador_autorizacion_exterior { get; set; }
     }
 }

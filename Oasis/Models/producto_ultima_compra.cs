@@ -23,7 +23,7 @@ namespace Oasis.Models
         public System.DateTime fecha { get; set; }
         public int id_organizacion { get; set; }
         public int id_sucursal { get; set; }
-        public decimal precio { get; set; }
+        public Nullable<decimal> precio { get; set; }
         public decimal precio_pactado { get; set; }
         public int id_empresa { get; set; }
         public int id_producto { get; set; }

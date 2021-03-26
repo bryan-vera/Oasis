@@ -130,6 +130,7 @@ namespace Oasis.Models
         public Nullable<int> id_tipo_discapacidad { get; set; }
         public Nullable<int> id_titulo { get; set; }
         public string nombre_sustituto_pariente { get; set; }
+        public Nullable<int> id_proyecto { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<activo_empleado> activo_empleado { get; set; }
@@ -204,5 +205,6 @@ namespace Oasis.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<empleado_centro_costo> empleado_centro_costo { get; set; }
         public virtual sucursal sucursal { get; set; }
+        public virtual dimension_contable dimension_contable1 { get; set; }
     }
 }

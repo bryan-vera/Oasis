@@ -70,6 +70,26 @@ namespace Oasis.Controllers.Proveedores
             return View();
         }
 
+        public JsonResult ObtenerProveedores(string textoBusqueda)
+        {
+            AS2Context as2 = new AS2Context();
+            //as2.Configuration.LazyLoadingEnabled = false;
+            var prov = as2.empresa
+                .AsEnumerable()
+                .Where(x => x.indicador_proveedor == true && x.nombre_comercial.ToLower().Contains(textoBusqueda.ToLower()))
+                .GroupBy(x => new { x.identificacion, x.activo, x.email1, x.nombre_comercial, x.indicador_proveedor })
+                .Select(x => new 
+                {
+                    identificacion = x.Key.identificacion,
+                    nombre_comercial = x.Key.nombre_comercial,
+                })
+                .Take(5)
+                ;
+
+            //as2.empresa.Where(x=>x.) .invt_productos_gastos.Where(x => x.descripcion.Contains(textoBusqueda)).ToList();
+            return Json(prov, JsonRequestBehavior.AllowGet);
+        }
+
         //// GET: Proveedor/Create
         //public ActionResult Create()
         //{

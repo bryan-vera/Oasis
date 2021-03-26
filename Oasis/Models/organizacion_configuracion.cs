@@ -90,6 +90,8 @@ namespace Oasis.Models
         public Nullable<int> id_atributo_8 { get; set; }
         public Nullable<int> id_atributo_9 { get; set; }
         public Nullable<int> id_organizacion { get; set; }
+        public bool indicador_regimen_microempresa { get; set; }
+        public string numero_resolucion_agente_retencion { get; set; }
     
         public virtual atributo atributo { get; set; }
         public virtual atributo atributo1 { get; set; }

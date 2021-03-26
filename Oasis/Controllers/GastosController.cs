@@ -12,8 +12,6 @@ namespace Oasis.Controllers
         // GET: Gastos
         public ActionResult Index()
         {
-
-            //invt_productos_gastos productos = new invt_productos_gastos();
             OASISContext oasis = new OASISContext();
             return View(oasis.invt_productos_gastos.ToList());
         }

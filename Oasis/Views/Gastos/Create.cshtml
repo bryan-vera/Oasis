@@ -44,7 +44,6 @@
                             @{
                                 OASISContext db = new OASISContext();
                                 List<invt_categoria> lista_categoria = db.invt_categoria.ToList();
-
                                 <select name="grupo_categoria" class="form-control">
                                     @{
                                         <option value="" disabled hidden selected>Selecciona la categoría</option>
@@ -54,11 +53,7 @@
                                         }
                                     }
                                 </select>
-                            }
-                            @*
-
-                @Html.EditorFor(model => model.grupo_categoria, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.grupo_categoria, "", new { @class = "text-danger" })*@
+                            }                          
                         </div>
                     </div>
 

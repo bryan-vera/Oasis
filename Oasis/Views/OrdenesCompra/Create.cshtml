@@ -46,9 +46,11 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Proveedor</label>
-                                    @Html.DropDownList("Proveedor",ViewBag.Proveedores as IEnumerable<SelectListItem>,
-                                    new {@class= "js-example-basic-multiple-limit form-control", @multiple ="multiple" } )
-                                 </div>
+                                    <select class="js-data-proveedor-ajax form-control" id="proveedorID">
+                                    </select>
+                                    @*@Html.DropDownList("Proveedor", ViewBag.Proveedores as IEnumerable<SelectListItem>,
+                                    new { @class = "js-data-proveedor-ajax form-control", @multiple = "multiple" })*@
+                                </div>
                                 <!-- /.form-group -->
                                 <div class="form-group">
                                     <label>Departamento</label>
@@ -210,7 +212,7 @@
                                 <button type="button" class="btn btn-danger me-md-2">
                                     <i class="fas fa-ban"></i> Cancelar
                                 </button>
-                                <button type="button" class="btn btn-primary me-md-2">
+                                <button type="submit" class="btn btn-primary me-md-2">
                                     <i class="far fa-credit-card"></i> Confirmar
                                 </button>
                                 @*<button type="button" class="btn btn-primary me-md-2">

@@ -90,6 +90,7 @@ namespace Oasis.Models
             this.movimiento_unidad_manejo = new HashSet<movimiento_unidad_manejo>();
             this.inventario_producto = new HashSet<inventario_producto>();
             this.pago_comision = new HashSet<pago_comision>();
+            this.detalle_flujo_aprobacion = new HashSet<detalle_flujo_aprobacion>();
         }
     
         public int id_documento { get; set; }
@@ -280,5 +281,7 @@ namespace Oasis.Models
         public virtual ICollection<inventario_producto> inventario_producto { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<pago_comision> pago_comision { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<detalle_flujo_aprobacion> detalle_flujo_aprobacion { get; set; }
     }
 }

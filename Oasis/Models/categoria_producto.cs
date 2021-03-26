@@ -29,6 +29,7 @@ namespace Oasis.Models
             this.criterio_distribucion = new HashSet<criterio_distribucion>();
             this.detalle_version_plan_comision = new HashSet<detalle_version_plan_comision>();
             this.promocion_descuento = new HashSet<promocion_descuento>();
+            this.detalle_flujo_aprobacion = new HashSet<detalle_flujo_aprobacion>();
         }
     
         public int id_categoria_producto { get; set; }
@@ -76,5 +77,7 @@ namespace Oasis.Models
         public virtual ICollection<detalle_version_plan_comision> detalle_version_plan_comision { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<promocion_descuento> promocion_descuento { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<detalle_flujo_aprobacion> detalle_flujo_aprobacion { get; set; }
     }
 }

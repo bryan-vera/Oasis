@@ -25,6 +25,7 @@ namespace Oasis.Models
             this.criterio_distribucion = new HashSet<criterio_distribucion>();
             this.contrato_venta = new HashSet<contrato_venta>();
             this.criterio_contabilizacion = new HashSet<criterio_contabilizacion>();
+            this.cliente = new HashSet<cliente>();
         }
     
         public int id_canal { get; set; }
@@ -40,6 +41,7 @@ namespace Oasis.Models
         public int id_sucursal { get; set; }
         public string nombre { get; set; }
         public bool predeterminado { get; set; }
+        public Nullable<decimal> porcentaje_crecimiento_ventas { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<prefactura_cliente> prefactura_cliente { get; set; }
@@ -57,5 +59,7 @@ namespace Oasis.Models
         public virtual ICollection<contrato_venta> contrato_venta { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<criterio_contabilizacion> criterio_contabilizacion { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<cliente> cliente { get; set; }
     }
 }

@@ -108,6 +108,7 @@ namespace Oasis.Models
             this.promocion_descuento = new HashSet<promocion_descuento>();
             this.unidad_conversion = new HashSet<unidad_conversion>();
             this.producto_ruta_fabricacion_sucursal = new HashSet<producto_ruta_fabricacion_sucursal>();
+            this.detalle_flujo_aprobacion = new HashSet<detalle_flujo_aprobacion>();
         }
     
         public int id_producto { get; set; }
@@ -479,5 +480,7 @@ namespace Oasis.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<producto_ruta_fabricacion_sucursal> producto_ruta_fabricacion_sucursal { get; set; }
         public virtual unidad unidad5 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<detalle_flujo_aprobacion> detalle_flujo_aprobacion { get; set; }
     }
 }

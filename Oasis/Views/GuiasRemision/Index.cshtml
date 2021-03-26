@@ -1,0 +1,101 @@
+﻿@model PagedList.IPagedList<Oasis.Models.GuiaUrbano>
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @*@Html.ActionLink("Create New", "Create")*@
+</p>
+
+@using (Html.BeginForm())
+{
+    <p>
+        <div class="input-group mb-3 col-md-4">
+            <input name="SearchString" id="SearchString" type="text" 
+                   placeholder="Secuencial de factura" class="form-control rounded-0">
+            <span class="input-group-append">
+            <button type="submit" class="btn btn-info btn-flat">Buscar</button>
+            </span>
+        </div>
+
+        @*Buscar por factura: @Html.TextBox("SearchString")
+        <input class="btn btn-primary" type="submit" value="Buscar" />*@
+    </p>
+}
+<div class="card">
+    <div class="card-body table-responsive p-0">
+        <table class="table table-hover text-nowrap">
+
+            <tr>
+                <th>
+                    Empresa
+                </th>
+                <th>
+                    Cliente
+                </th>
+                @*<th>
+                    Ciudad
+                </th>*@
+                <th>
+                    Factura
+                </th>
+                @*<th>
+                    Descripcion
+                </th>*@
+                <th>
+                    Fecha factura
+                </th>
+                @*<th>
+                    Vendedor
+                </th>*@
+                <th></th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.empresa)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.nombre_comercial)
+                    </td>
+                    @*<td>
+                        @Html.DisplayFor(modelItem => item.ciudad)
+                    </td>*@
+                    <td>
+                        @Html.DisplayFor(modelItem => item.secuencial_factura)
+                    </td>
+                    @*<td>
+                        @Html.DisplayFor(modelItem => item.descripcion)
+                    </td>*@
+                    <td>
+                        @Html.DisplayFor(modelItem => item.fecha_factura)
+                    </td>
+                    @*<td>
+                        @Html.DisplayFor(modelItem => item.vendedor)
+                    </td>*@
+                    <td>
+                        <button id="Imprimir" class="btn btn-block btn-primary imprimir" data-id_guia_remision="@item.id_guia_remision">Imprimir</button>
+                        @*@Html.ActionLink("Imprimir", "Imprimir", new { id=item.id_guia_remision }, new { target = "_blank" })*@
+                    </td>
+                </tr>
+            }
+
+        </table>
+        <br />
+        <div class="col-md-8"> 
+            Página @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) de @Model.PageCount
+
+            @Html.PagedListPager(Model, page => Url.Action("Index",
+                new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+        </div>
+
+    </div>
+</div>
+ 

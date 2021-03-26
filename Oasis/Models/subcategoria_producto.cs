@@ -30,6 +30,7 @@ namespace Oasis.Models
             this.promocion_producto = new HashSet<promocion_producto>();
             this.subcategoria_producto_cuenta_contable_gasto = new HashSet<subcategoria_producto_cuenta_contable_gasto>();
             this.unidad_conversion = new HashSet<unidad_conversion>();
+            this.detalle_flujo_aprobacion = new HashSet<detalle_flujo_aprobacion>();
         }
     
         public int id_subcategoria_producto { get; set; }
@@ -99,5 +100,7 @@ namespace Oasis.Models
         public virtual ICollection<subcategoria_producto_cuenta_contable_gasto> subcategoria_producto_cuenta_contable_gasto { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<unidad_conversion> unidad_conversion { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<detalle_flujo_aprobacion> detalle_flujo_aprobacion { get; set; }
     }
 }
