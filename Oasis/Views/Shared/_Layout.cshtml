@@ -13,6 +13,8 @@
     <link rel="stylesheet" href="~/Content/FrontEnd/plugins/fontawesome-free/css/all.min.css">
     <!-- Ionicons -->
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css">
     <!-- Tempusdominus Bootstrap 4 -->
     <link rel="stylesheet" href="~/Content/FrontEnd/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
     <!-- iCheck -->
@@ -1071,12 +1073,15 @@
     <script src="~/Content/FrontEnd/dist/js/pages/dashboard.js"></script>
     @*Knockout JS*@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.5.0/knockout-min.js"></script>
+    @*Datatable JS*@
+    <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
     <script src="~/Content/js/OrdenCompra.js"></script>
     <script src="~/Content/js/Credito.js"></script>
+    <script src="~/Content/FrontEnd/dist/js/jquery.table2excel.js"></script>
 
     <!-- select 2 -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/select2.min.js"></script>
-    @*<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>*@
+
     <script>
         $(document).ready(function () {
             //filasOC = 1;
@@ -1200,12 +1205,12 @@
             //});
         }
 
-                    //$(".CantidadDetalleOC, .ValorUnitarioOC").on('change', function (e) {
-                    //    var cantidad = $(this).parents("tr").find('input[id="CantidadDetalleOC"]').val();
-                    //    var vu = $(this).parents("tr").find('input[id="ValorUnitarioOC"]').val();
-                    //    var subtotal_detalle = (cantidad * vu).toFixed(2);
-                    //    $(this).parents("tr").find('input[id="SubtotalDetalleOC"]').val(subtotal_detalle);
-                    //});
+                            //$(".CantidadDetalleOC, .ValorUnitarioOC").on('change', function (e) {
+                            //    var cantidad = $(this).parents("tr").find('input[id="CantidadDetalleOC"]').val();
+                            //    var vu = $(this).parents("tr").find('input[id="ValorUnitarioOC"]').val();
+                            //    var subtotal_detalle = (cantidad * vu).toFixed(2);
+                            //    $(this).parents("tr").find('input[id="SubtotalDetalleOC"]').val(subtotal_detalle);
+                            //});
 
     </script>
     @RenderSection("Scripts", required: false)

@@ -31,8 +31,8 @@
                             <br />
                             <div class="col-md-12">
                                 <div class="custom-control custom-checkbox">
-                                    <input class="custom-control-input" type="checkbox" id="chkLocalidad" checked="">
-                                    <label for="chkLocalidad" class="custom-control-label">Ambas localidades</label>
+                                    <input class="custom-control-input" type="checkbox" id="chkLocalidad" checked="" disabled>
+                                    <label for="chkLocalidad" class="custom-control-label" disabled>Ambas localidades</label>
                                 </div>
                             </div>
                         </div>
@@ -51,16 +51,16 @@
                             <div class="col-sm-6">
                                 <!-- checkbox -->
                                 <div class="form-group">
+                                    @*<div class="custom-control custom-checkbox">
+                                            <input class="custom-control-input tipoCliente" name="" type="checkbox" id="chkInstituciones">
+                                            <label for="chkInstituciones" class="custom-control-label">Instituciones</label>
+                                        </div>*@
                                     <div class="custom-control custom-checkbox">
-                                        <input class="custom-control-input" type="checkbox" id="chkInstituciones">
-                                        <label for="chkInstituciones" class="custom-control-label">Instituciones</label>
-                                    </div>
-                                    <div class="custom-control custom-checkbox">
-                                        <input class="custom-control-input" type="checkbox" id="chkFarmacia" checked="">
+                                        <input class="custom-control-input tipoCliente" name="FARMACIA" type="checkbox" id="chkFarmacia" checked="">
                                         <label for="chkFarmacia" class="custom-control-label">Farmacia</label>
                                     </div>
                                     <div class="custom-control custom-checkbox">
-                                        <input class="custom-control-input" type="checkbox" id="chkDistribuidores" >
+                                        <input class="custom-control-input tipoCliente" name="DISTRIBUIDORES" type="checkbox" id="chkDistribuidores">
                                         <label for="chkDistribuidores" class="custom-control-label">Distribuidores</label>
                                     </div>
                                 </div>
@@ -88,8 +88,18 @@
             <!-- /.card-body -->
             <div class="card-footer">
                 <button type="button" id="GenerarPresupuesto" class="btn btn-primary  float-right">Generar</button>
+                <button type="button" class="btn bg-gradient-success float-left" id="GenerarExcel">Descargar</button>
             </div>
         </div>
     </div>
 </div>
 
+<script>
+    //$(function () {
+    //    Swal.fire(
+    //        'Atención',
+    //        'La información que va a generer procede de un aplicativo en desarrollo, por ningún motivo la información presentada debe ser revelada excepto a los usuarios a los que se ha concedido el permiso',
+    //        'warning'
+    //    )
+    //});
+</script>

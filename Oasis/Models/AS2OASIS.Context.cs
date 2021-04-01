@@ -31,10 +31,9 @@ namespace Oasis.Models
         public virtual DbSet<presupuesto_cabecera> presupuesto_cabecera { get; set; }
         public virtual DbSet<presupuesto_detalle> presupuesto_detalle { get; set; }
         public virtual DbSet<Cobros_Consolidado> Cobros_Consolidado { get; set; }
-        public virtual DbSet<NC_Consolidado> NC_Consolidado { get; set; }
         public virtual DbSet<Ventas_Consolidado> Ventas_Consolidado { get; set; }
     
-        public virtual ObjectResult<Presupuesto_Result> Presupuesto(string empresa, string sucursal, Nullable<System.DateTime> fecha_desde, Nullable<System.DateTime> fecha_hasta)
+        public virtual ObjectResult<Presupuesto_Result> Presupuesto(string empresa, string sucursal, Nullable<System.DateTime> fecha_desde, Nullable<System.DateTime> fecha_hasta, string tipoCliente)
         {
             var empresaParameter = empresa != null ?
                 new ObjectParameter("empresa", empresa) :
@@ -52,7 +51,98 @@ namespace Oasis.Models
                 new ObjectParameter("fecha_hasta", fecha_hasta) :
                 new ObjectParameter("fecha_hasta", typeof(System.DateTime));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Presupuesto_Result>("Presupuesto", empresaParameter, sucursalParameter, fecha_desdeParameter, fecha_hastaParameter);
+            var tipoClienteParameter = tipoCliente != null ?
+                new ObjectParameter("tipoCliente", tipoCliente) :
+                new ObjectParameter("tipoCliente", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Presupuesto_Result>("Presupuesto", empresaParameter, sucursalParameter, fecha_desdeParameter, fecha_hastaParameter, tipoClienteParameter);
+        }
+    
+        public virtual ObjectResult<NCPorVendedor_Result> NCPorVendedor(string empresa, string sucursal, Nullable<System.DateTime> fecha_desde, Nullable<System.DateTime> fecha_hasta, string tipoCliente, string idvendedor)
+        {
+            var empresaParameter = empresa != null ?
+                new ObjectParameter("empresa", empresa) :
+                new ObjectParameter("empresa", typeof(string));
+    
+            var sucursalParameter = sucursal != null ?
+                new ObjectParameter("sucursal", sucursal) :
+                new ObjectParameter("sucursal", typeof(string));
+    
+            var fecha_desdeParameter = fecha_desde.HasValue ?
+                new ObjectParameter("fecha_desde", fecha_desde) :
+                new ObjectParameter("fecha_desde", typeof(System.DateTime));
+    
+            var fecha_hastaParameter = fecha_hasta.HasValue ?
+                new ObjectParameter("fecha_hasta", fecha_hasta) :
+                new ObjectParameter("fecha_hasta", typeof(System.DateTime));
+    
+            var tipoClienteParameter = tipoCliente != null ?
+                new ObjectParameter("tipoCliente", tipoCliente) :
+                new ObjectParameter("tipoCliente", typeof(string));
+    
+            var idvendedorParameter = idvendedor != null ?
+                new ObjectParameter("idvendedor", idvendedor) :
+                new ObjectParameter("idvendedor", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<NCPorVendedor_Result>("NCPorVendedor", empresaParameter, sucursalParameter, fecha_desdeParameter, fecha_hastaParameter, tipoClienteParameter, idvendedorParameter);
+        }
+    
+        public virtual ObjectResult<VentasPorVendedor_Result> VentasPorVendedor(string empresa, string sucursal, Nullable<System.DateTime> fecha_desde, Nullable<System.DateTime> fecha_hasta, string tipoCliente, string idvendedor)
+        {
+            var empresaParameter = empresa != null ?
+                new ObjectParameter("empresa", empresa) :
+                new ObjectParameter("empresa", typeof(string));
+    
+            var sucursalParameter = sucursal != null ?
+                new ObjectParameter("sucursal", sucursal) :
+                new ObjectParameter("sucursal", typeof(string));
+    
+            var fecha_desdeParameter = fecha_desde.HasValue ?
+                new ObjectParameter("fecha_desde", fecha_desde) :
+                new ObjectParameter("fecha_desde", typeof(System.DateTime));
+    
+            var fecha_hastaParameter = fecha_hasta.HasValue ?
+                new ObjectParameter("fecha_hasta", fecha_hasta) :
+                new ObjectParameter("fecha_hasta", typeof(System.DateTime));
+    
+            var tipoClienteParameter = tipoCliente != null ?
+                new ObjectParameter("tipoCliente", tipoCliente) :
+                new ObjectParameter("tipoCliente", typeof(string));
+    
+            var idvendedorParameter = idvendedor != null ?
+                new ObjectParameter("idvendedor", idvendedor) :
+                new ObjectParameter("idvendedor", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<VentasPorVendedor_Result>("VentasPorVendedor", empresaParameter, sucursalParameter, fecha_desdeParameter, fecha_hastaParameter, tipoClienteParameter, idvendedorParameter);
+        }
+    
+        public virtual ObjectResult<CobrosPorVendedor_Result> CobrosPorVendedor(string empresa, string sucursal, Nullable<System.DateTime> fecha_desde, Nullable<System.DateTime> fecha_hasta, string tipoCliente, string idvendedor)
+        {
+            var empresaParameter = empresa != null ?
+                new ObjectParameter("empresa", empresa) :
+                new ObjectParameter("empresa", typeof(string));
+    
+            var sucursalParameter = sucursal != null ?
+                new ObjectParameter("sucursal", sucursal) :
+                new ObjectParameter("sucursal", typeof(string));
+    
+            var fecha_desdeParameter = fecha_desde.HasValue ?
+                new ObjectParameter("fecha_desde", fecha_desde) :
+                new ObjectParameter("fecha_desde", typeof(System.DateTime));
+    
+            var fecha_hastaParameter = fecha_hasta.HasValue ?
+                new ObjectParameter("fecha_hasta", fecha_hasta) :
+                new ObjectParameter("fecha_hasta", typeof(System.DateTime));
+    
+            var tipoClienteParameter = tipoCliente != null ?
+                new ObjectParameter("tipoCliente", tipoCliente) :
+                new ObjectParameter("tipoCliente", typeof(string));
+    
+            var idvendedorParameter = idvendedor != null ?
+                new ObjectParameter("idvendedor", idvendedor) :
+                new ObjectParameter("idvendedor", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<CobrosPorVendedor_Result>("CobrosPorVendedor", empresaParameter, sucursalParameter, fecha_desdeParameter, fecha_hastaParameter, tipoClienteParameter, idvendedorParameter);
         }
     }
 }

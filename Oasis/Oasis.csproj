@@ -52,6 +52,9 @@
     <Reference Include="CrystalDecisions.CrystalReports.Engine, Version=13.0.4000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
     <Reference Include="CrystalDecisions.ReportSource, Version=13.0.4000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
     <Reference Include="CrystalDecisions.Shared, Version=13.0.4000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
+    <Reference Include="CsvHelper, Version=26.0.0.0, Culture=neutral, PublicKeyToken=8c4959082be5c823, processorArchitecture=MSIL">
+      <HintPath>..\packages\CsvHelper.26.1.0\lib\net47\CsvHelper.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
@@ -165,11 +168,11 @@
     </Reference>
     <Reference Include="System.Management" />
     <Reference Include="System.Memory, Version=4.0.1.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Memory.4.5.3\lib\netstandard2.0\System.Memory.dll</HintPath>
+      <HintPath>..\packages\System.Memory.4.5.4\lib\net461\System.Memory.dll</HintPath>
     </Reference>
     <Reference Include="System.Numerics" />
-    <Reference Include="System.Numerics.Vectors, Version=4.1.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Numerics.Vectors.4.4.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
+    <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
     </Reference>
     <Reference Include="System.Runtime" />
     <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.6.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
@@ -544,6 +547,9 @@
     </Compile>
     <Compile Include="Models\cobro.cs">
       <DependentUpon>AS2.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CobrosPorVendedor_Result.cs">
+      <DependentUpon>AS2OASIS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Cobros_Consolidado.cs">
       <DependentUpon>AS2OASIS.tt</DependentUpon>
@@ -1479,7 +1485,7 @@
     <Compile Include="Models\movimiento_unidad_manejo.cs">
       <DependentUpon>AS2.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\NC_Consolidado.cs">
+    <Compile Include="Models\NCPorVendedor_Result.cs">
       <DependentUpon>AS2OASIS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\nivel_centro_costo.cs">
@@ -2313,6 +2319,9 @@
     <Compile Include="Models\vend_vendedores.cs">
       <DependentUpon>OASIS.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\VentasPorVendedor_Result.cs">
+      <DependentUpon>AS2OASIS.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Ventas_Consolidado.cs">
       <DependentUpon>AS2OASIS.tt</DependentUpon>
     </Compile>
@@ -2500,6 +2509,7 @@
     <Content Include="Content\FrontEnd\dist\js\adminlte.js" />
     <Content Include="Content\FrontEnd\dist\js\adminlte.min.js" />
     <Content Include="Content\FrontEnd\dist\js\demo.js" />
+    <Content Include="Content\FrontEnd\dist\js\jquery.table2excel.js" />
     <Content Include="Content\FrontEnd\dist\js\pages\dashboard.js" />
     <Content Include="Content\FrontEnd\dist\js\pages\dashboard2.js" />
     <Content Include="Content\FrontEnd\dist\js\pages\dashboard3.js" />
@@ -4335,6 +4345,7 @@
     <Content Include="Content\FrontEnd\plugins\uplot\uPlot.iife.js" />
     <Content Include="Content\FrontEnd\plugins\uplot\uPlot.iife.min.js" />
     <Content Include="Content\FrontEnd\plugins\uplot\uPlot.min.css" />
+    <Content Include="Content\js\Credito.js" />
     <Content Include="Content\js\OrdenCompra.js" />
     <Content Include="Content\js\site.js" />
     <Content Include="Content\lib\bootstrap\dist\css\bootstrap-grid.css" />
