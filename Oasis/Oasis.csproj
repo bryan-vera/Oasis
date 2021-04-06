@@ -76,6 +76,12 @@
     <Reference Include="K4os.Hash.xxHash, Version=1.0.6.0, Culture=neutral, PublicKeyToken=32cd54395057cec3, processorArchitecture=MSIL">
       <HintPath>..\packages\K4os.Hash.xxHash.1.0.6\lib\net46\K4os.Hash.xxHash.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.2.3\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.EntityFramework, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.EntityFramework.2.2.3\lib\net45\Microsoft.AspNet.Identity.EntityFramework.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=1.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Bcl.AsyncInterfaces.1.1.0\lib\net461\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
     </Reference>
@@ -445,6 +451,9 @@
     </Compile>
     <Compile Include="Models\carta_porte_internacional_carretera.cs">
       <DependentUpon>AS2.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CarteraEmpresa_Result.cs">
+      <DependentUpon>AS2OASIS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\casa_comercial.cs">
       <DependentUpon>AS2.tt</DependentUpon>
@@ -2308,9 +2317,6 @@
       <DependentUpon>OASIS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\VentasPorVendedor_Result.cs">
-      <DependentUpon>AS2OASIS.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Ventas_Consolidado.cs">
       <DependentUpon>AS2OASIS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\venta_ats.cs">
@@ -4634,6 +4640,7 @@
     <Content Include="Views\DetalleOrdenCompra\Create.cshtml" />
     <Content Include="Views\GuiasRemision\Index.cshtml" />
     <Content Include="Views\Credito\Consolidado.cshtml" />
+    <Content Include="Views\Credito\Cartera.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

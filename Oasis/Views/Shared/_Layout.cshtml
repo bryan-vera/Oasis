@@ -14,7 +14,7 @@
     <!-- Ionicons -->
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
     <!-- Ionicons -->
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css">
+    @*<link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css">*@
     <!-- Tempusdominus Bootstrap 4 -->
     <link rel="stylesheet" href="~/Content/FrontEnd/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
     <!-- iCheck -->
@@ -33,6 +33,8 @@
     <link rel="stylesheet" href="~/Content/FrontEnd/plugins/sweetalert2/sweetalert2.min.css">
     <!--select2-->
     <link href="~/Content/css/select2.min.css" rel="stylesheet" />
+    @*DatatableJS*@
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/jszip-2.5.0/dt-1.10.24/b-1.7.0/b-colvis-1.7.0/b-html5-1.7.0/b-print-1.7.0/cr-1.5.3/kt-2.6.1/r-2.2.7/datatables.min.css" /
 </head>
 <body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed">
     <div class="wrapper">
@@ -305,6 +307,13 @@
                                        class="@Html.IsSelected(actions: "Consolidado", controllers: "Credito")">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Consolidado</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="@Url.Action("Cartera", "Credito")"
+                                       class="@Html.IsSelected(actions: "Cartera", controllers: "Credito")">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Cartera</p>
                                     </a>
                                 </li>
                             </ul>
@@ -1073,8 +1082,11 @@
     <script src="~/Content/FrontEnd/dist/js/pages/dashboard.js"></script>
     @*Knockout JS*@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.5.0/knockout-min.js"></script>
+    @*<script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>*@
     @*Datatable JS*@
-    <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/v/dt/jszip-2.5.0/dt-1.10.24/b-1.7.0/b-colvis-1.7.0/b-html5-1.7.0/b-print-1.7.0/cr-1.5.3/kt-2.6.1/r-2.2.7/datatables.min.js"></script>
     <script src="~/Content/js/OrdenCompra.js"></script>
     <script src="~/Content/js/Credito.js"></script>
     <script src="~/Content/FrontEnd/dist/js/jquery.table2excel.js"></script>
@@ -1108,7 +1120,6 @@
                 locale: 'es',
                 format: 'DD/MM/yyyy'
             });
-
 
         });
 
@@ -1205,12 +1216,12 @@
             //});
         }
 
-                            //$(".CantidadDetalleOC, .ValorUnitarioOC").on('change', function (e) {
-                            //    var cantidad = $(this).parents("tr").find('input[id="CantidadDetalleOC"]').val();
-                            //    var vu = $(this).parents("tr").find('input[id="ValorUnitarioOC"]').val();
-                            //    var subtotal_detalle = (cantidad * vu).toFixed(2);
-                            //    $(this).parents("tr").find('input[id="SubtotalDetalleOC"]').val(subtotal_detalle);
-                            //});
+                                    //$(".CantidadDetalleOC, .ValorUnitarioOC").on('change', function (e) {
+                                    //    var cantidad = $(this).parents("tr").find('input[id="CantidadDetalleOC"]').val();
+                                    //    var vu = $(this).parents("tr").find('input[id="ValorUnitarioOC"]').val();
+                                    //    var subtotal_detalle = (cantidad * vu).toFixed(2);
+                                    //    $(this).parents("tr").find('input[id="SubtotalDetalleOC"]').val(subtotal_detalle);
+                                    //});
 
     </script>
     @RenderSection("Scripts", required: false)
