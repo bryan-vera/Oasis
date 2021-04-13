@@ -31,6 +31,8 @@ namespace Oasis.Models
         public virtual DbSet<presupuesto_cabecera> presupuesto_cabecera { get; set; }
         public virtual DbSet<presupuesto_detalle> presupuesto_detalle { get; set; }
         public virtual DbSet<Cobros_Consolidado> Cobros_Consolidado { get; set; }
+        public virtual DbSet<Presupuesto_Vendedor_Detalle> Presupuesto_Vendedor_Detalle { get; set; }
+        public virtual DbSet<Vendedores> Vendedores { get; set; }
     
         public virtual ObjectResult<Presupuesto_Result> Presupuesto(string empresa, string sucursal, Nullable<System.DateTime> fecha_desde, Nullable<System.DateTime> fecha_hasta, string tipoCliente)
         {
@@ -144,7 +146,7 @@ namespace Oasis.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<CobrosPorVendedor_Result>("CobrosPorVendedor", empresaParameter, sucursalParameter, fecha_desdeParameter, fecha_hastaParameter, tipoClienteParameter, idvendedorParameter);
         }
     
-        public virtual ObjectResult<CarteraEmpresa_Result> CarteraEmpresa(string empresa, string sucursal, string tipoCliente)
+        public virtual ObjectResult<CarteraEmpresa_Result1> CarteraEmpresa(string empresa, string sucursal, string tipoCliente)
         {
             var empresaParameter = empresa != null ?
                 new ObjectParameter("empresa", empresa) :
@@ -158,7 +160,7 @@ namespace Oasis.Models
                 new ObjectParameter("tipoCliente", tipoCliente) :
                 new ObjectParameter("tipoCliente", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<CarteraEmpresa_Result>("CarteraEmpresa", empresaParameter, sucursalParameter, tipoClienteParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<CarteraEmpresa_Result1>("CarteraEmpresa", empresaParameter, sucursalParameter, tipoClienteParameter);
         }
     }
 }

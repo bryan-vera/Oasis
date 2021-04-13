@@ -94,7 +94,45 @@ warning 6002: The table/view 'oasis.dbo.GuiaUrbano' does not have a primary key 
           <Property Name="direccion" Type="varchar" MaxLength="1204" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'oasis.dbo.Ventas_Consolidado' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'oasis.dbo.Presupuesto_Vendedor_Detalle' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="Presupuesto_Vendedor_Detalle">
+          <Key>
+            <PropertyRef Name="id_presupuesto" />
+            <PropertyRef Name="empresa" />
+            <PropertyRef Name="sucursal" />
+            <PropertyRef Name="activo" />
+            <PropertyRef Name="fecha_desde" />
+            <PropertyRef Name="fecha_hasta" />
+            <PropertyRef Name="id_vendedor" />
+            <PropertyRef Name="nombre_usuario" />
+            <PropertyRef Name="id_presupuesto_detalle" />
+          </Key>
+          <Property Name="id_presupuesto" Type="int" Nullable="false" />
+          <Property Name="empresa" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="sucursal" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="activo" Type="bit" Nullable="false" />
+          <Property Name="fecha_desde" Type="date" Nullable="false" />
+          <Property Name="fecha_hasta" Type="date" Nullable="false" />
+          <Property Name="id_vendedor" Type="int" Nullable="false" />
+          <Property Name="nombre_usuario" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="valor_cobro" Type="float" />
+          <Property Name="valor_venta" Type="float" />
+          <Property Name="id_presupuesto_detalle" Type="int" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'oasis.dbo.Vendedores' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="Vendedores">
+          <Key>
+            <PropertyRef Name="empresa" />
+            <PropertyRef Name="id_vendedor" />
+            <PropertyRef Name="nombre" />
+          </Key>
+          <Property Name="empresa" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="sucursal" Type="varchar" MaxLength="50" />
+          <Property Name="id_vendedor" Type="int" Nullable="false" />
+          <Property Name="nombre" Type="varchar" MaxLength="101" Nullable="false" />
+          <Property Name="username" Type="varchar" MaxLength="50" />
+        </EntityType>
         <Association Name="FK__presupues__id_pr__2D27B809">
           <End Role="presupuesto_cabecera" Type="Self.presupuesto_cabecera" Multiplicity="1" />
           <End Role="presupuesto_detalle" Type="Self.presupuesto_detalle" Multiplicity="*" />
@@ -187,6 +225,30 @@ warning 6002: The table/view 'oasis.dbo.Ventas_Consolidado' does not have a prim
     [GuiaUrbano].[direccion] AS [direccion]
     FROM [dbo].[GuiaUrbano] AS [GuiaUrbano]</DefiningQuery>
           </EntitySet>
+          <EntitySet Name="Presupuesto_Vendedor_Detalle" EntityType="Self.Presupuesto_Vendedor_Detalle" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Presupuesto_Vendedor_Detalle].[id_presupuesto] AS [id_presupuesto], 
+    [Presupuesto_Vendedor_Detalle].[empresa] AS [empresa], 
+    [Presupuesto_Vendedor_Detalle].[sucursal] AS [sucursal], 
+    [Presupuesto_Vendedor_Detalle].[activo] AS [activo], 
+    [Presupuesto_Vendedor_Detalle].[fecha_desde] AS [fecha_desde], 
+    [Presupuesto_Vendedor_Detalle].[fecha_hasta] AS [fecha_hasta], 
+    [Presupuesto_Vendedor_Detalle].[id_vendedor] AS [id_vendedor], 
+    [Presupuesto_Vendedor_Detalle].[nombre_usuario] AS [nombre_usuario], 
+    [Presupuesto_Vendedor_Detalle].[valor_cobro] AS [valor_cobro], 
+    [Presupuesto_Vendedor_Detalle].[valor_venta] AS [valor_venta], 
+    [Presupuesto_Vendedor_Detalle].[id_presupuesto_detalle] AS [id_presupuesto_detalle]
+    FROM [dbo].[Presupuesto_Vendedor_Detalle] AS [Presupuesto_Vendedor_Detalle]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="Vendedores" EntityType="Self.Vendedores" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Vendedores].[empresa] AS [empresa], 
+    [Vendedores].[sucursal] AS [sucursal], 
+    [Vendedores].[id_vendedor] AS [id_vendedor], 
+    [Vendedores].[nombre] AS [nombre], 
+    [Vendedores].[username] AS [username]
+    FROM [dbo].[Vendedores] AS [Vendedores]</DefiningQuery>
+          </EntitySet>
           <AssociationSet Name="FK__presupues__id_pr__2D27B809" Association="Self.FK__presupues__id_pr__2D27B809">
             <End Role="presupuesto_cabecera" EntitySet="presupuesto_cabecera" />
             <End Role="presupuesto_detalle" EntitySet="presupuesto_detalle" />
@@ -272,11 +334,13 @@ warning 6002: The table/view 'oasis.dbo.Ventas_Consolidado' does not have a prim
             <Parameter Name="tipoCliente" Mode="In" Type="String" />
             <Parameter Name="idvendedor" Mode="In" Type="String" />
           </FunctionImport>
-          <FunctionImport Name="CarteraEmpresa" ReturnType="Collection(oasisAS2.CarteraEmpresa_Result)">
+          <FunctionImport Name="CarteraEmpresa" ReturnType="Collection(oasisAS2.CarteraEmpresa_Result1)">
             <Parameter Name="empresa" Mode="In" Type="String" />
             <Parameter Name="sucursal" Mode="In" Type="String" />
             <Parameter Name="tipoCliente" Mode="In" Type="String" />
           </FunctionImport>
+          <EntitySet Name="Presupuesto_Vendedor_Detalle" EntityType="oasisAS2.Presupuesto_Vendedor_Detalle" />
+          <EntitySet Name="Vendedores" EntityType="oasisAS2.Vendedores" />
         </EntityContainer>
         <EntityType Name="presupuesto_cabecera">
           <Key>
@@ -408,6 +472,63 @@ warning 6002: The table/view 'oasis.dbo.Ventas_Consolidado' does not have a prim
           <Property Type="Int32" Name="dias_emitida" Nullable="true" />
           <Property Type="Int32" Name="dias_diferencia" Nullable="true" />
         </ComplexType>
+        <ComplexType Name="CarteraEmpresa_Result1">
+          <Property Type="String" Name="empresa" Nullable="false" MaxLength="200" />
+          <Property Type="String" Name="sucursal" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="identificacion" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="nombre_comercial" Nullable="false" MaxLength="200" />
+          <Property Type="String" Name="categoria" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="vendedor_cliente" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="vendedor_factura" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="secuencial_factura" Nullable="false" MaxLength="20" />
+          <Property Type="DateTime" Name="fecha_factura" Nullable="false" />
+          <Property Type="DateTime" Name="fecha_vencimiento" Nullable="true" />
+          <Property Type="String" Name="provincia" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="ciudad" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="parroquia" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="direccion" Nullable="false" MaxLength="1204" />
+          <Property Type="Decimal" Name="valor_factura" Nullable="true" Precision="15" Scale="2" />
+          <Property Type="Decimal" Name="totalChequePost" Nullable="true" Precision="38" Scale="2" />
+          <Property Type="Decimal" Name="saldo_pendiente" Nullable="true" Precision="38" Scale="2" />
+          <Property Type="Int32" Name="dias_emitida" Nullable="true" />
+          <Property Type="Int32" Name="dias_diferencia" Nullable="true" />
+        </ComplexType>
+        <EntityType Name="Presupuesto_Vendedor_Detalle">
+          <Key>
+            <PropertyRef Name="id_presupuesto" />
+            <PropertyRef Name="empresa" />
+            <PropertyRef Name="sucursal" />
+            <PropertyRef Name="activo" />
+            <PropertyRef Name="fecha_desde" />
+            <PropertyRef Name="fecha_hasta" />
+            <PropertyRef Name="id_vendedor" />
+            <PropertyRef Name="nombre_usuario" />
+            <PropertyRef Name="id_presupuesto_detalle" />
+          </Key>
+          <Property Name="id_presupuesto" Type="Int32" Nullable="false" />
+          <Property Name="empresa" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="sucursal" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="activo" Type="Boolean" Nullable="false" />
+          <Property Name="fecha_desde" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="fecha_hasta" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="id_vendedor" Type="Int32" Nullable="false" />
+          <Property Name="nombre_usuario" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="valor_cobro" Type="Double" />
+          <Property Name="valor_venta" Type="Double" />
+          <Property Name="id_presupuesto_detalle" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Vendedores">
+          <Key>
+            <PropertyRef Name="empresa" />
+            <PropertyRef Name="id_vendedor" />
+            <PropertyRef Name="nombre" />
+          </Key>
+          <Property Name="empresa" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="sucursal" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="id_vendedor" Type="Int32" Nullable="false" />
+          <Property Name="nombre" Type="String" Nullable="false" MaxLength="101" FixedLength="false" Unicode="false" />
+          <Property Name="username" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -549,7 +670,7 @@ warning 6002: The table/view 'oasis.dbo.Ventas_Consolidado' does not have a prim
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="CarteraEmpresa" FunctionName="oasisAS2.Store.CarteraEmpresa">
             <ResultMapping>
-              <ComplexTypeMapping TypeName="oasisAS2.CarteraEmpresa_Result">
+              <ComplexTypeMapping TypeName="oasisAS2.CarteraEmpresa_Result1">
                 <ScalarProperty Name="empresa" ColumnName="empresa" />
                 <ScalarProperty Name="sucursal" ColumnName="sucursal" />
                 <ScalarProperty Name="identificacion" ColumnName="identificacion" />
@@ -565,12 +686,41 @@ warning 6002: The table/view 'oasis.dbo.Ventas_Consolidado' does not have a prim
                 <ScalarProperty Name="parroquia" ColumnName="parroquia" />
                 <ScalarProperty Name="direccion" ColumnName="direccion" />
                 <ScalarProperty Name="valor_factura" ColumnName="valor_factura" />
+                <ScalarProperty Name="totalChequePost" ColumnName="totalChequePost" />
                 <ScalarProperty Name="saldo_pendiente" ColumnName="saldo pendiente" />
                 <ScalarProperty Name="dias_emitida" ColumnName="dias_emitida" />
                 <ScalarProperty Name="dias_diferencia" ColumnName="dias_diferencia" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <EntitySetMapping Name="Presupuesto_Vendedor_Detalle">
+            <EntityTypeMapping TypeName="oasisAS2.Presupuesto_Vendedor_Detalle">
+              <MappingFragment StoreEntitySet="Presupuesto_Vendedor_Detalle">
+                <ScalarProperty Name="id_presupuesto_detalle" ColumnName="id_presupuesto_detalle" />
+                <ScalarProperty Name="valor_venta" ColumnName="valor_venta" />
+                <ScalarProperty Name="valor_cobro" ColumnName="valor_cobro" />
+                <ScalarProperty Name="nombre_usuario" ColumnName="nombre_usuario" />
+                <ScalarProperty Name="id_vendedor" ColumnName="id_vendedor" />
+                <ScalarProperty Name="fecha_hasta" ColumnName="fecha_hasta" />
+                <ScalarProperty Name="fecha_desde" ColumnName="fecha_desde" />
+                <ScalarProperty Name="activo" ColumnName="activo" />
+                <ScalarProperty Name="sucursal" ColumnName="sucursal" />
+                <ScalarProperty Name="empresa" ColumnName="empresa" />
+                <ScalarProperty Name="id_presupuesto" ColumnName="id_presupuesto" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Vendedores">
+            <EntityTypeMapping TypeName="oasisAS2.Vendedores">
+              <MappingFragment StoreEntitySet="Vendedores">
+                <ScalarProperty Name="username" ColumnName="username" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="id_vendedor" ColumnName="id_vendedor" />
+                <ScalarProperty Name="sucursal" ColumnName="sucursal" />
+                <ScalarProperty Name="empresa" ColumnName="empresa" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

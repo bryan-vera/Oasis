@@ -49,6 +49,10 @@
     <Reference Include="BouncyCastle.Crypto, Version=1.8.6.0, Culture=neutral, PublicKeyToken=0e99375e54769942">
       <HintPath>..\packages\BouncyCastle.1.8.6.1\lib\BouncyCastle.Crypto.dll</HintPath>
     </Reference>
+    <Reference Include="clsConectaMBA, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\cv5\clsConectaMBA.dll</HintPath>
+    </Reference>
     <Reference Include="CrystalDecisions.CrystalReports.Engine, Version=13.0.4000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
     <Reference Include="CrystalDecisions.ReportSource, Version=13.0.4000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
     <Reference Include="CrystalDecisions.Shared, Version=13.0.4000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
@@ -275,6 +279,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\Bodega\GuiasRemisionController.cs" />
     <Compile Include="Controllers\Credito\CreditoController.cs" />
+    <Compile Include="Controllers\Credito\PresupuestoController.cs" />
     <Compile Include="Controllers\GastosController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\InventarioGastosController.cs" />
@@ -453,6 +458,9 @@
       <DependentUpon>AS2.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\CarteraEmpresa_Result.cs">
+      <DependentUpon>AS2OASIS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CarteraEmpresa_Result1.cs">
       <DependentUpon>AS2OASIS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\casa_comercial.cs">
@@ -1689,6 +1697,9 @@
     <Compile Include="Models\Presupuesto_Result.cs">
       <DependentUpon>AS2OASIS.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Presupuesto_Vendedor_Detalle.cs">
+      <DependentUpon>AS2OASIS.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\presupuesto_ventas.cs">
       <DependentUpon>AS2.tt</DependentUpon>
     </Compile>
@@ -2307,6 +2318,9 @@
     <Compile Include="Models\vehiculo.cs">
       <DependentUpon>AS2.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Vendedores.cs">
+      <DependentUpon>AS2OASIS.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\vend_planificacion.cs">
       <DependentUpon>OASIS.tt</DependentUpon>
     </Compile>
@@ -2423,7 +2437,9 @@
     </Compile>
     <Compile Include="Reporte\Reporte.cs" />
     <Compile Include="ViewModel\DetalleOrdenCompra.cs" />
+    <Compile Include="ViewModel\DetallePresupuesto.cs" />
     <Compile Include="ViewModel\InventarioItemViewModel.cs" />
+    <Compile Include="ViewModel\PresupuestoEdicion.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-theme.css" />
@@ -4341,6 +4357,7 @@
     <Content Include="Content\FrontEnd\plugins\uplot\uPlot.min.css" />
     <Content Include="Content\js\Credito.js" />
     <Content Include="Content\js\OrdenCompra.js" />
+    <Content Include="Content\js\Presupuesto.js" />
     <Content Include="Content\js\site.js" />
     <Content Include="Content\lib\bootstrap\dist\css\bootstrap-grid.css" />
     <Content Include="Content\lib\bootstrap\dist\css\bootstrap-grid.min.css" />
@@ -4641,6 +4658,8 @@
     <Content Include="Views\GuiasRemision\Index.cshtml" />
     <Content Include="Views\Credito\Consolidado.cshtml" />
     <Content Include="Views\Credito\Cartera.cshtml" />
+    <Content Include="Views\Presupuesto\Index.cshtml" />
+    <Content Include="Views\Presupuesto\DuplicarPresupuesto.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

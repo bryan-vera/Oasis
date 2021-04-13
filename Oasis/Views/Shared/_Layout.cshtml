@@ -303,6 +303,13 @@
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
+                                    <a href="@Url.Action("Index", "Presupuesto")"
+                                       class="@Html.IsSelected(actions: "Index", controllers: "Presupuesto")">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Ver Presupuesto</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
                                     <a href="@Url.Action("Consolidado", "Credito")"
                                        class="@Html.IsSelected(actions: "Consolidado", controllers: "Credito")">
                                         <i class="far fa-circle nav-icon"></i>
@@ -1099,6 +1106,10 @@
             //filasOC = 1;
             ActivarProductos();
 
+            function numeroDecimal(event) {
+                this.value = parseFloat(this.value).toFixed(2);
+            }
+
             Toast = Swal.mixin({
                 toast: true,
                 position: 'top-end',
@@ -1167,61 +1178,9 @@
 
         function AgregarFila() {
             AgregarDetalle();
-            //$('#tablaOrdenCompra > tbody:last-child').
-            //    append(
-            //        '<tr><td><select class="js-data-example-ajax col-md-12" id="productoDetalleOC"></select></td><td>' +
-            //        '<input type="number" class="form-control form-control-border CantidadDetalleOC" name="cantidad_producto" id="CantidadDetalleOC" ' +
-            //        'min="0" style = "text-align: right;"/> </td> <td> <input type = "number" class= "form-control form-control-border ValorUnitarioOC" ' +
-            //        ' id="ValorUnitarioOC" min="0" step=".01" style="text-align: right;" /> </td> <td> ' +
-            //        ' <input type="number" class="form-control form-control-border DescuentoOC "  id="DescuentoOC" ' +
-            //        ' min="0" style="text-align: right;"/></td><td><input type="number" class="form-control ' +
-            //        ' form-control-border SubtotalDetalleOC" name="valor_linea" id="SubtotalDetalleOC" min="0" style="text-align: right;"  disabled/></td><td> '+
-            //        '<button class= "btn btn-danger BorrarFila"  type="button"> <i class="fa fa-trash"></i></button>'+
-            //        '                    </td ></tr>'
-            //);
             ActivarProductos();
-            //$('.js-data-example-ajax').select2({
-            //    minimumInputLength: 2,
-            //    tags: [],
-            //    ajax: {
-            //        url: '/Gastos/ObtenerProductos',
-            //        processResults: function (data) {
-            //            return {
-            //                results: $.map(data, function (item) {
-            //                    return {
-            //                        text: item.descripcion,
-            //                        id: item.id_producto,
-            //                        valor_unitario: item.valor_unitario
-            //                    }
-            //                })
-            //            };
-            //        },
-            //        dataType: 'json',
-            //        data: function (params) {
-            //            var query = {
-            //                textoBusqueda: params.term,
-            //            }
-            //            return query;
-            //        }
-            //    }
-            //}).on('change', function (e) {
-            //    var valor_unitario = $(this).select2('data')[0].valor_unitario;
-            //    var $tr = $(this).parents("tr");
-            //    $(this).parent().siblings().each(function () {
-            //        var elemento_ = $(this).find('input');
-            //        if (elemento_.attr('id') == "ValorUnitarioOC") {
-            //            elemento_.val(valor_unitario);
-            //        }
-            //    });
-            //});
         }
-
-                                    //$(".CantidadDetalleOC, .ValorUnitarioOC").on('change', function (e) {
-                                    //    var cantidad = $(this).parents("tr").find('input[id="CantidadDetalleOC"]').val();
-                                    //    var vu = $(this).parents("tr").find('input[id="ValorUnitarioOC"]').val();
-                                    //    var subtotal_detalle = (cantidad * vu).toFixed(2);
-                                    //    $(this).parents("tr").find('input[id="SubtotalDetalleOC"]').val(subtotal_detalle);
-                                    //});
+         
 
     </script>
     @RenderSection("Scripts", required: false)

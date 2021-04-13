@@ -154,6 +154,7 @@ namespace Oasis.Controllers.Credito
                 return Json(nc_json, JsonRequestBehavior.AllowGet);
             }
         }
+         
 
 
         public JsonResult ObtenerPresupuesto(

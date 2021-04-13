@@ -1,5 +1,13 @@
+﻿
+$('#fecha_desde_presupuesto').datetimepicker({
+    locale: 'es',
+    format: 'DD/MM/yyyy'
+});
 
-var OCDetalle = [];
+$('#fecha_hasta_presupuesto').datetimepicker({
+    locale: 'es',
+    format: 'DD/MM/yyyy'
+});
 
 
 function ConvertirFecha(fecha) {
@@ -10,7 +18,7 @@ function ConvertirFecha(fecha) {
     var hour = date.getHours();     // yields hours
     var minute = date.getMinutes(); // yields minutes
     var second = date.getSeconds(); // yields seconds
-    return day + "/" + month + "/" + year + " " + hour + ':' + minute + ':' + second; 
+    return day + "/" + month + "/" + year + " " + hour + ':' + minute + ':' + second;
 }
 
 function formatoValor(nStr) {
@@ -28,7 +36,7 @@ function formatoValor(nStr) {
 
 function CrearTablaDetalle(datos, titulo) {
     Swal.fire({
-        title: '<strong>'+titulo+'</strong>',
+        title: '<strong>' + titulo + '</strong>',
         icon: 'info',
         width: 1100,
         html: datos,
@@ -40,68 +48,9 @@ function CrearTablaDetalle(datos, titulo) {
     })
 }
 
-function buildHtmlTable(selector) {
-    var columns = addAllColumnHeaders(myList, selector);
-
-    for (var i = 0; i < myList.length; i++) {
-        var row$ = $('<tr/>');
-        for (var colIndex = 0; colIndex < columns.length; colIndex++) {
-            var cellValue = myList[i][columns[colIndex]];
-            if (cellValue == null) cellValue = "";
-            row$.append($('<td/>').html(cellValue));
-        }
-        $(selector).append(row$);
-    }
-}
-
-$(".GenerarExcelDetalle").click(function () {
-    $("#tableDetalle").table2excel({
-        exclude: ".noExl",
-        name: "Detalle OASIS",
-        filename: "Detalle",//do not include extension
-        //fileext: ".xlsx", // file extension
-        exclude_img: true,
-        exclude_links: true,
-        exclude_inputs: true,
-        preserveColors: true
-    });
-});
-
-$("#GenerarExcel").click(function () {
-    $("#tablePresupuesto").table2excel({
-    exclude: ".noExl",
-    name: "Consolidado OASIS",
-    filename: "Consolidado",//do not include extension
-    //fileext: ".xlsx", // file extension
-    exclude_img: true,
-    exclude_links: true,
-    exclude_inputs: true,
-    preserveColors: true
-    });
-});
-
-function addAllColumnHeaders(myList, selector) {
-    var columnSet = [];
-    var headerTr$ = $('<tr/>');
-
-    for (var i = 0; i < myList.length; i++) {
-        var rowHash = myList[i];
-        for (var key in rowHash) {
-            if ($.inArray(key, columnSet) == -1) {
-                columnSet.push(key);
-                headerTr$.append($('<th/>').html(key));
-            }
-        }
-    }
-    $(selector).append(headerTr$);
-
-    return columnSet;
-}
-
 function GenerarDatos(id_vendedor, direccionURL, titulo) {
     let spanOculto;
     spanOculto = $('.table-hover tbody tr td span.datosLinea[data-id_vendedor="' + id_vendedor + '"]')[0].dataset;
-
     $.ajax({
         url: direccionURL,
         type: 'GET',
@@ -200,27 +149,44 @@ function GenerarDatos(id_vendedor, direccionURL, titulo) {
 
 }
 
-function verVentasXVendedor(id_vendedor) {
+function verDetallePresupuesto(id_presupuesto) {
     event.preventDefault();
-    let direccionUrl = 'ObtenerVentasPorVendedor';
-    GenerarDatos(id_vendedor, direccionUrl, "Detalle de ventas");
+    let direccionUrl = 'ObtenerDetallePresupuesto';
+    GenerarDatos(id_presupuesto, direccionUrl, "Detalle de presupuesto");
 }
 
-function verNCXVendedor(id_vendedor) {
-    event.preventDefault();
-    let direccionUrl = 'ObtenerNCPorVendedor';
-    GenerarDatos(id_vendedor, direccionUrl, "Detalle de NC");
+function ActivarVendedores() {
+    $('.js-data-vendedor-ajax').select2({
+        //selectOnClose: true,
+        minimumInputLength: 2,
+        tags: [],
+        ajax: {
+            url: '/Presupuesto/ObtenerVendedores',
+            processResults: function (data) {
+                return {
+                    results: $.map(data, function (item) {
+                        return {
+                            text: item.username,
+                            id: item.id_vendedor
+                        }
+                    })
+                };
+            },
+            dataType: 'json',
+            data: function (params) {
+                var query = {
+                    textoBusqueda: params.term,
+                    empresa: $('#empresa')[0].innerText,
+                    sucursal: $('#sucursal')[0].innerText
+                }
+                return query;
+            }
+        }
+    }).on('change', function (e) {
+        var id_vendedor = $(this).select2('data')[0].id_vendedor;
+        $(e.target).closest('#id_vendedor').val(id_vendedor);
+    });
 }
-
-function verCobrosXVendedor(id_vendedor) {
-    event.preventDefault();
-    let direccionUrl = 'ObtenerCobrosPorVendedor';
-    GenerarDatos(id_vendedor, direccionUrl, "Detalle de cobros");
-}
-
-$("botonVerDetalle").click(function () {
-    event.preventDefault();
-})
 
 $("#GenerarCartera").click(function () {
     var tipoCliente = [];
@@ -268,7 +234,7 @@ $("#GenerarCartera").click(function () {
                 'FECHA FACTURA', 'FECHA VENCIMIENTO',
                 'PROVINCIA', 'CIUDAD', 'PARROQUIA', 'DIRECCION',
                 'VALOR FACTURA', 'CHQ. POST.', 'SALDO PENDIENTE',
-            'DIAS EMITIDAS','DIAS VENCIDA'];
+                'DIAS EMITIDAS', 'DIAS VENCIDA'];
             for (var i = 0; i < d.length; i++) {
                 for (var key in d[i]) {
                     if (col.indexOf(key) === -1) {
@@ -356,7 +322,7 @@ $("#GenerarPresupuesto").click(function () {
     $('.tipoCliente:checkbox:checked').each(function () {
         tipoCliente.push($(this).attr('name'));
     });
-
+     
     var fecha_desde = ConvertirFecha($('#fecha_presupuesto').data('daterangepicker').startDate._d);
     var fecha_hasta = ConvertirFecha($('#fecha_presupuesto').data('daterangepicker').endDate._d);
 
@@ -375,122 +341,122 @@ $("#GenerarPresupuesto").click(function () {
         contentType: "application/JSON",
         success: function (d) {
 
-        //$('#contenedorTabla').remove();
-        //var contenedorTabla = document.createElement("div");
-        //contenedorTabla.className = "col-md-12";
-        //contenedorTabla.id = "contenedorTabla"
-        //var row = document.createElement("div");
-        //row.className = "row";
-        //row.appendChild(contenedorTabla);
-        //$('#contenedorPrimario').append(row);
+            //$('#contenedorTabla').remove();
+            //var contenedorTabla = document.createElement("div");
+            //contenedorTabla.className = "col-md-12";
+            //contenedorTabla.id = "contenedorTabla"
+            //var row = document.createElement("div");
+            //row.className = "row";
+            //row.appendChild(contenedorTabla);
+            //$('#contenedorPrimario').append(row);
 
-        //d = JSON.parse(d);
-        //var col = [];
-        //var encabezado = ['ID', 'Vendedor',
-        //    'Cuota ventas', 'Ventas', '%',
-        //    'Cuota cobros', 'Cobros',
-        //    ''];
+            //d = JSON.parse(d);
+            //var col = [];
+            //var encabezado = ['ID', 'Vendedor',
+            //    'Cuota ventas', 'Ventas', '%',
+            //    'Cuota cobros', 'Cobros',
+            //    ''];
 
-        //for (var i = 0; i < d.length; i++) {
-        //    for (var key in d[i]) {
-        //        if (col.indexOf(key) === -1) {
-        //            col.push(key);
-        //        }
-        //    }
-        //}
-             
-        //var card = document.createElement("div");
-        //card.className = "card";
-        //card.style = "font-size: 15px;overflow-x: scroll;";
-        //var table = document.createElement("table");
-        //table.className = 'table table-hover tablePresupuesto';
-        //table.id = "tablePresupuesto";
-        //table.style = '';
+            //for (var i = 0; i < d.length; i++) {
+            //    for (var key in d[i]) {
+            //        if (col.indexOf(key) === -1) {
+            //            col.push(key);
+            //        }
+            //    }
+            //}
 
-        //// CREATE HTML TABLE HEADER ROW USING THE EXTRACTED HEADERS ABOVE
-        //var thead = document.createElement("thead");
-        //table.appendChild(thead);
-        //var tr_head = document.createElement("tr");
-        //for (var i = 0; i < encabezado.length; i++) {
-        //    var th = document.createElement("th");      // TABLE HEADER.
-        //    th.style = 'text-align:center';
-        //    th.innerHTML = encabezado[i];
-        //    tr_head.appendChild(th);
-        //}
+            //var card = document.createElement("div");
+            //card.className = "card";
+            //card.style = "font-size: 15px;overflow-x: scroll;";
+            //var table = document.createElement("table");
+            //table.className = 'table table-hover tablePresupuesto';
+            //table.id = "tablePresupuesto";
+            //table.style = '';
 
-        //thead.appendChild(tr_head);
+            //// CREATE HTML TABLE HEADER ROW USING THE EXTRACTED HEADERS ABOVE
+            //var thead = document.createElement("thead");
+            //table.appendChild(thead);
+            //var tr_head = document.createElement("tr");
+            //for (var i = 0; i < encabezado.length; i++) {
+            //    var th = document.createElement("th");      // TABLE HEADER.
+            //    th.style = 'text-align:center';
+            //    th.innerHTML = encabezado[i];
+            //    tr_head.appendChild(th);
+            //}
 
-        //var tbody = document.createElement("tbody");
-        //table.appendChild(tbody);
-        //var tr_body = document.createElement("tr");
-        //// ADD JSON DATA TO THE TABLE AS ROWS.
-        //for (var i = 0; i < d.length; i++) {
-        //    tr_body = document.createElement("tr");
-        //    td = document.createElement("td");
-        //    td.style = 'text-align:center;';
-        //    span = document.createElement("span");
-        //    span.className = "datosLinea";
-        //    span.dataset.id_vendedor = d[i].id_vendedor;
-        //    span.dataset.empresa = d[i].empresa;
-        //    span.dataset.sucursal = d[i].sucursal;
-        //    span.dataset.fecha_desde = d[i].fecha_desde;
-        //    span.dataset.fecha_hasta = d[i].fecha_hasta;
-        //    span.dataset.tipocliente = d[i].tipoCliente;
-        //    span.type = 'hidden';
-        //    td.append(span);
-        //    id_vendedor = document.createTextNode(d[i].id_vendedor);
-        //    td.appendChild(id_vendedor);
-        //    tr_body.appendChild(td);
-        //    td = document.createElement("td");
-        //    nombre_vendedor = document.createTextNode(d[i].nombre_vendedor);
-        //    td.style = 'text-align:center;';
-        //    td.appendChild(nombre_vendedor);
-        //    tr_body.appendChild(td);
-        //    td = document.createElement("td");
-        //    valor_venta = document.createTextNode(formatoValor(d[i].valor_venta));
-        //    td.style = 'text-align:center;';
-        //    td.appendChild(valor_venta);
-        //    tr_body.appendChild(td);
-        //    td = document.createElement("td");
-        //    ventas_neta = document.createTextNode(formatoValor(d[i].ventas_neta));
-        //    td.style = 'text-align:center;';
-        //    td.appendChild(ventas_neta);
-        //    tr_body.appendChild(td);
-        //    td = document.createElement("td");
-        //    alcance_venta = document.createTextNode(d[i].alcance_venta.toFixed(2));
-        //    td.style = 'text-align:center;';
-        //    td.appendChild(alcance_venta);
-        //    tr_body.appendChild(td);
-        //    td = document.createElement("td");
-        //    valor_cobro = document.createTextNode(formatoValor(d[i].valor_cobro));
-        //    td.style = 'text-align:center;';
-        //    td.appendChild(valor_cobro);
-        //    tr_body.appendChild(td);
-        //    td = document.createElement("td");
-        //    total_cobros = document.createTextNode(formatoValor(d[i].total_cobros));
-        //    td.style = 'text-align:center;';
-        //    td.appendChild(total_cobros);
-        //    tr_body.appendChild(td);
-        //    td = document.createElement("td");
-        //    alcance_cobro = document.createTextNode(d[i].alcance_cobro.toFixed(2));
-        //    td.style = 'text-align:center;';
-        //    td.appendChild(alcance_cobro);
-        //    tr_body.appendChild(td);
+            //thead.appendChild(tr_head);
+
+            //var tbody = document.createElement("tbody");
+            //table.appendChild(tbody);
+            //var tr_body = document.createElement("tr");
+            //// ADD JSON DATA TO THE TABLE AS ROWS.
+            //for (var i = 0; i < d.length; i++) {
+            //    tr_body = document.createElement("tr");
+            //    td = document.createElement("td");
+            //    td.style = 'text-align:center;';
+            //    span = document.createElement("span");
+            //    span.className = "datosLinea";
+            //    span.dataset.id_vendedor = d[i].id_vendedor;
+            //    span.dataset.empresa = d[i].empresa;
+            //    span.dataset.sucursal = d[i].sucursal;
+            //    span.dataset.fecha_desde = d[i].fecha_desde;
+            //    span.dataset.fecha_hasta = d[i].fecha_hasta;
+            //    span.dataset.tipocliente = d[i].tipoCliente;
+            //    span.type = 'hidden';
+            //    td.append(span);
+            //    id_vendedor = document.createTextNode(d[i].id_vendedor);
+            //    td.appendChild(id_vendedor);
+            //    tr_body.appendChild(td);
+            //    td = document.createElement("td");
+            //    nombre_vendedor = document.createTextNode(d[i].nombre_vendedor);
+            //    td.style = 'text-align:center;';
+            //    td.appendChild(nombre_vendedor);
+            //    tr_body.appendChild(td);
+            //    td = document.createElement("td");
+            //    valor_venta = document.createTextNode(formatoValor(d[i].valor_venta));
+            //    td.style = 'text-align:center;';
+            //    td.appendChild(valor_venta);
+            //    tr_body.appendChild(td);
+            //    td = document.createElement("td");
+            //    ventas_neta = document.createTextNode(formatoValor(d[i].ventas_neta));
+            //    td.style = 'text-align:center;';
+            //    td.appendChild(ventas_neta);
+            //    tr_body.appendChild(td);
+            //    td = document.createElement("td");
+            //    alcance_venta = document.createTextNode(d[i].alcance_venta.toFixed(2));
+            //    td.style = 'text-align:center;';
+            //    td.appendChild(alcance_venta);
+            //    tr_body.appendChild(td);
+            //    td = document.createElement("td");
+            //    valor_cobro = document.createTextNode(formatoValor(d[i].valor_cobro));
+            //    td.style = 'text-align:center;';
+            //    td.appendChild(valor_cobro);
+            //    tr_body.appendChild(td);
+            //    td = document.createElement("td");
+            //    total_cobros = document.createTextNode(formatoValor(d[i].total_cobros));
+            //    td.style = 'text-align:center;';
+            //    td.appendChild(total_cobros);
+            //    tr_body.appendChild(td);
+            //    td = document.createElement("td");
+            //    alcance_cobro = document.createTextNode(d[i].alcance_cobro.toFixed(2));
+            //    td.style = 'text-align:center;';
+            //    td.appendChild(alcance_cobro);
+            //    tr_body.appendChild(td);
 
 
 
-        //    tr_body.append(documen)
+            //    tr_body.append(documen)
 
-             
+
 
 
 
 
             $('#contenedorTabla').remove();
-            var contenedorTabla = document.createElement("div");  
+            var contenedorTabla = document.createElement("div");
             contenedorTabla.className = "col-md-12";
             contenedorTabla.id = "contenedorTabla"
-            var row = document.createElement("div");      
+            var row = document.createElement("div");
             row.className = "row";
             row.appendChild(contenedorTabla);
             $('#contenedorPrimario').append(row);
@@ -507,10 +473,10 @@ $("#GenerarPresupuesto").click(function () {
             $.each(JSON.parse(d), function (index, p) {
                 sTxt += '<tr>';
                 sTxt += '<td style="text-align:center">';
-                sTxt += '<span class="datosLinea" data-id_vendedor=' + p.id_vendedor + ' data-empresa="' + empresa+'" data-sucursal="'+sucursal+'" data-fecha_desde="'+fecha_desde+'" data-fecha_hasta="'+fecha_hasta+'" data-tipocliente="'+tipoCliente+'" hidden></span>';
+                sTxt += '<span class="datosLinea" data-id_vendedor=' + p.id_vendedor + ' data-empresa="' + empresa + '" data-sucursal="' + sucursal + '" data-fecha_desde="' + fecha_desde + '" data-fecha_hasta="' + fecha_hasta + '" data-tipocliente="' + tipoCliente + '" hidden></span>';
                 sTxt += '' + p.id_vendedor + '</td>';
                 sTxt += '<td style="text-align:center">' + p.nombre_vendedor + '</td>';
-                sTxt += '<td style="text-align:center">' + formatoValor(p.valor_venta)  + '</td>';
+                sTxt += '<td style="text-align:center">' + formatoValor(p.valor_venta) + '</td>';
                 sTxt += '<td style="text-align:center">' + formatoValor(p.ventas_neta) + '</td>';
                 sTxt += '<td style="text-align:center">' + p.alcance_venta.toFixed(2) + '%</td>';
                 sTxt += '<td style="text-align:center">' + formatoValor(p.valor_cobro) + '</td>';
@@ -522,9 +488,9 @@ $("#GenerarPresupuesto").click(function () {
                 sTxt += '    <span class="sr-only"> Toggle Dropdown</span> ';
                 sTxt += '</button> ';
                 sTxt += '    <div class="dropdown-menu" role = "menu" style = ""> ';
-                sTxt += '    <a class="dropdown-item" href = "#" onClick="verVentasXVendedor('+p.id_vendedor+');" > Ventas </a> ';
-                sTxt += '    <a class="dropdown-item" href = "#" onClick="verCobrosXVendedor(' + p.id_vendedor +');" > Cobros </a> ';
-                sTxt += '    <a class="dropdown-item" href = "#" onClick="verNCXVendedor(' + p.id_vendedor +');"> N/C</a> '; 
+                sTxt += '    <a class="dropdown-item" href = "#" onClick="verVentasXVendedor(' + p.id_vendedor + ');" > Ventas </a> ';
+                sTxt += '    <a class="dropdown-item" href = "#" onClick="verCobrosXVendedor(' + p.id_vendedor + ');" > Cobros </a> ';
+                sTxt += '    <a class="dropdown-item" href = "#" onClick="verNCXVendedor(' + p.id_vendedor + ');"> N/C</a> ';
                 sTxt += '</div></td>';
                 sTxt += '</tr> ';
             });
