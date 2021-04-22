@@ -158,16 +158,19 @@ function GenerarDatos(id_vendedor, direccionURL, titulo) {
 
             thead.appendChild(tr_head);
 
+            var tbody = document.createElement("tbody"); 
+            table.appendChild(tbody);
             //thead.appendChild(tr);
-            var tr = table.insertRow(-1);
+            var tr_body = document.createElement("tr");
             // ADD JSON DATA TO THE TABLE AS ROWS.
             for (var i = 0; i < d.length; i++) {
-                tr = table.insertRow(-1);
+                tr_body = document.createElement("tr");
                 for (var j = 0; j < col.length; j++) {
-                    var tabCell = tr.insertCell(-1);
+                    var tabCell = tr_body.insertCell(-1);
                     tabCell.innerHTML = d[i][col[j]];
                     tabCell.style = ' white-space: nowrap;';
                 }
+                tbody.appendChild(tr_body);
             }
 
             //row.appendChild(btnDescargar)
@@ -179,7 +182,11 @@ function GenerarDatos(id_vendedor, direccionURL, titulo) {
                 //"dom": '<"top"i>rt<"bottom"flp><"clear">',
                 "paging": true,
                 "ordering": true,
-                "info": true
+                "info": true,
+                dom: 'Bfrtip',
+                buttons: [
+                    'copy', 'csv', 'excel', 'pdf', 'print'
+                ]
             });
         },
         error: function (e) {
