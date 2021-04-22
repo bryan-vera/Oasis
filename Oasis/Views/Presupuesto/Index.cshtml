@@ -74,11 +74,9 @@
                         </td>
                         <td>
                             @item.fecha_desde.ToShortDateString()
-                            @*@Html.DisplayFor(modelItem => item.fecha_desde)*@
                         </td>
                         <td>
                             @item.fecha_hasta.ToShortDateString()
-                            @*@Html.DisplayFor(modelItem => item.fecha_hasta)*@
                         </td>
                         <td>
                             <div class="btn-group">
@@ -89,12 +87,15 @@
                                     <span class="sr-only"> Toggle Dropdown</span> 
                                 </button>     
                                 <div class="dropdown-menu" role="menu" style="">
-                                    <a class="dropdown-item" href="#" onclick="verDetallesPresupuesto(@item.id_presupuesto);"> Ver detalles </a>
+                                    @*<a class="dropdown-item" href="#" onclick="verDetallesPresupuesto(@item.id_presupuesto);"> Ver detalles </a>*@
                                     @*<a class="dropdown-item" href="#" onclick="DuplicarPresupuesto(@item.id_presupuesto);"> Duplicar </a>*@
+                                    @Html.ActionLink("Editar", "EditarPresupuesto",
+                                     new { id_presupuesto = item.id_presupuesto },
+                                     new { @class = "dropdown-item" })
                                     @Html.ActionLink("Duplicar", "DuplicarPresupuesto",
                                      new { id_presupuesto = item.id_presupuesto },
                                      new { @class = "dropdown-item" })
-                                    @Html.ActionLink("Anular", "AnularPresupuesto", 
+                                    @Html.ActionLink("Anular", "AnularPresupuesto",
                                      new { controller = "AnularPresupuesto", id_presupuesto = item.id_presupuesto },
                                      new { @class = "dropdown-item" })
                                     @*<a class="dropdown-item" href="#" onclick="AnularPresupuesto(@item.id_presupuesto);"> Anular </a>*@

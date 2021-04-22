@@ -238,106 +238,209 @@ $("#GenerarCartera").click(function () {
         tipoCliente.push($(this).attr('name'));
     });
 
+    var eleccion_cartera_general = $('#cartera_general')[0].checked;
 
-    $.ajax({
-        url: 'ObtenerCartera',
-        type: 'GET',
-        data: {
-            empresa: empresa,
-            sucursal: sucursal,
-            //localidad: this.localidad,
-            tipoCliente: JSON.stringify(tipoCliente)
-        },
-        dataType: "JSON",
-        contentType: "application/JSON",
-        success: function (d) {
-            $('#contenedorTabla').remove();
-            var contenedorTabla = document.createElement("div");
-            contenedorTabla.className = "col-md-12";
-            contenedorTabla.id = "contenedorTabla"
-            var row = document.createElement("div");
-            row.className = "row";
-            row.appendChild(contenedorTabla);
-            $('#contenedorPrimario').append(row);
-            d = JSON.parse(d);
-            var col = [];
-            var encabezado = ['EMPRESA', 'SUCURSAL',
-                'RUC', 'CLIENTE', 'CATEGORIA',
-                'VENDEDOR EN CLIENTE', 'VENDEDOR EN FACTURA',
-                'SECUENCIAL',
-                'FECHA FACTURA', 'FECHA VENCIMIENTO',
-                'PROVINCIA', 'CIUDAD', 'PARROQUIA', 'DIRECCION',
-                'VALOR FACTURA', 'CHQ. POST.', 'SALDO PENDIENTE',
-            'DIAS EMITIDAS','DIAS VENCIDA'];
-            for (var i = 0; i < d.length; i++) {
-                for (var key in d[i]) {
-                    if (col.indexOf(key) === -1) {
-                        col.push(key);
+    if (eleccion_cartera_general) {
+        $.ajax({
+            url: 'ObtenerCartera',
+            type: 'GET',
+            data: {
+                empresa: empresa,
+                sucursal: sucursal,
+                //localidad: this.localidad,
+                tipoCliente: JSON.stringify(tipoCliente)
+            },
+            dataType: "JSON",
+            contentType: "application/JSON",
+            success: function (d) {
+                $('#contenedorTabla').remove();
+                var contenedorTabla = document.createElement("div");
+                contenedorTabla.className = "col-md-12";
+                contenedorTabla.id = "contenedorTabla"
+                var row = document.createElement("div");
+                row.className = "row";
+                row.appendChild(contenedorTabla);
+                $('#contenedorPrimario').append(row);
+                d = JSON.parse(d);
+                var col = [];
+                var encabezado = ['EMPRESA', 'SUCURSAL',
+                    'RUC', 'CLIENTE', 'CATEGORIA',
+                    'VENDEDOR EN CLIENTE', 'VENDEDOR EN FACTURA',
+                    'SECUENCIAL',
+                    'FECHA FACTURA', 'FECHA VENCIMIENTO',
+                    'PROVINCIA', 'CIUDAD', 'PARROQUIA', 'DIRECCION',
+                    'VALOR FACTURA', 'CHQ. POST.', 'SALDO PENDIENTE',
+                    'DIAS EMITIDAS', 'DIAS VENCIDA'];
+                for (var i = 0; i < d.length; i++) {
+                    for (var key in d[i]) {
+                        if (col.indexOf(key) === -1) {
+                            col.push(key);
+                        }
                     }
                 }
-            }
 
-            // CREATE DYNAMIC TABLE.
-            var div = document.createElement("div");
-            //div.className = "col-md-12"; 
-            var row = document.createElement("div");
-            row.className = "row col-md-4";
-            var card = document.createElement("div");
-            card.className = "card";
-            card.style = "font-size: 15px;overflow-x: scroll;";
-            var table = document.createElement("table");
-            table.className = 'table table-hover tableDetalle';
-            table.id = "tableDetalle";
-            table.style = '';
+                // CREATE DYNAMIC TABLE.
+                var div = document.createElement("div");
+                //div.className = "col-md-12"; 
+                var row = document.createElement("div");
+                row.className = "row col-md-4";
+                var card = document.createElement("div");
+                card.className = "card";
+                card.style = "font-size: 15px;overflow-x: scroll;";
+                var table = document.createElement("table");
+                table.className = 'table table-hover tableDetalle';
+                table.id = "tableDetalle";
+                table.style = '';
 
-            // CREATE HTML TABLE HEADER ROW USING THE EXTRACTED HEADERS ABOVE
-            var thead = document.createElement("thead");
-            table.appendChild(thead);
-            var tr_head = document.createElement("tr");
-            for (var i = 0; i < encabezado.length; i++) {
-                var th = document.createElement("th");      // TABLE HEADER.
-                th.innerHTML = encabezado[i];
-                tr_head.appendChild(th);
-            }
-
-            thead.appendChild(tr_head);
-
-            var tbody = document.createElement("tbody");
-            table.appendChild(tbody);
-            var tr_body = document.createElement("tr");
-            // ADD JSON DATA TO THE TABLE AS ROWS.
-            for (var i = 0; i < d.length; i++) {
-                tr_body = document.createElement("tr");
-                for (var j = 0; j < col.length; j++) {
-                    var tabCell = tr_body.insertCell(-1);
-                    tabCell.innerHTML = d[i][col[j]];
-                    tabCell.style = ' white-space: nowrap;';
+                // CREATE HTML TABLE HEADER ROW USING THE EXTRACTED HEADERS ABOVE
+                var thead = document.createElement("thead");
+                table.appendChild(thead);
+                var tr_head = document.createElement("tr");
+                for (var i = 0; i < encabezado.length; i++) {
+                    var th = document.createElement("th");      // TABLE HEADER.
+                    th.innerHTML = encabezado[i];
+                    tr_head.appendChild(th);
                 }
-                tbody.appendChild(tr_body);
-            }
 
-            card.appendChild(table);
-            div.appendChild(card);
-            //CrearTablaDetalle(div.outerHTML, titulo);
-            $('#contenedorTabla').append(div);
-            $('#tableDetalle').DataTable({
-                dom: 'Bfrtip',
-                buttons: [
-                    'copy', 'csv', 'excel', 'pdf', 'print'
-                ],
-                language: {
-                    url: 'https://cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json'
+                thead.appendChild(tr_head);
+
+                var tbody = document.createElement("tbody");
+                table.appendChild(tbody);
+                var tr_body = document.createElement("tr");
+                // ADD JSON DATA TO THE TABLE AS ROWS.
+                for (var i = 0; i < d.length; i++) {
+                    tr_body = document.createElement("tr");
+                    for (var j = 0; j < col.length; j++) {
+                        var tabCell = tr_body.insertCell(-1);
+                        tabCell.innerHTML = d[i][col[j]];
+                        tabCell.style = ' white-space: nowrap;';
+                    }
+                    tbody.appendChild(tr_body);
                 }
-            });
-        },
-        error: function (e) {
-            Toast.fire({
-                icon: 'error',
-                title: 'Hubo un error al intentar generar.'
-            })
-        }
-    })
 
+                card.appendChild(table);
+                div.appendChild(card);
+                //CrearTablaDetalle(div.outerHTML, titulo);
+                $('#contenedorTabla').append(div);
+                $('#tableDetalle').DataTable({
+                    dom: 'Bfrtip',
+                    buttons: [
+                        'copy', 'csv', 'excel', 'pdf', 'print'
+                    ],
+                    language: {
+                        url: 'https://cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json'
+                    }
+                });
+            },
+            error: function (e) {
+                Toast.fire({
+                    icon: 'error',
+                    title: 'Hubo un error al intentar generar.'
+                })
+            }
+        })
+    } else {
+        var id_visitador = $('.js-data-vendedor-ajax').children("option:selected").val();
+        $.ajax({
+            url: 'ObtenerCarteraVisitador',
+            type: 'POST',
+            data: {
+                empresa: empresa,
+                sucursal: sucursal,
+                //localidad: this.localidad,
+                tipoCliente: JSON.stringify(tipoCliente),
+                visitador: id_visitador
+            },
+            dataType: "JSON",
+            contentType: "application/JSON",
+            success: function (d) {
+                $('#contenedorTabla').remove();
+                var contenedorTabla = document.createElement("div");
+                contenedorTabla.className = "col-md-12";
+                contenedorTabla.id = "contenedorTabla"
+                var row = document.createElement("div");
+                row.className = "row";
+                row.appendChild(contenedorTabla);
+                $('#contenedorPrimario').append(row);
+                d = JSON.parse(d);
+                var col = [];
+                var encabezado = ['EMPRESA', 'SUCURSAL',
+                    'RUC', 'CLIENTE', 'CATEGORIA',
+                    'VENDEDOR EN CLIENTE', 'VENDEDOR EN FACTURA',
+                    'SECUENCIAL',
+                    'FECHA FACTURA', 'FECHA VENCIMIENTO',
+                    'PROVINCIA', 'CIUDAD', 'PARROQUIA', 'DIRECCION',
+                    'VALOR FACTURA', 'CHQ. POST.', 'SALDO PENDIENTE',
+                    'DIAS EMITIDAS', 'DIAS VENCIDA'];
+                for (var i = 0; i < d.length; i++) {
+                    for (var key in d[i]) {
+                        if (col.indexOf(key) === -1) {
+                            col.push(key);
+                        }
+                    }
+                }
+
+                // CREATE DYNAMIC TABLE.
+                var div = document.createElement("div");
+                //div.className = "col-md-12"; 
+                var row = document.createElement("div");
+                row.className = "row col-md-4";
+                var card = document.createElement("div");
+                card.className = "card";
+                card.style = "font-size: 15px;overflow-x: scroll;";
+                var table = document.createElement("table");
+                table.className = 'table table-hover tableDetalle';
+                table.id = "tableDetalle";
+                table.style = '';
+
+                // CREATE HTML TABLE HEADER ROW USING THE EXTRACTED HEADERS ABOVE
+                var thead = document.createElement("thead");
+                table.appendChild(thead);
+                var tr_head = document.createElement("tr");
+                for (var i = 0; i < encabezado.length; i++) {
+                    var th = document.createElement("th");      // TABLE HEADER.
+                    th.innerHTML = encabezado[i];
+                    tr_head.appendChild(th);
+                }
+
+                thead.appendChild(tr_head);
+
+                var tbody = document.createElement("tbody");
+                table.appendChild(tbody);
+                var tr_body = document.createElement("tr");
+                // ADD JSON DATA TO THE TABLE AS ROWS.
+                for (var i = 0; i < d.length; i++) {
+                    tr_body = document.createElement("tr");
+                    for (var j = 0; j < col.length; j++) {
+                        var tabCell = tr_body.insertCell(-1);
+                        tabCell.innerHTML = d[i][col[j]];
+                        tabCell.style = ' white-space: nowrap;';
+                    }
+                    tbody.appendChild(tr_body);
+                }
+
+                card.appendChild(table);
+                div.appendChild(card);
+                //CrearTablaDetalle(div.outerHTML, titulo);
+                $('#contenedorTabla').append(div);
+                $('#tableDetalle').DataTable({
+                    dom: 'Bfrtip',
+                    buttons: [
+                        'copy', 'csv', 'excel', 'pdf', 'print'
+                    ],
+                    language: {
+                        url: 'https://cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json'
+                    }
+                });
+            },
+            error: function (e) {
+                Toast.fire({
+                    icon: 'error',
+                    title: 'Hubo un error al intentar generar.'
+                })
+            }
+        })
+    }
 });
 
 

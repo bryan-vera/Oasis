@@ -176,17 +176,23 @@ function ActivarVendedores() {
             data: function (params) {
                 var query = {
                     textoBusqueda: params.term,
-                    empresa: $('#empresa')[0].innerText,
-                    sucursal: $('#sucursal')[0].innerText
+                    empresa: $('#empresa').val(),
+                    sucursal: $('#sucursal').val()
                 }
                 return query;
             }
         }
     }).on('change', function (e) {
-        var id_vendedor = $(this).select2('data')[0].id_vendedor;
+        var id_vendedor = $(this).select2('data')[0].id;
+        $(e.target).parent().parent().find($('#id_vendedor')).val(id_vendedor);
         $(e.target).closest('#id_vendedor').val(id_vendedor);
     });
 }
+
+$('.js-data-vendedor-ajax').on('select2:select', function (e) {
+    var id_vendedor = $(this).select2('data')[0].id_vendedor;
+    $(e.target).closest('#id_vendedor').val(id_vendedor);
+});
 
 $("#GenerarCartera").click(function () {
     var tipoCliente = [];

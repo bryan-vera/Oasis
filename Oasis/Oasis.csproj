@@ -4660,6 +4660,7 @@
     <Content Include="Views\Credito\Cartera.cshtml" />
     <Content Include="Views\Presupuesto\Index.cshtml" />
     <Content Include="Views\Presupuesto\DuplicarPresupuesto.cshtml" />
+    <Content Include="Views\Presupuesto\EditarPresupuesto.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

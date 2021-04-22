@@ -204,6 +204,27 @@ namespace Oasis.Controllers.Credito
             //return View();
         }
 
+        public JsonResult ObtenerCarteraVisitador(
+            string empresa,
+            string sucursal,
+            string tipoCliente,
+            string visitador)
+        {
+            var tipoC = JsonConvert.DeserializeObject(tipoCliente);
+            var tipoCliente_ = tipoCliente.Replace(@"[", string.Empty).Replace(@"]", string.Empty).Replace("\"", string.Empty);
+
+            using (var context = new as2oasis())
+            {
+                var cartera = context.CarteraEmpresa(empresa, sucursal, tipoCliente_);
+                var cartera_json = JsonConvert.SerializeObject(cartera, Formatting.Indented);
+
+                return Json(cartera_json, JsonRequestBehavior.AllowGet);
+                //foreach (Course cs in courses)
+                //    Console.WriteLine(cs.CourseName);
+            }
+            //return View();
+        }
+
         // GET: Consolidado
         public ActionResult Consolidado()
         {
