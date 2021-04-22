@@ -98,8 +98,6 @@ function addAllColumnHeaders(myList, selector) {
     return columnSet;
 }
 
-
-
 function GenerarDatos(id_vendedor, direccionURL, titulo) {
     let spanOculto;
     spanOculto = $('.table-hover tbody tr td span.datosLinea[data-id_vendedor="' + id_vendedor + '"]')[0].dataset;
@@ -147,7 +145,7 @@ function GenerarDatos(id_vendedor, direccionURL, titulo) {
             table.style = '';
 
             // CREATE HTML TABLE HEADER ROW USING THE EXTRACTED HEADERS ABOVE
-            var thead = document.createElement("thead"); 
+            var thead = document.createElement("thead");
             table.appendChild(thead);
             var tr_head = document.createElement("tr");
             for (var i = 0; i < col.length; i++) {
@@ -158,7 +156,7 @@ function GenerarDatos(id_vendedor, direccionURL, titulo) {
 
             thead.appendChild(tr_head);
 
-            var tbody = document.createElement("tbody"); 
+            var tbody = document.createElement("tbody");
             table.appendChild(tbody);
             //thead.appendChild(tr);
             var tr_body = document.createElement("tr");
@@ -180,13 +178,16 @@ function GenerarDatos(id_vendedor, direccionURL, titulo) {
             CrearTablaDetalle(div.outerHTML, titulo);
             $('#tableDetalle').DataTable({
                 //"dom": '<"top"i>rt<"bottom"flp><"clear">',
-                "paging": true,
-                "ordering": true,
-                "info": true,
                 dom: 'Bfrtip',
+                //"paging": true,
+                //"ordering": true,
+                //"info": true,
                 buttons: [
                     'copy', 'csv', 'excel', 'pdf', 'print'
-                ]
+                ],
+                language: {
+                    url: 'https://cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json'
+                }
             });
         },
         error: function (e) {
@@ -198,7 +199,6 @@ function GenerarDatos(id_vendedor, direccionURL, titulo) {
     })
 
 }
-
 
 function verVentasXVendedor(id_vendedor) {
     event.preventDefault();
@@ -221,6 +221,228 @@ function verCobrosXVendedor(id_vendedor) {
 $("botonVerDetalle").click(function () {
     event.preventDefault();
 })
+
+$("#GenerarCartera").click(function () {
+    var tipoCliente = [];
+    var empresa = $("#empresa").val();
+    var sucursal = $("#sucursal").val();
+    var localidad;
+
+    if ($('#chkLocalidad').is(":checked")) {
+        localidad = null
+    } else {
+        localidad = $("#localidad").val();
+    }
+
+    $('.tipoCliente:checkbox:checked').each(function () {
+        tipoCliente.push($(this).attr('name'));
+    });
+
+    var eleccion_cartera_general = $('#cartera_general')[0].checked;
+
+    if (eleccion_cartera_general) {
+        $.ajax({
+            url: 'ObtenerCartera',
+            type: 'GET',
+            data: {
+                empresa: empresa,
+                sucursal: sucursal,
+                //localidad: this.localidad,
+                tipoCliente: JSON.stringify(tipoCliente)
+            },
+            dataType: "JSON",
+            contentType: "application/JSON",
+            success: function (d) {
+                $('#contenedorTabla').remove();
+                var contenedorTabla = document.createElement("div");
+                contenedorTabla.className = "col-md-12";
+                contenedorTabla.id = "contenedorTabla"
+                var row = document.createElement("div");
+                row.className = "row";
+                row.appendChild(contenedorTabla);
+                $('#contenedorPrimario').append(row);
+                d = JSON.parse(d);
+                var col = [];
+                var encabezado = ['EMPRESA', 'SUCURSAL',
+                    'RUC', 'CLIENTE', 'CATEGORIA',
+                    'VENDEDOR EN CLIENTE', 'VENDEDOR EN FACTURA',
+                    'SECUENCIAL',
+                    'FECHA FACTURA', 'FECHA VENCIMIENTO',
+                    'PROVINCIA', 'CIUDAD', 'PARROQUIA', 'DIRECCION',
+                    'VALOR FACTURA', 'CHQ. POST.', 'SALDO PENDIENTE',
+                    'DIAS EMITIDAS', 'DIAS VENCIDA'];
+                for (var i = 0; i < d.length; i++) {
+                    for (var key in d[i]) {
+                        if (col.indexOf(key) === -1) {
+                            col.push(key);
+                        }
+                    }
+                }
+
+                // CREATE DYNAMIC TABLE.
+                var div = document.createElement("div");
+                //div.className = "col-md-12"; 
+                var row = document.createElement("div");
+                row.className = "row col-md-4";
+                var card = document.createElement("div");
+                card.className = "card";
+                card.style = "font-size: 15px;overflow-x: scroll;";
+                var table = document.createElement("table");
+                table.className = 'table table-hover tableDetalle';
+                table.id = "tableDetalle";
+                table.style = '';
+
+                // CREATE HTML TABLE HEADER ROW USING THE EXTRACTED HEADERS ABOVE
+                var thead = document.createElement("thead");
+                table.appendChild(thead);
+                var tr_head = document.createElement("tr");
+                for (var i = 0; i < encabezado.length; i++) {
+                    var th = document.createElement("th");      // TABLE HEADER.
+                    th.innerHTML = encabezado[i];
+                    tr_head.appendChild(th);
+                }
+
+                thead.appendChild(tr_head);
+
+                var tbody = document.createElement("tbody");
+                table.appendChild(tbody);
+                var tr_body = document.createElement("tr");
+                // ADD JSON DATA TO THE TABLE AS ROWS.
+                for (var i = 0; i < d.length; i++) {
+                    tr_body = document.createElement("tr");
+                    for (var j = 0; j < col.length; j++) {
+                        var tabCell = tr_body.insertCell(-1);
+                        tabCell.innerHTML = d[i][col[j]];
+                        tabCell.style = ' white-space: nowrap;';
+                    }
+                    tbody.appendChild(tr_body);
+                }
+
+                card.appendChild(table);
+                div.appendChild(card);
+                //CrearTablaDetalle(div.outerHTML, titulo);
+                $('#contenedorTabla').append(div);
+                $('#tableDetalle').DataTable({
+                    dom: 'Bfrtip',
+                    buttons: [
+                        'copy', 'csv', 'excel', 'pdf', 'print'
+                    ],
+                    language: {
+                        url: 'https://cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json'
+                    }
+                });
+            },
+            error: function (e) {
+                Toast.fire({
+                    icon: 'error',
+                    title: 'Hubo un error al intentar generar.'
+                })
+            }
+        })
+    } else {
+        var id_visitador = $('.js-data-vendedor-ajax').children("option:selected").val();
+        $.ajax({
+            url: 'ObtenerCarteraVisitador',
+            type: 'POST',
+            data: {
+                empresa: empresa,
+                sucursal: sucursal,
+                //localidad: this.localidad,
+                tipoCliente: JSON.stringify(tipoCliente),
+                visitador: id_visitador
+            },
+            dataType: "JSON",
+            contentType: "application/JSON",
+            success: function (d) {
+                $('#contenedorTabla').remove();
+                var contenedorTabla = document.createElement("div");
+                contenedorTabla.className = "col-md-12";
+                contenedorTabla.id = "contenedorTabla"
+                var row = document.createElement("div");
+                row.className = "row";
+                row.appendChild(contenedorTabla);
+                $('#contenedorPrimario').append(row);
+                d = JSON.parse(d);
+                var col = [];
+                var encabezado = ['EMPRESA', 'SUCURSAL',
+                    'RUC', 'CLIENTE', 'CATEGORIA',
+                    'VENDEDOR EN CLIENTE', 'VENDEDOR EN FACTURA',
+                    'SECUENCIAL',
+                    'FECHA FACTURA', 'FECHA VENCIMIENTO',
+                    'PROVINCIA', 'CIUDAD', 'PARROQUIA', 'DIRECCION',
+                    'VALOR FACTURA', 'CHQ. POST.', 'SALDO PENDIENTE',
+                    'DIAS EMITIDAS', 'DIAS VENCIDA'];
+                for (var i = 0; i < d.length; i++) {
+                    for (var key in d[i]) {
+                        if (col.indexOf(key) === -1) {
+                            col.push(key);
+                        }
+                    }
+                }
+
+                // CREATE DYNAMIC TABLE.
+                var div = document.createElement("div");
+                //div.className = "col-md-12"; 
+                var row = document.createElement("div");
+                row.className = "row col-md-4";
+                var card = document.createElement("div");
+                card.className = "card";
+                card.style = "font-size: 15px;overflow-x: scroll;";
+                var table = document.createElement("table");
+                table.className = 'table table-hover tableDetalle';
+                table.id = "tableDetalle";
+                table.style = '';
+
+                // CREATE HTML TABLE HEADER ROW USING THE EXTRACTED HEADERS ABOVE
+                var thead = document.createElement("thead");
+                table.appendChild(thead);
+                var tr_head = document.createElement("tr");
+                for (var i = 0; i < encabezado.length; i++) {
+                    var th = document.createElement("th");      // TABLE HEADER.
+                    th.innerHTML = encabezado[i];
+                    tr_head.appendChild(th);
+                }
+
+                thead.appendChild(tr_head);
+
+                var tbody = document.createElement("tbody");
+                table.appendChild(tbody);
+                var tr_body = document.createElement("tr");
+                // ADD JSON DATA TO THE TABLE AS ROWS.
+                for (var i = 0; i < d.length; i++) {
+                    tr_body = document.createElement("tr");
+                    for (var j = 0; j < col.length; j++) {
+                        var tabCell = tr_body.insertCell(-1);
+                        tabCell.innerHTML = d[i][col[j]];
+                        tabCell.style = ' white-space: nowrap;';
+                    }
+                    tbody.appendChild(tr_body);
+                }
+
+                card.appendChild(table);
+                div.appendChild(card);
+                //CrearTablaDetalle(div.outerHTML, titulo);
+                $('#contenedorTabla').append(div);
+                $('#tableDetalle').DataTable({
+                    dom: 'Bfrtip',
+                    buttons: [
+                        'copy', 'csv', 'excel', 'pdf', 'print'
+                    ],
+                    language: {
+                        url: 'https://cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json'
+                    }
+                });
+            },
+            error: function (e) {
+                Toast.fire({
+                    icon: 'error',
+                    title: 'Hubo un error al intentar generar.'
+                })
+            }
+        })
+    }
+});
+
 
 $("#GenerarPresupuesto").click(function () {
     var tipoCliente = [];
@@ -255,6 +477,118 @@ $("#GenerarPresupuesto").click(function () {
         dataType: "JSON",
         contentType: "application/JSON",
         success: function (d) {
+
+        //$('#contenedorTabla').remove();
+        //var contenedorTabla = document.createElement("div");
+        //contenedorTabla.className = "col-md-12";
+        //contenedorTabla.id = "contenedorTabla"
+        //var row = document.createElement("div");
+        //row.className = "row";
+        //row.appendChild(contenedorTabla);
+        //$('#contenedorPrimario').append(row);
+
+        //d = JSON.parse(d);
+        //var col = [];
+        //var encabezado = ['ID', 'Vendedor',
+        //    'Cuota ventas', 'Ventas', '%',
+        //    'Cuota cobros', 'Cobros',
+        //    ''];
+
+        //for (var i = 0; i < d.length; i++) {
+        //    for (var key in d[i]) {
+        //        if (col.indexOf(key) === -1) {
+        //            col.push(key);
+        //        }
+        //    }
+        //}
+             
+        //var card = document.createElement("div");
+        //card.className = "card";
+        //card.style = "font-size: 15px;overflow-x: scroll;";
+        //var table = document.createElement("table");
+        //table.className = 'table table-hover tablePresupuesto';
+        //table.id = "tablePresupuesto";
+        //table.style = '';
+
+        //// CREATE HTML TABLE HEADER ROW USING THE EXTRACTED HEADERS ABOVE
+        //var thead = document.createElement("thead");
+        //table.appendChild(thead);
+        //var tr_head = document.createElement("tr");
+        //for (var i = 0; i < encabezado.length; i++) {
+        //    var th = document.createElement("th");      // TABLE HEADER.
+        //    th.style = 'text-align:center';
+        //    th.innerHTML = encabezado[i];
+        //    tr_head.appendChild(th);
+        //}
+
+        //thead.appendChild(tr_head);
+
+        //var tbody = document.createElement("tbody");
+        //table.appendChild(tbody);
+        //var tr_body = document.createElement("tr");
+        //// ADD JSON DATA TO THE TABLE AS ROWS.
+        //for (var i = 0; i < d.length; i++) {
+        //    tr_body = document.createElement("tr");
+        //    td = document.createElement("td");
+        //    td.style = 'text-align:center;';
+        //    span = document.createElement("span");
+        //    span.className = "datosLinea";
+        //    span.dataset.id_vendedor = d[i].id_vendedor;
+        //    span.dataset.empresa = d[i].empresa;
+        //    span.dataset.sucursal = d[i].sucursal;
+        //    span.dataset.fecha_desde = d[i].fecha_desde;
+        //    span.dataset.fecha_hasta = d[i].fecha_hasta;
+        //    span.dataset.tipocliente = d[i].tipoCliente;
+        //    span.type = 'hidden';
+        //    td.append(span);
+        //    id_vendedor = document.createTextNode(d[i].id_vendedor);
+        //    td.appendChild(id_vendedor);
+        //    tr_body.appendChild(td);
+        //    td = document.createElement("td");
+        //    nombre_vendedor = document.createTextNode(d[i].nombre_vendedor);
+        //    td.style = 'text-align:center;';
+        //    td.appendChild(nombre_vendedor);
+        //    tr_body.appendChild(td);
+        //    td = document.createElement("td");
+        //    valor_venta = document.createTextNode(formatoValor(d[i].valor_venta));
+        //    td.style = 'text-align:center;';
+        //    td.appendChild(valor_venta);
+        //    tr_body.appendChild(td);
+        //    td = document.createElement("td");
+        //    ventas_neta = document.createTextNode(formatoValor(d[i].ventas_neta));
+        //    td.style = 'text-align:center;';
+        //    td.appendChild(ventas_neta);
+        //    tr_body.appendChild(td);
+        //    td = document.createElement("td");
+        //    alcance_venta = document.createTextNode(d[i].alcance_venta.toFixed(2));
+        //    td.style = 'text-align:center;';
+        //    td.appendChild(alcance_venta);
+        //    tr_body.appendChild(td);
+        //    td = document.createElement("td");
+        //    valor_cobro = document.createTextNode(formatoValor(d[i].valor_cobro));
+        //    td.style = 'text-align:center;';
+        //    td.appendChild(valor_cobro);
+        //    tr_body.appendChild(td);
+        //    td = document.createElement("td");
+        //    total_cobros = document.createTextNode(formatoValor(d[i].total_cobros));
+        //    td.style = 'text-align:center;';
+        //    td.appendChild(total_cobros);
+        //    tr_body.appendChild(td);
+        //    td = document.createElement("td");
+        //    alcance_cobro = document.createTextNode(d[i].alcance_cobro.toFixed(2));
+        //    td.style = 'text-align:center;';
+        //    td.appendChild(alcance_cobro);
+        //    tr_body.appendChild(td);
+
+
+
+        //    tr_body.append(documen)
+
+             
+
+
+
+
             $('#contenedorTabla').remove();
             var contenedorTabla = document.createElement("div");  
             contenedorTabla.className = "col-md-12";
@@ -263,7 +597,10 @@ $("#GenerarPresupuesto").click(function () {
             row.className = "row";
             row.appendChild(contenedorTabla);
             $('#contenedorPrimario').append(row);
-            //$('.container-fluid').add('<div class="row"><div id="tablaPresupuesto" class="col-md-12"></div></div>');
+            $('.container-fluid').add('<div class="row"><div id="tablaPresupuesto" class="col-md-12"></div></div>');
+
+
+
             var sTxt = '<div class="card"><table class="table table-hover" id="tablePresupuesto">';
             sTxt += '<thead><tr><th style="text-align:center">ID</th><th  style="text-align:center">Vendedor</th><th style="text-align:center">Cuota ventas</th>';
             sTxt += '<th style="text-align:center">Ventas</th><th style="text-align:center">%</th>';
@@ -294,26 +631,10 @@ $("#GenerarPresupuesto").click(function () {
                 sTxt += '</div></td>';
                 sTxt += '</tr> ';
             });
-            sTxt += '</tbody></table></div>';
+            sTxt += '</tbody><tfoot><tr><td>Sum</td><td>$180</td></tr></tfoot></table></div>';
 
             $('#contenedorTabla').append(sTxt);
 
-            //Toast.fire({
-            //    icon: 'success',
-            //    title: 'Se ha generado la OC de forma correcta.'
-            //})
-
-            //if (d.length > 0) {
-            //    let pdfWindow = window.open("")
-            //    pdfWindow.document.write(
-            //        "<iframe width='100%' height='100%' src='data:application/pdf;base64," +
-            //        encodeURI(d) + "'></iframe>"
-            //    )
-            //    Toast.fire({
-            //        icon: 'success',
-            //        title: 'Se ha generado la OC de forma correcta.'
-            //    })
-            //}
         },
         error: function (e) {
             Toast.fire({

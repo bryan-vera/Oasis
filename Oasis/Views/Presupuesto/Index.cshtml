@@ -1,0 +1,120 @@
+﻿@model PagedList.IPagedList<Oasis.Models.presupuesto_cabecera>
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+@{
+    ViewBag.Title = "Index";
+    ViewBag.Modulo = "Presupuesto";
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            @using (Html.BeginForm("Index", "Presupuesto", FormMethod.Get))
+            {
+                <div class="card-header">
+                    <div class="card-tools">
+                        <div class="input-group input-group-lg col-md-12">
+                            <button type="button" value="" class="btn btn-lg btn-info">
+                                Crear nuevo
+                            </button>
+                            <input type="search" class="form-control form-control-lg"
+                                   name="SearchString" id="SearchString"
+                                   placeholder="Buscar..." value="@(ViewBag.CurrentFilter as String)">
+                            <div class="input-group-append">
+                                <button type="submit" value="" class="btn btn-lg btn-default">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @*<p>
+                        Búsqueda: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
+                        <input type="submit" value="" placeholder="Buscar..." />
+                    </p>*@
+            }
+            <div class="card-body table-responsive p-0">
+                <table class="table table-hover text-nowrap">
+                    <tr>
+                        <th>
+                            CODIGO
+                        </th>
+                        <th>
+                            EMPRESA
+                        </th>
+                        <th>
+                            SUCURSAL
+                        </th>
+                        <th>
+                            FECHA DESDE
+                        </th>
+                        <th>
+                            FECHA HASTA
+                        </th>
+                        @*<th>*@
+                        @*    @Html.ActionLink("NOMBRE COMERCIAL", "Index", new { sortOrder = ViewBag.NameSortParm })*@
+                            @*@Html.DisplayNameFor(model => model.nombre_comercial)*@
+                        @*</th>*@
+                        <th></th>
+                    </tr>
+
+                    @foreach (var item in Model)
+                    {
+                    <tr>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.id_presupuesto)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.empresa)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.sucursal)
+                        </td>
+                        <td>
+                            @item.fecha_desde.ToShortDateString()
+                        </td>
+                        <td>
+                            @item.fecha_hasta.ToShortDateString()
+                        </td>
+                        <td>
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-outline-primary" data-toggle="dropdown" id="botonVerDetalle">
+                                    <i class="fas fa-search"></i>
+                                </button>   
+                                <button type="button" class="btn btn-outline-primary dropdown-toggle dropdown-hover dropdown-icon" data-toggle="dropdown" aria-expanded="false">     
+                                    <span class="sr-only"> Toggle Dropdown</span> 
+                                </button>     
+                                <div class="dropdown-menu" role="menu" style="">
+                                    @*<a class="dropdown-item" href="#" onclick="verDetallesPresupuesto(@item.id_presupuesto);"> Ver detalles </a>*@
+                                    @*<a class="dropdown-item" href="#" onclick="DuplicarPresupuesto(@item.id_presupuesto);"> Duplicar </a>*@
+                                    @Html.ActionLink("Editar", "EditarPresupuesto",
+                                     new { id_presupuesto = item.id_presupuesto },
+                                     new { @class = "dropdown-item" })
+                                    @Html.ActionLink("Duplicar", "DuplicarPresupuesto",
+                                     new { id_presupuesto = item.id_presupuesto },
+                                     new { @class = "dropdown-item" })
+                                    @Html.ActionLink("Anular", "AnularPresupuesto",
+                                     new { controller = "AnularPresupuesto", id_presupuesto = item.id_presupuesto },
+                                     new { @class = "dropdown-item" })
+                                    @*<a class="dropdown-item" href="#" onclick="AnularPresupuesto(@item.id_presupuesto);"> Anular </a>*@
+                                </div>
+                            </div>
+                        </td>  
+                    </tr>
+                    }
+
+                </table>
+                <br />
+                <div class="card-body">
+                    Página @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) de  @Model.PageCount
+
+                    @Html.PagedListPager(Model, page => Url.Action("Index",
+                        new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

@@ -10,18 +10,20 @@
 namespace Oasis.Models
 {
     using System;
+    using System.Collections.Generic;
     
-    public partial class Presupuesto_Result
+    public partial class Presupuesto_Vendedor_Detalle
     {
+        public int id_presupuesto { get; set; }
+        public string empresa { get; set; }
+        public string sucursal { get; set; }
+        public bool activo { get; set; }
+        public System.DateTime fecha_desde { get; set; }
+        public System.DateTime fecha_hasta { get; set; }
         public int id_vendedor { get; set; }
-        public string nombre_vendedor { get; set; }
-        public Nullable<double> valor_venta { get; set; }
-        public Nullable<decimal> ventas_brutas { get; set; }
-        public Nullable<decimal> total_nc { get; set; }
-        public Nullable<decimal> ventas_neta { get; set; }
-        public Nullable<double> alcance_venta { get; set; }
+        public string nombre_usuario { get; set; }
         public Nullable<double> valor_cobro { get; set; }
-        public Nullable<decimal> total_cobros { get; set; }
-        public Nullable<double> alcance_cobro { get; set; }
+        public Nullable<double> valor_venta { get; set; }
+        public int id_presupuesto_detalle { get; set; }
     }
 }

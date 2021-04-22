@@ -1,0 +1,237 @@
+﻿@model Oasis.ViewModel.DetallePresupuesto
+
+@{
+    ViewBag.Title = "Duplicar presupuesto";
+}
+
+@using (Html.BeginForm("Create", "Presupuesto", "POST"))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="row">
+        <div class="col-md-12 col-sm-8">
+            <div class="card">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Empresa</label>
+                                <input id="empresa" name="empresa" value="@Model.empresa" hidden />
+                                <h3>@Model.empresa</h3>
+                            </div>
+                            <!-- /.form-group -->
+                            <div class="form-group">
+                                <label>Fecha desde</label>
+                                <div class="input-group date" id="fecha_desde_presupuesto" data-target-input="nearest">
+                                    <input data-bind="text:fecha_desde" type="text" id="fecha_desde" name="fecha_desde" value="@Model.fecha_desde" class="form-control datetimepicker-input" data-target="#fecha_desde_presupuesto">
+                                    <div class="input-group-append" data-target="#fecha_desde_presupuesto" data-toggle="datetimepicker">
+                                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /.form-group -->
+                        </div>
+                        <!-- /.col -->
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Sucursal</label>
+                                <input id="sucursal" name="sucursal" value="@Model.sucursal" hidden />
+                                <h3>@Model.sucursal</h3>
+                            </div>
+                            <!-- /.form-group -->
+                            <div class="form-group">
+                                <label>Fecha hasta</label>
+                                <div class="input-group date" id="fecha_hasta_presupuesto" data-target-input="nearest">
+                                    <input data-bind="text:fecha_hasta" type="text" id="fecha_hasta" name="fecha_hasta" value="@Model.fecha_hasta" class="form-control datetimepicker-input" data-target="#fecha_hasta_presupuesto">
+                                    <div class="input-group-append" data-target="#fecha_hasta_presupuesto" data-toggle="datetimepicker">
+                                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /.form-group -->
+                        </div>
+                        <!-- /.col -->
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 col-sm-8">
+                            <div class="form-group">
+                                <label>Descripcion</label>
+                                <textarea data-bind="text:descripcion" class="form-control"
+                                          rows="3" id="descripcion" name="descripcion">@Model.descripcion</textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="card-body table-responsive p-0">
+                        <table class="table table-hover text-nowrap" id="tablaPresupuesto">
+                            <tr>
+                                <th style="width: 140px">
+                                    CODIGO
+                                </th>
+                                <th>
+                                    VISITADOR
+                                </th>
+                                <th>
+                                    VALOR VENTAS
+                                </th>
+                                <th>
+                                    VALOR COBROS
+                                </th>
+                                <th>
+                                    <button class="btn btn-info form-control" onclick="AgregarFila();" type="button">Agregar visitador</button>
+                                </th>
+                            </tr>
+                            <tbody data-bind="foreach: ListaPresupuestoDetalles">
+                                @foreach (var item in ViewBag.DetallePresupuesto)
+                                {
+                                    <tr id="fila_@item.id_presupuesto_detalle">
+                                        <td>
+                                            <div>
+                                                <input id="id_vendedor" value="@item.id_vendedor" class="form-control" disabled />
+                                            </div>
+                                            <input id="id_presupuesto_detalle" value="@item.id_presupuesto_detalle" hidden >
+                                        </td>
+                                        <td>
+                                            <select id="nombre_vendedor" name="nombre_vendedor" class="js-data-vendedor-ajax form-control" style="width:80%">
+                                                <option value="@item.id_vendedor">@item.nombre_usuario</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text">
+                                                        <i class="fas fa-dollar-sign"></i>
+                                                    </span>
+                                                </div>
+                                                <input data-bind="text:valor_venta" id="valor_venta" name="valor_venta" type="text" onchange="numeroDecimal" step='0.01' class="form-control" value="@item.valor_venta">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text">
+                                                        <i class="fas fa-dollar-sign"></i>
+                                                    </span>
+                                                </div>
+                                                <input id="valor_cobro" name="valor_cobro" type="text" onchange="numeroDecimal" step='0.01' class="form-control" value="@item.valor_cobro">
+                                            </div>
+                                        </td>
+                                        <td style="text-align: center;">
+                                            <button class="btn btn-block btn-danger BorrarFila" type="button"><i class="fa fa-trash"></i></button>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+                <div class="card-footer">
+                    @Html.ActionLink("Regresar", "Index", new { @class = "btn" })
+                    @*<button type="button" class="btn">Regresar</button>*@
+                    <button type="button" id="enviar" class="btn btn-info float-right">Confirmar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+
+@section Scripts {
+    <script src="~/Content/js/Presupuesto.js"></script>
+    <script>
+        ActivarVendedores();
+        PresupuestoDetalle = [];
+        $('#tablaPresupuesto').on('click', function (e) {
+            if (e.target.classList.contains("BorrarFila")) {
+                var boton_borrar = e.target;
+                $(boton_borrar).parents("tr").remove();
+            }
+            if (e.target.classList.contains("js-data-vendedor-ajax")) {
+                //var boton_borrar = e.target;
+                //$(boton_borrar).parents("tr").remove();
+                var id_vendedor = $(e.target).select2('data')[0].id_vendedor;
+
+                $(e.target).parent().parent().find($('#id_vendedor')).val(id_vendedor);
+                //$(e.target).closest('#id_vendedor').val(id_vendedor);
+            }
+        });
+
+
+        //$('.btnEliminar').click(function () {
+        //    var rowEliminar = this.parentElement.parentElement;
+        //    rowEliminar.remove();
+        //    //$(rowEliminar).remove();
+        //    //console.log(rowEliminar);
+        //});
+
+        function AgregarFila() {
+            var elementosFila = ' <tr id="fila_"> ';
+            elementosFila += '<td><div> <input id="id_vendedor" value="" class="form-control" disabled /></div><input id="id_presupuesto_detalle" value="" hidden>';
+            elementosFila += '</td><td><select id="nombre_vendedor" name="nombre_vendedor" class="js-data-vendedor-ajax form-control" style="width:80%">';
+            elementosFila += '</select></td><td><div class="input-group"><div class="input-group-prepend">';
+            elementosFila += '<span class="input-group-text"><i class="fas fa-dollar-sign"></i>';
+            elementosFila += '</span></div>';
+            elementosFila += '<input id="valor_venta" name="valor_venta" type="text" onchange="numeroDecimal" step="0.01" ';
+            elementosFila += 'class="form-control" value = "" ></div></td><td>';
+            elementosFila += '<div class="input-group"><div class="input-group-prepend"><span class="input-group-text"><i class="fas fa-dollar-sign"></i>';
+            elementosFila += '</span></div><input data-bind="text:valor_cobro" id="valor_cobro" name="valor_cobro" type="text" onchange="numeroDecimal" step="0.01" class="form-control" value="">';
+            elementosFila += '</div></td><td style="text-align: center;"><button class="btn btn-block  btn-danger BorrarFila" type="button"><i class="fa fa-trash"></i></button>';
+            elementosFila += '</td></tr>';
+            $('#tablaPresupuesto tr:last').after(elementosFila);
+            ActivarVendedores();
+        }
+        //function EliminarFila(id) {
+        //    $('#fila_' + id).remove();
+        //    this.parentElement.parentElement.remove();
+        //}
+
+        $('#enviar').click(function () {
+            var tbl = $('#tablaPresupuesto tr:has(td)').map(function (i, v) {
+                var $td = $('td', this);
+                PresupuestoDetalle.push({
+                    id_presupuesto_detalle: $td.eq(0)[0].children[1].value,
+                    id_vendedor: $td.eq(0)[0].children[0].children[0].value,
+                    valor_venta: parseFloat($td.eq(2)[0].children[0].children[1].value),
+                    valor_cobro: parseFloat($td.eq(3)[0].children[0].children[1].value)
+                })
+            }).get();
+
+            var datos = {
+                id_presupuesto: @Model.id_presupuesto,
+                empresa: $('#empresa').val().trim(),
+                sucursal: $('#sucursal').val().trim(),
+                descripcion: $('#descripcion').val().trim(),
+                fecha_desde: $('#fecha_desde').val().trim(),
+                fecha_hasta: $('#fecha_hasta').val().trim(),
+                ListaPresupuestoDetalle: PresupuestoDetalle,
+            };
+
+            $.ajax({
+                url: 'EditarPresupuesto',
+                type: "POST",
+                data: JSON.stringify(datos),
+                dataType: "JSON",
+                contentType: "application/JSON",
+                success: function (d) {
+                    if (d.status == true) {
+                        Toast.fire({
+                            icon: 'success',
+                            title: 'Se ha editado el presupuesto.'
+                        })
+                        window.location.href = "index";
+                    }
+                },
+                error: function (e) {
+                    Toast.fire({
+                        icon: 'error',
+                        title: 'Hubo un error al intentar guardar.'
+                    })
+                }
+
+            })
+        });
+
+    </script>
+}

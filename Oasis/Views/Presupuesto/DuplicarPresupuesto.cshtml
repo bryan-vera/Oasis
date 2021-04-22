@@ -1,0 +1,279 @@
+﻿@model Oasis.ViewModel.DetallePresupuesto
+
+@{
+    ViewBag.Title = "Duplicar presupuesto";
+}
+
+@using (Html.BeginForm("Create","Presupuesto","POST"))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="row">
+        <div class="col-md-12 col-sm-8">
+            <div class="card">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Empresa</label>
+                                <input id="empresa" name="empresa" value="@Model.empresa" hidden />
+                                <h3>@Model.empresa</h3>
+                            </div>
+                            <!-- /.form-group -->
+                            <div class="form-group">
+                                <label>Fecha desde</label>
+                                <div  class="input-group date" id="fecha_desde_presupuesto" data-target-input="nearest">
+                                    <input data-bind="text:fecha_desde" type="text" id="fecha_desde" name="fecha_desde" value="@Model.fecha_desde" class="form-control datetimepicker-input" data-target="#fecha_desde_presupuesto">
+                                    <div class="input-group-append" data-target="#fecha_desde_presupuesto" data-toggle="datetimepicker">
+                                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /.form-group -->
+                        </div>
+                        <!-- /.col -->
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Sucursal</label>
+                                <input id="sucursal" name="sucursal" value="@Model.sucursal" hidden />
+                                <h3>@Model.sucursal</h3>
+                            </div>
+                            <!-- /.form-group -->
+                            <div class="form-group">
+                                <label>Fecha hasta</label>
+                                <div  class="input-group date" id="fecha_hasta_presupuesto" data-target-input="nearest">
+                                    <input data-bind="text:fecha_hasta" type="text" id="fecha_hasta" name="fecha_hasta" value="@Model.fecha_hasta" class="form-control datetimepicker-input" data-target="#fecha_hasta_presupuesto">
+                                    <div class="input-group-append" data-target="#fecha_hasta_presupuesto" data-toggle="datetimepicker">
+                                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /.form-group -->
+                        </div>
+                        <!-- /.col -->
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 col-sm-8">
+                            <div class="form-group">
+                                <label>Descripcion</label>
+                                <textarea data-bind="text:descripcion" class="form-control" 
+                                          rows="3" id="descripcion" name="descripcion">@Model.descripcion</textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="card-body table-responsive p-0">
+                        <table class="table table-hover text-nowrap" id="tablaPresupuesto">
+                            <tr>
+                                <th>
+                                    CODIGO
+                                </th>
+                                <th>
+                                    VISITADOR
+                                </th>
+                                <th>
+                                    VALOR VENTAS
+                                </th>
+                                <th>
+                                    VALOR COBROS
+                                </th>
+                            </tr>
+                            <tbody data-bind="foreach: ListaPresupuestoDetalles">
+                                @foreach (var item in ViewBag.DetallePresupuesto)
+                                {
+                                    <tr>
+                                        <td>
+                                            <div  name="id_vendedor">
+                                                <input  id="id_vendedor" data-bind="text:id_vendedor" value="@item.id_vendedor" class="col-3" disabled/>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <select id="nombre_vendedor" name="nombre_vendedor" class="js-data-vendedor-ajax form-control" style="width:80%" name="state">
+                                                <option value="@item.id_vendedor">@item.nombre_usuario</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text">
+                                                        <i class="fas fa-dollar-sign"></i>
+                                                    </span>
+                                                </div>
+                                                <input data-bind="text:valor_venta" id="valor_venta" name="valor_venta" type="text" onchange="numeroDecimal" step='0.01' class="form-control" value="@item.valor_venta">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text">
+                                                        <i class="fas fa-dollar-sign"></i>
+                                                    </span>
+                                                </div>
+                                                <input data-bind="text:valor_cobro" id="valor_cobro" name="valor_cobro" type="text" onchange="numeroDecimal" step='0.01' class="form-control" value="@item.valor_cobro">
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+                <div class="card-footer">
+                    @Html.ActionLink("Regresar", "Index", new { @class = "btn" })
+                    @*<button type="button" class="btn">Regresar</button>*@
+                    <button  type="button" id="enviar"  class="btn btn-info float-right">Confirmar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+ 
+
+@section Scripts {
+    <script src="~/Content/js/Presupuesto.js"></script>
+    <script>
+        ActivarVendedores();
+        PresupuestoDetalle = []
+        $('#enviar').click(function () {
+            var tbl = $('#tablaPresupuesto tr:has(td)').map(function (i, v) {
+                var $td = $('td', this);
+                PresupuestoDetalle.push({
+                    id_vendedor: $td.eq(0)[0].children[0].children[0].value,
+                    valor_venta: parseFloat($td.eq(2)[0].children[0].children[1].value),
+                    valor_cobro: parseFloat($td.eq(3)[0].children[0].children[1].value)
+                })
+            }).get();
+
+            var datos = {
+                empresa: $('#empresa').val().trim(),
+                sucursal: $('#sucursal').val().trim(),
+                descripcion: $('#descripcion').val().trim(),
+                fecha_desde: $('#fecha_desde').val().trim(),
+                fecha_hasta: $('#fecha_hasta').val().trim(),
+                //valor_total: parseFloat($('#TotalPrincipalOC').val().trim()),
+                //descuento: parseFloat($('#SubtotalPrincipalOC').val().trim()),
+                //iva: parseFloat($('#IVAPrincipalOC').val().trim()),
+                //iva: 0.00,
+                ListaPresupuestoDetalle: PresupuestoDetalle,
+            };
+
+            $.ajax({
+                url: 'Create',
+                type: "POST",
+                data: JSON.stringify(datos),
+                dataType: "JSON",
+                contentType: "application/JSON",
+                success: function (d) {
+                    if (d.status == true) {
+                        Toast.fire({
+                            icon: 'success',
+                            title: 'Se ha creado el presupuesto.'
+                        })
+                        window.location.href = "index";
+                    }
+                },
+                error: function (e) {
+                    Toast.fire({
+                        icon: 'error',
+                        title: 'Hubo un error al intentar guardar.'
+                    })
+                }
+
+            })
+        });
+
+        @*var presupuestoSeleccionado = '@Html.Raw(ViewBag.PresupuestoSeleccionado)';
+
+        var parsedpresupuestoSeleccionado = JSON.parse(presupuestoSeleccionado);
+        $(function () {
+            //ko.applyBindings(ViewModel);
+            var viewModel = new presupuestoModel();
+            ko.applyBindings(viewModel);
+        });
+
+        function presupuestoModel() {
+            var self = this;
+            self.empresa = ko.observable(parsedpresupuestoSeleccionado.empresa);
+            self.sucursal= ko.observable(parsedpresupuestoSeleccionado.id_vendedor);
+            self.descripcion= ko.observable(parsedpresupuestoSeleccionado.descripcion);
+            self.fecha_desde= ko.observable(parsedpresupuestoSeleccionado.fecha_desde);
+            self.fecha_hasta = ko.observable(parsedpresupuestoSeleccionado.fecha_hasta);
+            self.id_vendedor = ko.observable(parsedpresupuestoSeleccionado.id_vendedor);
+            self.valor_venta= ko.observable(parsedpresupuestoSeleccionado.valor_venta);
+            self.valor_cobro = ko.observable(parsedpresupuestoSeleccionado.id_vendedor);
+
+            var ListaPresupuestoDetalle = {
+                id_vendedor: self.id_vendedor,
+                valor_venta: self.valor_venta,
+                valor_cobro: self.valor_cobro
+            };
+            self.ListaPresupuestoDetalle = ko.observableArray();
+            //self.ListaPresupuestoDetalles = ko.observableArray();
+
+            self.datos = function () {
+                var dato = ko.toJSON(this);
+                console.log(dato);
+            }
+        }*@
+
+        //function DetallePresupuesto(){
+        //    var self = this;
+        //    self.id_vendedor= ko.observable(parsedpresupuestoSeleccionado.id_vendedor),
+        //    self.valor_venta= ko.observable(parsedpresupuestoSeleccionado.valor_venta),
+        //    self.valor_cobro= ko.observable(parsedpresupuestoSeleccionado.valor_cobro)
+        //}
+
+        
+
+        //var ViewModel =  {
+
+        //    //var self = this;
+        //    empresa: ko.observable(parsedpresupuestoSeleccionado.empresa),
+        //    sucursal: ko.observable(parsedpresupuestoSeleccionado.id_vendedor),
+        //    descripcion: ko.observable(parsedpresupuestoSeleccionado.descripcion),
+        //    fecha_desde: ko.observable(parsedpresupuestoSeleccionado.fecha_desde),
+        //    fecha_hasta: ko.observable(parsedpresupuestoSeleccionado.fecha_hasta),
+        //    //DetallePresupuesto = {
+        //    //    id_vendedor: ko.observable(parsedpresupuestoSeleccionado.id_vendedor),
+        //    //    valor_venta: ko.observable(parsedpresupuestoSeleccionado.valor_venta),
+        //    //    valor_cobro: ko.observable(parsedpresupuestoSeleccionado.id_vendedor)
+        //    //},
+        //    //ListaPresupuestoDetalle: ko.observableArray([DetallePresupuesto]),
+
+
+        //    //self.agregarPresupuestoDetalle = function () {
+        //    //    self.ListaPresupuestoDetalle.push(new DetallePresupuesto());
+        //    //};
+
+        //    verDatos: function () {
+        //        console.log(ko.toJSON(this));
+        //        //try {
+        //        //    $.ajax({
+        //        //        url: '/home/update',
+        //        //        type: 'post',
+        //        //        datatype: 'json',
+        //        //        data: ko.tojson(this),
+        //        //        contenttype: 'application/json',
+        //        //        success: successcallback,
+        //        //        error: errorcallback
+        //        //    });
+        //        //} catch (e) {
+        //        //    window.location.href = '/home/read/';
+        //        //}
+        //    }
+
+        //};
+        //ko.applyBindings(new ViewModel());
+
+
+        function Guardar() {
+            var datos = ko.toJSON(ViewModel);
+            console.log(datos);
+        }
+
+
+
+    </script>
+}

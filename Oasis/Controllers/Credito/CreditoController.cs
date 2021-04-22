@@ -71,7 +71,7 @@ namespace Oasis.Controllers.Credito
                     vta.secuencial_factura = item.secuencial_factura;
                     vta.cliente = item.nombre_comercial;
                     vta.ciudad = item.ciudad;
-                    vta.valor_factura = ((float)item.valor_factura).ToString("N2");
+                    vta.valor_factura = ((float)item.valor_factura).ToString("N2", System.Globalization.CultureInfo.InvariantCulture);
                     Ventas.Add(vta);
                 }
                 var ventas_json = JsonConvert.SerializeObject(Ventas, Formatting.Indented);
@@ -108,7 +108,7 @@ namespace Oasis.Controllers.Credito
                     cbr.secuencial_factura = item.secuencial_factura;
                     cbr.cliente = item.nombre_comercial;
                     cbr.categoria = item.categoria;
-                    cbr.valor_cobro = ((float)item.valor).ToString("N2");
+                    cbr.valor_cobro = ((float)item.valor).ToString("N2", System.Globalization.CultureInfo.InvariantCulture);
                     Cobros.Add(cbr);
                 }
 
@@ -145,7 +145,7 @@ namespace Oasis.Controllers.Credito
                     nc_.secuencial_nc = item.secuencial_nc;
                     nc_.cliente = item.nombre_fiscal;
                     nc_.motivo = item.motivo_nc;
-                    nc_.valor_nc = ((float)item.valor_nc).ToString("N2");
+                    nc_.valor_nc = ((float)item.valor_nc).ToString("N2", System.Globalization.CultureInfo.InvariantCulture);
                     NC.Add(nc_);
                 }
 
@@ -154,6 +154,7 @@ namespace Oasis.Controllers.Credito
                 return Json(nc_json, JsonRequestBehavior.AllowGet);
             }
         }
+         
 
 
         public JsonResult ObtenerPresupuesto(
@@ -183,8 +184,67 @@ namespace Oasis.Controllers.Credito
             //return View();
         }
 
+        public JsonResult ObtenerCartera(
+            string empresa,
+            string sucursal,
+            string tipoCliente)
+        {
+            var tipoC = JsonConvert.DeserializeObject(tipoCliente);
+            var tipoCliente_ = tipoCliente.Replace(@"[", string.Empty).Replace(@"]", string.Empty).Replace("\"", string.Empty);
+        
+            using (var context = new as2oasis())
+            {
+                var cartera = context.CarteraEmpresa(empresa, sucursal, tipoCliente_);
+                var cartera_json = JsonConvert.SerializeObject(cartera, Formatting.Indented);
+
+                return Json(cartera_json, JsonRequestBehavior.AllowGet);
+                //foreach (Course cs in courses)
+                //    Console.WriteLine(cs.CourseName);
+            }
+            //return View();
+        }
+
+        public JsonResult ObtenerCarteraVisitador(
+            string empresa,
+            string sucursal,
+            string tipoCliente,
+            string visitador)
+        {
+            var tipoC = JsonConvert.DeserializeObject(tipoCliente);
+            var tipoCliente_ = tipoCliente.Replace(@"[", string.Empty).Replace(@"]", string.Empty).Replace("\"", string.Empty);
+
+            using (var context = new as2oasis())
+            {
+                var cartera = context.CarteraEmpresa(empresa, sucursal, tipoCliente_);
+                var cartera_json = JsonConvert.SerializeObject(cartera, Formatting.Indented);
+
+                return Json(cartera_json, JsonRequestBehavior.AllowGet);
+                //foreach (Course cs in courses)
+                //    Console.WriteLine(cs.CourseName);
+            }
+            //return View();
+        }
+
         // GET: Consolidado
         public ActionResult Consolidado()
+        {
+            List<SelectListItem> lst = new List<SelectListItem>();
+
+            lst.Add(new SelectListItem() { Text = "LABOVIDA", Value = "LABOV" });
+            lst.Add(new SelectListItem() { Text = "LEBENFARMA", Value = "LEBENFARMA S.A." });
+            lst.Add(new SelectListItem() { Text = "FARMALIGHT", Value = "FARMALIGHT S.A." });
+            lst.Add(new SelectListItem() { Text = "DANIVET", Value = "LABORATORIOS DANIVET S.A." });
+            lst.Add(new SelectListItem() { Text = "DANIVET 2", Value = "LABORATORIOS DANIVET S.A. 2" });
+            lst.Add(new SelectListItem() { Text = "ANYUPA", Value = "LABORATORIOS ANYUPA S.A." });
+            lst.Add(new SelectListItem() { Text = "MEDITOTAL", Value = "MEDITOTAL S.A." });
+
+            ViewBag.Opciones = lst;
+
+            return View();
+        }
+
+        // GET: Cartera
+        public ActionResult Cartera()
         {
             List<SelectListItem> lst = new List<SelectListItem>();
 

