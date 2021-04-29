@@ -148,9 +148,7 @@ namespace Oasis.Controllers.Credito
                     nc_.valor_nc = ((float)item.valor_nc).ToString("N2", System.Globalization.CultureInfo.InvariantCulture);
                     NC.Add(nc_);
                 }
-
                 var nc_json = JsonConvert.SerializeObject(NC, Formatting.Indented);
-
                 return Json(nc_json, JsonRequestBehavior.AllowGet);
             }
         }
@@ -194,7 +192,30 @@ namespace Oasis.Controllers.Credito
         
             using (var context = new as2oasis())
             {
-                var cartera = context.CarteraEmpresa(empresa, sucursal, tipoCliente_);
+                var cartera = 
+                    context.CarteraEmpresa(empresa, sucursal, tipoCliente_)
+                    .Select(x => new
+                    {
+                        x.empresa,
+                        x.sucursal,
+                        x.identificacion,
+                        x.nombre_comercial,
+                        x.categoria,
+                        x.vendedor_cliente,
+                        x.vendedor_factura,
+                        secuencial_factura=(x.secuencial_factura.Replace("-", string.Empty)).Substring(2, x.secuencial_factura.Length-4),
+                        fecha_factura = x.fecha_factura.ToShortDateString(),
+                        fecha_vencimiento = x.fecha_vencimiento.Value.ToShortDateString(),
+                        x.provincia,
+                        x.ciudad,
+                        x.parroquia,
+                        x.direccion,
+                        valor_factura = x.valor_factura.Value.ToString("N2"),
+                        totalChequePost = x.totalChequePost.Value.ToString("N2"),
+                        saldo_pendiente = x.saldo_pendiente.Value.ToString("N2"),
+                        x.dias_emitida,
+                        x.dias_diferencia
+                    });
                 var cartera_json = JsonConvert.SerializeObject(cartera, Formatting.Indented);
 
                 return Json(cartera_json, JsonRequestBehavior.AllowGet);
@@ -215,7 +236,32 @@ namespace Oasis.Controllers.Credito
 
             using (var context = new as2oasis())
             {
-                var cartera = context.CarteraEmpresa(empresa, sucursal, tipoCliente_);
+                var cartera = 
+                    (context.CarteraEmpresa(empresa, sucursal, tipoCliente_))
+                    .AsEnumerable()
+                    .Where(x => x.id_vendedor_cliente == Int16.Parse(visitador) || x.id_vendedor_factura==Int16.Parse(visitador))
+                    .Select(x => new
+                    {
+                        x.empresa,
+                        x.sucursal,
+                        x.identificacion,
+                        x.nombre_comercial,
+                        x.categoria,
+                        x.vendedor_cliente,
+                        x.vendedor_factura,
+                        secuencial_factura=(x.secuencial_factura.Replace("-", string.Empty)).Substring(2, x.secuencial_factura.Length-4),
+                        fecha_factura = x.fecha_factura.ToShortDateString(),
+                        fecha_vencimiento = x.fecha_vencimiento.Value.ToShortDateString(),
+                        x.provincia,
+                        x.ciudad,
+                        x.parroquia,
+                        x.direccion,
+                        valor_factura = x.valor_factura.Value.ToString("N2"),
+                        totalChequePost = x.totalChequePost.Value.ToString("N2"),
+                        saldo_pendiente = x.saldo_pendiente.Value.ToString("N2"),
+                        x.dias_emitida,
+                        x.dias_diferencia
+                    });
                 var cartera_json = JsonConvert.SerializeObject(cartera, Formatting.Indented);
 
                 return Json(cartera_json, JsonRequestBehavior.AllowGet);

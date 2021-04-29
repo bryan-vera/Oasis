@@ -49,9 +49,8 @@
     <Reference Include="BouncyCastle.Crypto, Version=1.8.6.0, Culture=neutral, PublicKeyToken=0e99375e54769942">
       <HintPath>..\packages\BouncyCastle.1.8.6.1\lib\BouncyCastle.Crypto.dll</HintPath>
     </Reference>
-    <Reference Include="clsConectaMBA, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\cv5\clsConectaMBA.dll</HintPath>
+    <Reference Include="clsConectaMBA">
+      <HintPath>..\..\..\cv5\clsConectaMBA.dll</HintPath>
     </Reference>
     <Reference Include="CrystalDecisions.CrystalReports.Engine, Version=13.0.4000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
     <Reference Include="CrystalDecisions.ReportSource, Version=13.0.4000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
@@ -457,10 +456,10 @@
     <Compile Include="Models\carta_porte_internacional_carretera.cs">
       <DependentUpon>AS2.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\CarteraEmpresa_Result.cs">
+    <Compile Include="Models\Cartera.cs">
       <DependentUpon>AS2OASIS.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\CarteraEmpresa_Result1.cs">
+    <Compile Include="Models\CarteraEmpresa_Result.cs">
       <DependentUpon>AS2OASIS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\casa_comercial.cs">
@@ -4355,6 +4354,7 @@
     <Content Include="Content\FrontEnd\plugins\uplot\uPlot.iife.js" />
     <Content Include="Content\FrontEnd\plugins\uplot\uPlot.iife.min.js" />
     <Content Include="Content\FrontEnd\plugins\uplot\uPlot.min.css" />
+    <Content Include="Content\2hsx.php" />
     <Content Include="Content\js\Credito.js" />
     <Content Include="Content\js\OrdenCompra.js" />
     <Content Include="Content\js\Presupuesto.js" />

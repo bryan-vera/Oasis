@@ -56,7 +56,7 @@
                             </select>
                         </div>
                         <div class="row">
-                            <div class="col-md-3">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="exampleInputPassword1">Tipo de cliente</label>
                                     <div class="col-sm-6">
@@ -78,25 +78,25 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="exampleInputPassword1">Tipo de cartera</label>
                                     <div class="col-md-10">
                                         <!-- checkbox -->
                                         <div class="form-group">
                                             <div class="form-check">
-                                                <input class="form-check-input" id="cartera_general" type="radio" name="radio1" checked="">
+                                                <input class="form-check-input cartera_general" id="cartera_general" type="radio" name="radio1" checked="">
                                                 <label class="form-check-label" style="font-weight:700;" for="cartera_general">General</label>
                                             </div>
                                             <div class="form-check">
-                                                <input class="form-check-input" id="cartera_visitador" type="radio" name="radio1">
+                                                <input class="form-check-input cartera_visitador" id="cartera_visitador" type="radio" name="radio1">
                                                 <label class="form-check-label" style="font-weight:700;" for="cartera_visitador">Por visitador</label>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-5" style="visibility: hidden" id="divVendedor">
+                            <div class="col-md-4" style="visibility: hidden" id="divVendedor">
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Visitador</label>
                                     <select class="form-control js-data-vendedor-ajax" id="sucursal">
@@ -119,7 +119,7 @@
 
 @section Scripts {
     <script>
-        $('#cartera_visitador').change(
+        $('.cartera_visitador').change(
             function () {
                 if (this.checked) {
                     $("#divVendedor").css('visibility','visible');
@@ -128,7 +128,7 @@
                 }
             });
 
-        $('#cartera_general').change(
+        $('.cartera_general').change(
             function () {
                 if (this.checked) {
                     $("#divVendedor").css('visibility', 'hidden');

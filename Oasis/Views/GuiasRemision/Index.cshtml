@@ -16,80 +16,71 @@
 {
     <p>
         <div class="input-group mb-3 col-md-4">
-            <input name="SearchString" id="SearchString" type="text" 
+            <input name="SearchString" id="SearchString" type="text"
                    placeholder="Secuencial de factura" class="form-control rounded-0">
             <span class="input-group-append">
-            <button type="submit" class="btn btn-info btn-flat">Buscar</button>
+                <button type="submit" class="btn btn-info btn-flat">Buscar</button>
             </span>
         </div>
 
         @*Buscar por factura: @Html.TextBox("SearchString")
-        <input class="btn btn-primary" type="submit" value="Buscar" />*@
+            <input class="btn btn-primary" type="submit" value="Buscar" />*@
     </p>
 }
 <div class="card">
-    <div class="card-body table-responsive p-0">
-        <table class="table table-hover text-nowrap">
-
-            <tr>
-                <th>
-                    Empresa
-                </th>
-                <th>
-                    Cliente
-                </th>
-                @*<th>
-                    Ciudad
-                </th>*@
-                <th>
-                    Factura
-                </th>
-                @*<th>
-                    Descripcion
-                </th>*@
-                <th>
-                    Fecha factura
-                </th>
-                @*<th>
-                    Vendedor
-                </th>*@
-                <th></th>
-            </tr>
-
-            @foreach (var item in Model)
-            {
+    <div class="card-body table-responsive ">
+        <table class="table table-hover text-nowrap"
+               id="tableGuiasUrbano">
+            <thead>
                 <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.empresa)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.nombre_comercial)
-                    </td>
-                    @*<td>
-                        @Html.DisplayFor(modelItem => item.ciudad)
-                    </td>*@
-                    <td>
-                        @Html.DisplayFor(modelItem => item.secuencial_factura)
-                    </td>
-                    @*<td>
-                        @Html.DisplayFor(modelItem => item.descripcion)
-                    </td>*@
-                    <td>
-                        @Html.DisplayFor(modelItem => item.fecha_factura)
-                    </td>
-                    @*<td>
-                        @Html.DisplayFor(modelItem => item.vendedor)
-                    </td>*@
-                    <td>
-                        <button id="Imprimir" class="btn btn-block btn-primary imprimir" data-id_guia_remision="@item.id_guia_remision">Imprimir</button>
-                        @*@Html.ActionLink("Imprimir", "Imprimir", new { id=item.id_guia_remision }, new { target = "_blank" })*@
-                    </td>
+                    <th>
+                        Empresa
+                    </th>
+                    <th>
+                        Cliente
+                    </th>
+                    <th>
+                        Factura
+                    </th>
+                    <th>
+                        Fecha factura
+                    </th>
+                    <th>
+                        Guia Remisión
+                    </th>
+                    <th>
+                    </th>
                 </tr>
-            }
+            </thead>
+
+                @foreach (var item in Model)
+                {
+
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.empresa)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.nombre_comercial)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.secuencial_factura)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.fecha_factura)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.secuencial_guia)
+                        </td>
+                        <td>
+                            <button id="Imprimir" class="btn btn-block btn-primary imprimir" data-id_guia_remision="@item.id_guia_remision">Imprimir</button>
+                        </td>
+                    </tr>
+                }
 
         </table>
         <br />
-        <div class="col-md-8"> 
+        <div class="col-md-8">
             Página @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) de @Model.PageCount
 
             @Html.PagedListPager(Model, page => Url.Action("Index",
@@ -98,4 +89,35 @@
 
     </div>
 </div>
- 
+
+@section Scripts {
+    <script>
+        console.log("Test");
+        $('#tableGuiasUrbano').DataTable({
+            "processing": true, // for show progress bar
+            "paging": false,
+            "bInfo": false,
+            "searching": false,
+            //"scrollY": "500px",
+            dom: 'Bfrtip',
+            "buttons": [
+                'copy', 'excel',  'print'
+                //{ "extend": 'copy', "text": 'Copiar', "className": 'btn btn-default btn-xs' },
+                //{ "extend": 'pdf', "text": 'PDF', "className": 'btn btn-default btn-xs' },
+                //{ "extend": 'excel', "text": 'Excel', "className": 'btn btn-default btn-xs' },
+                //{ "extend": 'print', "text": 'Imprimir', "className": 'btn btn-default btn-xs' },
+            ],
+            //initComplete: function () {
+            //    $('.buttons-pdf').html('<i class="far fa-file-excel"></i>')
+            //},
+            //buttons: [
+            //    'copy', 'csv', 'excel', 'pdf', 'print'
+            //],
+            language: {
+                url: 'https://cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json'
+            }
+        });
+    </script>
+    
+}
+

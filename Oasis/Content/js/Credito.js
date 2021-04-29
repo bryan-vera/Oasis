@@ -224,14 +224,14 @@ $("botonVerDetalle").click(function () {
 
 $("#GenerarCartera").click(function () {
     var tipoCliente = [];
-    var empresa = $("#empresa").val();
-    var sucursal = $("#sucursal").val();
+    var empresa = $("#empresa_ind").val();
+    var sucursal = $("#sucursal_ind").val();
     var localidad;
 
     if ($('#chkLocalidad').is(":checked")) {
         localidad = null
     } else {
-        localidad = $("#localidad").val();
+        localidad = $("#localidad_ind").val();
     }
 
     $('.tipoCliente:checkbox:checked').each(function () {
@@ -281,12 +281,13 @@ $("#GenerarCartera").click(function () {
 
                 // CREATE DYNAMIC TABLE.
                 var div = document.createElement("div");
-                //div.className = "col-md-12"; 
                 var row = document.createElement("div");
                 row.className = "row col-md-4";
                 var card = document.createElement("div");
                 card.className = "card";
                 card.style = "font-size: 15px;overflow-x: scroll;";
+                var cardbody = document.createElement("div");
+                cardbody.className = "card-body";
                 var table = document.createElement("table");
                 table.className = 'table table-hover tableDetalle';
                 table.id = "tableDetalle";
@@ -318,7 +319,8 @@ $("#GenerarCartera").click(function () {
                     tbody.appendChild(tr_body);
                 }
 
-                card.appendChild(table);
+                cardbody.appendChild(table);
+                card.appendChild(cardbody);
                 div.appendChild(card);
                 //CrearTablaDetalle(div.outerHTML, titulo);
                 $('#contenedorTabla').append(div);
@@ -343,7 +345,7 @@ $("#GenerarCartera").click(function () {
         var id_visitador = $('.js-data-vendedor-ajax').children("option:selected").val();
         $.ajax({
             url: 'ObtenerCarteraVisitador',
-            type: 'POST',
+            type: 'GET',
             data: {
                 empresa: empresa,
                 sucursal: sucursal,
@@ -359,7 +361,7 @@ $("#GenerarCartera").click(function () {
                 contenedorTabla.className = "col-md-12";
                 contenedorTabla.id = "contenedorTabla"
                 var row = document.createElement("div");
-                row.className = "row";
+                row.className = " row";
                 row.appendChild(contenedorTabla);
                 $('#contenedorPrimario').append(row);
                 d = JSON.parse(d);
@@ -388,6 +390,8 @@ $("#GenerarCartera").click(function () {
                 var card = document.createElement("div");
                 card.className = "card";
                 card.style = "font-size: 15px;overflow-x: scroll;";
+                var cardbody = document.createElement("div");
+                cardbody.className = "card-body";
                 var table = document.createElement("table");
                 table.className = 'table table-hover tableDetalle';
                 table.id = "tableDetalle";
@@ -419,7 +423,8 @@ $("#GenerarCartera").click(function () {
                     tbody.appendChild(tr_body);
                 }
 
-                card.appendChild(table);
+                cardbody.appendChild(table);
+                card.appendChild(cardbody);
                 div.appendChild(card);
                 //CrearTablaDetalle(div.outerHTML, titulo);
                 $('#contenedorTabla').append(div);
@@ -443,23 +448,143 @@ $("#GenerarCartera").click(function () {
     }
 });
 
+function GraficoBarras(identificador,tipoGrafico,presupuesto) {
+    var ctx = document.getElementById(identificador).getContext('2d');
+
+    const dataLength = presupuesto.length;
+    /* Create color array */
+    const colorScale = d3.interpolateInferno;
+
+    const colorRangeInfo = {
+        colorStart: 0.1,
+        colorEnd: 1,
+        useEndAsStart: false,
+    };
+    var COLORS = interpolateColors(dataLength, colorScale, colorRangeInfo);
+    var myChart = new Chart(ctx, {
+        type: tipoGrafico,
+        data: {
+            labels: presupuesto.map(presupuesto => presupuesto.nombre_vendedor),
+            datasets: [{
+                label: 'Ventas',
+                data: presupuesto.map(presupuesto => presupuesto.ventas_neta),
+                backgroundColor: COLORS,
+                hoverBackgroundColor: COLORS,
+                parsing: {
+                    yAxisKey: 'ventas_neta'
+                },
+                borderWidth: 1
+            },
+            {
+                label: 'Cobros',
+                data: presupuesto.map(presupuesto => presupuesto.total_cobros),
+                backgroundColor: COLORS,
+                hoverBackgroundColor: COLORS,
+                parsing: {
+                    yAxisKey: 'total_cobros'
+                },
+                borderWidth: 1
+            }]
+        },
+        options: {
+            //responsive: false,
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+}
+
+function calculatePoint(i, intervalSize, colorRangeInfo) {
+    var { colorStart, colorEnd, useEndAsStart } = colorRangeInfo;
+    return (useEndAsStart
+        ? (colorEnd - (i * intervalSize))
+        : (colorStart + (i * intervalSize)));
+}
+/* Must use an interpolated color scale, which has a range of [0, 1] */
+function interpolateColors(dataLength, colorScale, colorRangeInfo) {
+    var { colorStart, colorEnd } = colorRangeInfo;
+    var colorRange = colorEnd - colorStart;
+    var intervalSize = colorRange / dataLength;
+    var i, colorPoint;
+    var colorArray = [];
+
+    for (i = 0; i < dataLength; i++) {
+        colorPoint = calculatePoint(i, intervalSize, colorRangeInfo);
+        colorArray.push(colorScale(colorPoint));
+    }
+
+    return colorArray;
+}
+
+function GeneraGraficos(presupuesto) {
+    $('#rowcontenedorGraficos').remove();
+    var elementos = $.parseHTML('<h3 class="card-title"><i class="fas fa-th mr-1"></i>  Totales                </h3>        <div class="card-tools">            <button type="button" class="btn bg-defaultbtn-sm" data-card-widget="collapse">                <i class="fas fa-minus"></i>            </button>            <button type="button" class="btn bg-defaultbtn-sm" data-card-widget="remove">                <i class="fas fa-times"></i>            </button>');
+    var canva = document.createElement("canvas");
+    canva.id = "contenedorBarra";
+    canva.width = 400;
+    canva.height = 200;
+    var canva2 = document.createElement("canvas");
+    canva2.id = "contenedorPastel";
+    canva2.width = 400;
+    canva2.height = 200;
+    var cardHeader = document.createElement("div");
+    cardHeader.className = "card-header border-0";
+    cardHeader.appendChild(elementos[0]);
+    cardHeader.appendChild(elementos[1]);
+    cardHeader.appendChild(elementos[2]);
+    var cardHeader2 = document.createElement("div");
+    cardHeader2.className = "card-header border-0";
+    cardHeader2.appendChild(elementos[0]);
+    cardHeader2.appendChild(elementos[1]);
+    cardHeader2.appendChild(elementos[2]);
+    var cardBody = document.createElement("div");
+    cardBody.className = "card-body";
+    cardBody.appendChild(canva);
+    var cardBody2 = document.createElement("div");
+    cardBody2.className = "card-body";
+    cardBody2.appendChild(canva2);
+    var cardBarra = document.createElement("div");
+    cardBarra.className = "card";
+    cardBarra.appendChild(cardHeader);
+    cardBarra.appendChild(cardBody);
+    var cardPastel = document.createElement("div");
+    cardPastel.className = "card";
+    cardPastel.appendChild(cardHeader2);
+    cardPastel.appendChild(cardBody2);
+    var contenedorGraficos2 = document.createElement("div");
+    contenedorGraficos2.className = "col-md-12";
+    contenedorGraficos2.appendChild(cardPastel)
+    var contenedorGraficos = document.createElement("div");
+    contenedorGraficos.className = "col-md-12";
+    contenedorGraficos.appendChild(cardBarra);
+    contenedorGraficos2.appendChild(cardPastel);
+    var row2 = document.createElement("div");
+    row2.className = "row";
+    row2.appendChild(contenedorGraficos);
+    row2.appendChild(contenedorGraficos2);
+    row2.id = "rowcontenedorGraficos";
+    $('#contenedorPrimario').append(row2);
+    GraficoBarras('contenedorBarra', 'bar',presupuesto);
+    GraficoBarras('contenedorPastel', 'pie',presupuesto);
+}
+
 
 $("#GenerarPresupuesto").click(function () {
     var tipoCliente = [];
     var empresa = $("#empresa").val();
     var sucursal = $("#sucursal").val();
     var localidad;
-
     if ($('#chkLocalidad').is(":checked")) {
         localidad = null
     } else {
         localidad = $("#localidad").val();
     }
-
     $('.tipoCliente:checkbox:checked').each(function () {
         tipoCliente.push($(this).attr('name'));
     });
-
     var fecha_desde = ConvertirFecha($('#fecha_presupuesto').data('daterangepicker').startDate._d);
     var fecha_hasta = ConvertirFecha($('#fecha_presupuesto').data('daterangepicker').endDate._d);
 
@@ -478,130 +603,38 @@ $("#GenerarPresupuesto").click(function () {
         contentType: "application/JSON",
         success: function (d) {
 
-        //$('#contenedorTabla').remove();
-        //var contenedorTabla = document.createElement("div");
-        //contenedorTabla.className = "col-md-12";
-        //contenedorTabla.id = "contenedorTabla"
-        //var row = document.createElement("div");
-        //row.className = "row";
-        //row.appendChild(contenedorTabla);
-        //$('#contenedorPrimario').append(row);
-
-        //d = JSON.parse(d);
-        //var col = [];
-        //var encabezado = ['ID', 'Vendedor',
-        //    'Cuota ventas', 'Ventas', '%',
-        //    'Cuota cobros', 'Cobros',
-        //    ''];
-
-        //for (var i = 0; i < d.length; i++) {
-        //    for (var key in d[i]) {
-        //        if (col.indexOf(key) === -1) {
-        //            col.push(key);
-        //        }
-        //    }
-        //}
-             
-        //var card = document.createElement("div");
-        //card.className = "card";
-        //card.style = "font-size: 15px;overflow-x: scroll;";
-        //var table = document.createElement("table");
-        //table.className = 'table table-hover tablePresupuesto';
-        //table.id = "tablePresupuesto";
-        //table.style = '';
-
-        //// CREATE HTML TABLE HEADER ROW USING THE EXTRACTED HEADERS ABOVE
-        //var thead = document.createElement("thead");
-        //table.appendChild(thead);
-        //var tr_head = document.createElement("tr");
-        //for (var i = 0; i < encabezado.length; i++) {
-        //    var th = document.createElement("th");      // TABLE HEADER.
-        //    th.style = 'text-align:center';
-        //    th.innerHTML = encabezado[i];
-        //    tr_head.appendChild(th);
-        //}
-
-        //thead.appendChild(tr_head);
-
-        //var tbody = document.createElement("tbody");
-        //table.appendChild(tbody);
-        //var tr_body = document.createElement("tr");
-        //// ADD JSON DATA TO THE TABLE AS ROWS.
-        //for (var i = 0; i < d.length; i++) {
-        //    tr_body = document.createElement("tr");
-        //    td = document.createElement("td");
-        //    td.style = 'text-align:center;';
-        //    span = document.createElement("span");
-        //    span.className = "datosLinea";
-        //    span.dataset.id_vendedor = d[i].id_vendedor;
-        //    span.dataset.empresa = d[i].empresa;
-        //    span.dataset.sucursal = d[i].sucursal;
-        //    span.dataset.fecha_desde = d[i].fecha_desde;
-        //    span.dataset.fecha_hasta = d[i].fecha_hasta;
-        //    span.dataset.tipocliente = d[i].tipoCliente;
-        //    span.type = 'hidden';
-        //    td.append(span);
-        //    id_vendedor = document.createTextNode(d[i].id_vendedor);
-        //    td.appendChild(id_vendedor);
-        //    tr_body.appendChild(td);
-        //    td = document.createElement("td");
-        //    nombre_vendedor = document.createTextNode(d[i].nombre_vendedor);
-        //    td.style = 'text-align:center;';
-        //    td.appendChild(nombre_vendedor);
-        //    tr_body.appendChild(td);
-        //    td = document.createElement("td");
-        //    valor_venta = document.createTextNode(formatoValor(d[i].valor_venta));
-        //    td.style = 'text-align:center;';
-        //    td.appendChild(valor_venta);
-        //    tr_body.appendChild(td);
-        //    td = document.createElement("td");
-        //    ventas_neta = document.createTextNode(formatoValor(d[i].ventas_neta));
-        //    td.style = 'text-align:center;';
-        //    td.appendChild(ventas_neta);
-        //    tr_body.appendChild(td);
-        //    td = document.createElement("td");
-        //    alcance_venta = document.createTextNode(d[i].alcance_venta.toFixed(2));
-        //    td.style = 'text-align:center;';
-        //    td.appendChild(alcance_venta);
-        //    tr_body.appendChild(td);
-        //    td = document.createElement("td");
-        //    valor_cobro = document.createTextNode(formatoValor(d[i].valor_cobro));
-        //    td.style = 'text-align:center;';
-        //    td.appendChild(valor_cobro);
-        //    tr_body.appendChild(td);
-        //    td = document.createElement("td");
-        //    total_cobros = document.createTextNode(formatoValor(d[i].total_cobros));
-        //    td.style = 'text-align:center;';
-        //    td.appendChild(total_cobros);
-        //    tr_body.appendChild(td);
-        //    td = document.createElement("td");
-        //    alcance_cobro = document.createTextNode(d[i].alcance_cobro.toFixed(2));
-        //    td.style = 'text-align:center;';
-        //    td.appendChild(alcance_cobro);
-        //    tr_body.appendChild(td);
-
-
-
-        //    tr_body.append(documen)
-
-             
-
-
-
-
-            $('#contenedorTabla').remove();
+            $('#rowcontenedorTabla').remove();
             var contenedorTabla = document.createElement("div");  
             contenedorTabla.className = "col-md-12";
             contenedorTabla.id = "contenedorTabla"
             var row = document.createElement("div");      
             row.className = "row";
             row.appendChild(contenedorTabla);
+            row.id = "rowcontenedorTabla";
             $('#contenedorPrimario').append(row);
-            $('.container-fluid').add('<div class="row"><div id="tablaPresupuesto" class="col-md-12"></div></div>');
+
+            var div = document.createElement("div");
+            var row = document.createElement("div");
+            row.className = "row col-md-4";
+            var card = document.createElement("div");
+            card.className = "card";
+            card.style = "font-size: 15px;overflow-x: scroll;";
+            var cardbody = document.createElement("div");
+            cardbody.className = "card-body";
+            //var table = document.createElement("table");
+            //table.className = 'table table-hover tableDetalle';
+            //table.id = "tablaPresupuesto";
+            //table.style = '';
+            //$('.container-fluid').add('<div class="row"><div id="tablaPresupuesto" class="col-md-12"></div></div>');
+            var totalPresupuestoVentas = 0;
+            var totalVentas = 0;
+            var totalAlcanceVentas = 0;
+            var totalPresupuestoCobros = 0;
+            var totalCobros = 0;
+            var totalAlcanceCobros = 0;
 
 
-
-            var sTxt = '<div class="card"><table class="table table-hover" id="tablePresupuesto">';
+            var sTxt = '<table class="table table-hover" id="tablePresupuesto">';
             sTxt += '<thead><tr><th style="text-align:center">ID</th><th  style="text-align:center">Vendedor</th><th style="text-align:center">Cuota ventas</th>';
             sTxt += '<th style="text-align:center">Ventas</th><th style="text-align:center">%</th>';
             sTxt += '<th style="text-align:center">Cuota cobros</th><th style="text-align:center">Cobros</th>';
@@ -630,11 +663,54 @@ $("#GenerarPresupuesto").click(function () {
                 sTxt += '    <a class="dropdown-item" href = "#" onClick="verNCXVendedor(' + p.id_vendedor +');"> N/C</a> '; 
                 sTxt += '</div></td>';
                 sTxt += '</tr> ';
+                totalPresupuestoVentas += p.valor_venta;
+                totalVentas += p.ventas_neta;
+                totalPresupuestoCobros += p.valor_cobro;
+                totalCobros += p.total_cobros;
             });
-            sTxt += '</tbody><tfoot><tr><td>Sum</td><td>$180</td></tr></tfoot></table></div>';
+            sTxt += '</tbody>';
+            sTxt += '<tfoot style="font-weight: 800;"><tr><td></td><td class="centrar" >TOTAL</td><td class="centrar">' + formatoValor(totalPresupuestoVentas)+ '</td>';
+            sTxt += '<td class="centrar">' + formatoValor(totalVentas) + '</td>';
+            sTxt += '<td class="centrar">' + ((totalVentas / totalPresupuestoVentas) * 100).toFixed(2) + '%</td>';
+            sTxt += '<td class="centrar">' + formatoValor(totalPresupuestoCobros) + '</td>';
+            sTxt += '<td class="centrar">' + formatoValor(totalCobros) + '</td>';
+            sTxt += '<td class="centrar">' + ((totalCobros / totalPresupuestoCobros) * 100).toFixed(2) + '%</td>';
+            sTxt += '<td class="centrar"></td>';
+            sTxt += '</tr></tfoot>';
+            sTxt += '</table>';
 
-            $('#contenedorTabla').append(sTxt);
-
+            cardbody.append($.parseHTML(sTxt)[0]);
+            card.appendChild(cardbody);
+            div.appendChild(card);
+            $('#contenedorTabla').append(div);
+            $('#tablePresupuesto').DataTable({
+                "processing": true, // for show progress bar
+                "paging": false,
+                "bInfo": false,
+                //"scrollY": "500px",
+                dom: 'Bfrtip',
+                "buttons": [
+                    'copy', 'csv', 'excel', 'pdf', 'print'
+                    //{ "extend": 'copy', "text": 'Copiar', "className": 'btn btn-default btn-xs' },
+                    //{ "extend": 'pdf', "text": 'PDF', "className": 'btn btn-default btn-xs' },
+                    //{ "extend": 'excel', "text": 'Excel', "className": 'btn btn-default btn-xs' },
+                    //{ "extend": 'print', "text": 'Imprimir', "className": 'btn btn-default btn-xs' },
+                ],
+                initComplete: function () {
+                    $('.buttons-pdf').html('<i class="far fa-file-excel"></i>')
+                },
+                //buttons: [
+                //    'copy', 'csv', 'excel', 'pdf', 'print'
+                //],
+                language: {
+                    url: 'https://cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json'
+                }
+            });
+            var presupuesto = JSON.parse(d);
+            var vendedores = presupuesto.map(presupuesto => presupuesto.nombre_vendedor);
+            var ventas = presupuesto.map(presupuesto => presupuesto.ventas_neta);
+            var cobros = presupuesto.map(presupuesto => presupuesto.total_cobros);
+            GeneraGraficos(presupuesto);
         },
         error: function (e) {
             Toast.fire({
@@ -644,4 +720,5 @@ $("#GenerarPresupuesto").click(function () {
         }
     })
 
+    
 });

@@ -19,8 +19,7 @@ namespace Oasis.Controllers.Bodega
         // GET: GuiasRemision
         public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page)
         {
-            ConexionMba cs = new ConexionMba();
-            
+            ConexionMba cs = new ConexionMba();            
             string cadena = " SELECT FP.EMPRESA `EMPRESA `, CASE FP.ORIGEN  WHEN 'PRI' THEN 'COSTA'" +
                 " WHEN 'LA2' THEN 'SIERRA' WHEN 'LE2' THEN 'SIERRA'  " +
                 " WHEN 'DA2' THEN 'SIERRA'  WHEN 'FA2' THEN 'SIERRA'  WHEN 'AN2' THEN 'SIERRA' " +

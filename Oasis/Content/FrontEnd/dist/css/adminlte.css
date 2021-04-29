@@ -32921,4 +32921,10 @@ a.text-muted:hover {
 .dark-mode .link-dark {
   color: #ced4da;
 }
+
+.centrar {
+    text-align: center;
+}
+
 /*# sourceMappingURL=adminlte.css.map */
+
