@@ -1,14 +1,9 @@
 ﻿
-@{
-    ViewBag.Title = "Cartera";
-}
-
-
 <div class="row">
     <div class="col-md-12">
         <div class="card card-primary">
             <div class="card-header">
-                <h2 class="card-title">Cartera por cobrar</h2>
+                <h2 class="card-title">@ViewBag.Title</h2>
                 <div class="card-tools">
                     <button type="button" class="btn bg-primary btn-sm" data-card-widget="collapse">
                         <i class="fas fa-minus"></i>
@@ -80,17 +75,17 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="exampleInputPassword1">Tipo de cartera</label>
+                                    <label for="exampleInputPassword1">Tipo de reporte</label>
                                     <div class="col-md-10">
                                         <!-- checkbox -->
                                         <div class="form-group">
                                             <div class="form-check">
-                                                <input class="form-check-input cartera_general" id="cartera_general" type="radio" name="radio1" checked="">
-                                                <label class="form-check-label" style="font-weight:700;" for="cartera_general">General</label>
+                                                <input class="form-check-input reporte_general" id="reporte_general" type="radio" name="radio1" checked="">
+                                                <label class="form-check-label" style="font-weight:700;" for="reporte_general">General</label>
                                             </div>
                                             <div class="form-check">
-                                                <input class="form-check-input cartera_visitador" id="cartera_visitador" type="radio" name="radio1">
-                                                <label class="form-check-label" style="font-weight:700;" for="cartera_visitador">Por visitador</label>
+                                                <input class="form-check-input reporte_visitador" id="reporte_visitador" type="radio" name="radio1">
+                                                <label class="form-check-label" style="font-weight:700;" for="reporte_visitador">Por visitador</label>
                                             </div>
                                         </div>
                                     </div>
@@ -109,8 +104,7 @@
             </div>
             <!-- /.card-body -->
             <div class="card-footer">
-                <button type="button" id="DetalleIndividual" style="visibility: hidden" class="btn btn-info  float-left">Detalle individual</button>
-                <button type="button" id="GenerarCartera" class="btn btn-primary  float-right">Generar</button>
+                <button type="button" id="GenerarChequesPost" class="btn btn-primary  float-right">Generar</button>
             </div>
         </div>
     </div>
@@ -118,20 +112,21 @@
 
 
 @section Scripts {
-    <script src="~/Content/js/Cartera.js"></script>
+    <script src="~/Content/js/ChequesPostfechados.js"></script>
     <script>
-        $('.cartera_visitador').change(
+        $('.reporte_visitador').change(
             function () {
                 if (this.checked) {
-                    $("#divVendedor").css('visibility', 'visible');
+                    $("#divVendedor").css('visibility','visible');
+                } else {
+                    $("#divVendedor").css('visibility', 'hidden');
                 }
             });
 
-        $('.cartera_general').change(
+        $('.reporte_general').change(
             function () {
                 if (this.checked) {
                     $("#divVendedor").css('visibility', 'hidden');
-                    $("#DetalleIndividual").css('visibility', 'hidden');
                 }
             });
         ActivarVendedores();
@@ -140,7 +135,7 @@
                 //selectOnClose: true,
                 minimumInputLength: 2,
                 language: {
-                    inputTooShort: function () {return "Ingresar dos o más caracteres";}
+                    inputTooShort: function () { return "Ingresar dos o más caracteres"; }
                 },
                 tags: [],
                 ajax: {
@@ -166,9 +161,6 @@
                     }
                 }
             }).on('change', function (e) {
-                $("#DetalleIndividual").css('visibility', 'visible');
-                //var id_vendedor = $(this).select2('data')[0].id_vendedor;
-                //$(e.target).closest('#id_vendedor').val(id_vendedor);
             });
         }
     </script>

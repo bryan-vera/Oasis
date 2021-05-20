@@ -33,7 +33,10 @@ namespace Oasis.Models
         public virtual DbSet<Cobros_Consolidado> Cobros_Consolidado { get; set; }
         public virtual DbSet<Presupuesto_Vendedor_Detalle> Presupuesto_Vendedor_Detalle { get; set; }
         public virtual DbSet<Vendedores> Vendedores { get; set; }
+        public virtual DbSet<Cheques_Postfechados> Cheques_Postfechados { get; set; }
+        public virtual DbSet<NC_Consolidado> NC_Consolidado { get; set; }
         public virtual DbSet<Cartera> Cartera { get; set; }
+        public virtual DbSet<Anticipos> Anticipos { get; set; }
     
         public virtual ObjectResult<Presupuesto_Result> Presupuesto(string empresa, string sucursal, Nullable<System.DateTime> fecha_desde, Nullable<System.DateTime> fecha_hasta, string tipoCliente)
         {

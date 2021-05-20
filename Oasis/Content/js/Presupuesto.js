@@ -159,6 +159,9 @@ function ActivarVendedores() {
     $('.js-data-vendedor-ajax').select2({
         //selectOnClose: true,
         minimumInputLength: 2,
+        language: {
+            inputTooShort: function () { return "Ingresar dos o más caracteres"; }
+        },
         tags: [],
         ajax: {
             url: '/Presupuesto/ObtenerVendedores',
@@ -184,10 +187,13 @@ function ActivarVendedores() {
         }
     }).on('change', function (e) {
         var id_vendedor = $(this).select2('data')[0].id;
-        $(e.target).parent().parent().find($('#id_vendedor')).val(id_vendedor);
-        $(e.target).closest('#id_vendedor').val(id_vendedor);
+        $(e.target).parent().parent().find($('input#id_vendedor')).val(id_vendedor);
+        //$(e.target).closest('#id_vendedor').val(id_vendedor);
     });
 }
+
+
+
 
 $('.js-data-vendedor-ajax').on('select2:select', function (e) {
     var id_vendedor = $(this).select2('data')[0].id_vendedor;
@@ -311,6 +317,7 @@ $("#GenerarCartera").click(function () {
     })
 
 });
+
 
 
 $("#GenerarPresupuesto").click(function () {

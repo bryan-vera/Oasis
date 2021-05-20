@@ -19,6 +19,7 @@ namespace Oasis.Models
         public decimal valor { get; set; }
         public string descripcion { get; set; }
         public Nullable<System.DateTime> fecha_aplicacion { get; set; }
+        public Nullable<System.DateTime> fecha_creacion { get; set; }
         public string vendedor { get; set; }
         public string secuencial_factura { get; set; }
     }

@@ -23,6 +23,8 @@ namespace Oasis.Controllers.Credito
             public int id_presupuesto { get; set; }
         }
 
+
+
         [HttpGet]
         public ActionResult DuplicarPresupuesto(int id_presupuesto)
         {
@@ -115,23 +117,12 @@ namespace Oasis.Controllers.Credito
         [HttpPost]
         public ActionResult EditarPresupuesto(DetallePresupuesto presupuesto)
         {
-            //JsonResult result = new JsonResult();
-            //var format = "dd/MM/yyyy"; // your datetime format
-            //var dateTimeConverter = new IsoDateTimeConverter { DateTimeFormat = format };
-            //EditarDetallePresupuesto presupuestoEditar = JsonConvert.DeserializeObject<EditarDetallePresupuesto>(jsonInput, dateTimeConverter);
-
-
-            //var presupuesto = presupuestoEditar.presupuesto;
-
             var id_presupuesto = presupuesto.id_presupuesto;
-            //int id_presupuesto = 9;
             if (presupuesto == null)
             {
                 return HttpNotFound();
             }
-            //var json_respuesta = JsonConvert.DeserializeObject(presupuesto);
-            //DetallePresupuesto presupuesto = (DetallePresupuesto)JsonConvert.DeserializeObject(presupuestoJSON);
-
+            
             using (as2oasis oasis = new as2oasis())
             {
                 var p_cabecera_act = oasis.presupuesto_cabecera.Where(s => s.id_presupuesto == id_presupuesto).First();
@@ -248,25 +239,10 @@ namespace Oasis.Controllers.Credito
             }
         }
 
-        public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page)
+        public ActionResult Index()
         {
             OASISContext oc = new OASISContext();
-            ViewBag.CurrentSort = sortOrder;
-            ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "empresa" : "";
-
-            if (searchString != null)
-            {
-                page = 1;
-            }
-            else
-            {
-                searchString = currentFilter;
-            }
-
-            ViewBag.CurrentFilter = searchString;
-
             presupuesto_cabecera pre = new presupuesto_cabecera();
-            //AS2Context as2 = new AS2Context();
             as2oasis oasis = new as2oasis();
             var presupuesto =
                 oasis
@@ -281,36 +257,13 @@ namespace Oasis.Controllers.Credito
                     sucursal = x.sucursal,
                     fecha_desde = x.fecha_desde,
                     fecha_hasta = x.fecha_hasta
-                })
-                ;
+                });
 
-            if (!String.IsNullOrEmpty(searchString))
-            {
-                presupuesto = presupuesto.Where(s => s.descripcion.Contains(searchString)
-                                       || s.empresa.Contains(searchString)
-                                       || s.sucursal.Contains(searchString));
-            }
+            return View(presupuesto.ToList());
 
-            switch (sortOrder)
-            {
-                case "empresa":
-                    presupuesto = presupuesto.OrderByDescending(s => s.empresa);
-                    break;
-                default:
-                    presupuesto = presupuesto.OrderBy(s => s.fecha_hasta);
-                    break;
-            }
-
-            int pageSize = 10;
-            int pageNumber = (page ?? 1);
-
-            return View(presupuesto.ToPagedList(pageNumber, pageSize));
-
-
-            //List<DetalleOrdenCompra> DetalleOrdenCompralist = new List<DetalleOrdenCompra>(); // to hold list of Customer and order details
-            //List<prov_oc_principal> OrdenCompraLista = new List<prov_oc_principal>(); // to hold list of Customer and order details
-            //return View((from prov_oc_principal in oc.prov_oc_principal.Take(10)
-            //             select prov_oc_principal).ToList());
         }
+
+       
+
     }
 }

@@ -9,8 +9,12 @@ using Oasis.Models;
 
 namespace Oasis.Controllers.Credito
 {
+
     public class CreditoController : Controller
     {
+
+       
+
         // GET: Credito
         public ActionResult Index()
         {
@@ -29,6 +33,7 @@ namespace Oasis.Controllers.Credito
         public class CobrosXVendedor
         {
             public string fecha_creacion;
+            public string fecha_aplicacion;
             public string secuencial_factura;
             public string codigo_cobro;
             public string cliente;
@@ -90,6 +95,7 @@ namespace Oasis.Controllers.Credito
             string vendedor
             )
         {
+
             DateTime fecha_desde_ = DateTime.Parse(fecha_desde);
             DateTime fecha_hasta_ = DateTime.Parse(fecha_hasta);
 
@@ -102,8 +108,8 @@ namespace Oasis.Controllers.Credito
                 foreach (var item in cobros)
                 {
                     var cbr = new CobrosXVendedor();
-                    
-                    cbr.fecha_creacion = ((DateTime)item.fecha_aplicacion).ToShortDateString();
+                    cbr.fecha_aplicacion = ((DateTime)item.fecha_aplicacion).ToShortDateString();
+                    cbr.fecha_creacion = ((DateTime)item.fecha_creacion).ToShortDateString();
                     cbr.codigo_cobro = item.codigo;
                     cbr.secuencial_factura = item.secuencial_factura;
                     cbr.cliente = item.nombre_comercial;
@@ -111,7 +117,6 @@ namespace Oasis.Controllers.Credito
                     cbr.valor_cobro = ((float)item.valor).ToString("N2", System.Globalization.CultureInfo.InvariantCulture);
                     Cobros.Add(cbr);
                 }
-
 
                 var cobros_json = JsonConvert.SerializeObject(Cobros, Formatting.Indented);
 
@@ -210,9 +215,9 @@ namespace Oasis.Controllers.Credito
                         x.ciudad,
                         x.parroquia,
                         x.direccion,
-                        valor_factura = x.valor_factura.Value.ToString("N2"),
-                        totalChequePost = x.totalChequePost.Value.ToString("N2"),
-                        saldo_pendiente = x.saldo_pendiente.Value.ToString("N2"),
+                        valor_factura = x.valor_factura,
+                        totalChequePost = x.totalChequePost,
+                        saldo_pendiente = x.saldo_pendiente,
                         x.dias_emitida,
                         x.dias_diferencia
                     });
@@ -236,6 +241,36 @@ namespace Oasis.Controllers.Credito
 
             using (var context = new as2oasis())
             {
+                var anticipo =
+                    context.Anticipos
+                    .AsEnumerable()
+                    .Where(x => x.empresa == empresa &&
+                        x.sucursal == sucursal &&
+                        x.id_vistador == Int16.Parse(visitador))
+                    .Select(x => new
+                    {
+                        empresa = x.empresa,
+                        sucursal = x.sucursal,
+                        identificacion =x.ruc_cliente,
+                        nombre_comercial =x.nombre_cliente,
+                        categoria = x.categoria,
+                        vendedor_cliente = x.visitador,
+                        vendedor_factura = x.visitador,
+                        tipo_documento = "ANT.",
+                        secuencial_factura =x.sencuencia_documento,
+                        fecha_factura=x.fecha_documento.Value.ToShortDateString(),
+                        fecha_vencimiento="",
+                        provincia="",
+                        ciudad="",
+                        parroquia="",
+                        direccion="",
+                        valor_factura  = (Decimal?)0.00,
+                        totalChequePost = (Decimal)0.00,
+                        saldo_pendiente = (Decimal?)(x.valor_anticipo*-1),
+                        dias_emitida = (int?)0,
+                        dias_diferencia = (int?)0
+                    });
+
                 var cartera = 
                     (context.CarteraEmpresa(empresa, sucursal, tipoCliente_))
                     .AsEnumerable()
@@ -249,20 +284,21 @@ namespace Oasis.Controllers.Credito
                         x.categoria,
                         x.vendedor_cliente,
                         x.vendedor_factura,
-                        secuencial_factura=(x.secuencial_factura.Replace("-", string.Empty)).Substring(2, x.secuencial_factura.Length-4),
+                        tipo_documento = "FACT.",
+                        secuencial_factura =(x.secuencial_factura.Replace("-", string.Empty)).Substring(2, x.secuencial_factura.Length-4),
                         fecha_factura = x.fecha_factura.ToShortDateString(),
                         fecha_vencimiento = x.fecha_vencimiento.Value.ToShortDateString(),
                         x.provincia,
                         x.ciudad,
                         x.parroquia,
                         x.direccion,
-                        valor_factura = x.valor_factura.Value.ToString("N2"),
-                        totalChequePost = x.totalChequePost.Value.ToString("N2"),
-                        saldo_pendiente = x.saldo_pendiente.Value.ToString("N2"),
+                        valor_factura = x.valor_factura,
+                        totalChequePost = x.totalChequePost,
+                        saldo_pendiente = x.saldo_pendiente,
                         x.dias_emitida,
                         x.dias_diferencia
                     });
-                var cartera_json = JsonConvert.SerializeObject(cartera, Formatting.Indented);
+                var cartera_json = JsonConvert.SerializeObject(cartera.Concat(anticipo), Formatting.Indented);
 
                 return Json(cartera_json, JsonRequestBehavior.AllowGet);
                 //foreach (Course cs in courses)
@@ -274,39 +310,147 @@ namespace Oasis.Controllers.Credito
         // GET: Consolidado
         public ActionResult Consolidado()
         {
-            List<SelectListItem> lst = new List<SelectListItem>();
-
-            lst.Add(new SelectListItem() { Text = "LABOVIDA", Value = "LABOV" });
-            lst.Add(new SelectListItem() { Text = "LEBENFARMA", Value = "LEBENFARMA S.A." });
-            lst.Add(new SelectListItem() { Text = "FARMALIGHT", Value = "FARMALIGHT S.A." });
-            lst.Add(new SelectListItem() { Text = "DANIVET", Value = "LABORATORIOS DANIVET S.A." });
-            lst.Add(new SelectListItem() { Text = "DANIVET 2", Value = "LABORATORIOS DANIVET S.A. 2" });
-            lst.Add(new SelectListItem() { Text = "ANYUPA", Value = "LABORATORIOS ANYUPA S.A." });
-            lst.Add(new SelectListItem() { Text = "MEDITOTAL", Value = "MEDITOTAL S.A." });
-
-            ViewBag.Opciones = lst;
-
+            ViewBag.Opciones = ListaEmpresas();
             return View();
         }
+
+
 
         // GET: Cartera
         public ActionResult Cartera()
         {
+            ViewBag.Opciones = ViewBag.Opciones = ListaEmpresas();
+            return View();
+        }
+
+        public JsonResult ObtenerNCAfectacion(
+            string empresa,
+            string sucursal,
+            string fecha_desde,
+            string fecha_hasta,
+            string tipocliente,
+            string visitador = null
+            )
+        {
+            DateTime fecha_desde_ = DateTime.Parse(fecha_desde);
+            DateTime fecha_hasta_ = DateTime.Parse(fecha_hasta);
+
+
+            var tipoCliente_ = tipocliente.Replace(@"[", string.Empty).Replace(@"]", string.Empty).Replace("\"", string.Empty);
+            string[] categoriaCliente = tipoCliente_.Split(',');
+
+            using (var context = new as2oasis())
+            {
+                var nc =
+                    context.NC_Consolidado
+                    .Where(x => x.empresa == empresa &&
+                                x.sucursal == sucursal &&
+                                categoriaCliente.Contains(x.categoria)
+                            );
+
+                if (!String.IsNullOrEmpty(visitador))
+                {
+                    var codigo_visitador = Int16.Parse(visitador);
+                    nc = nc.Where(x => x.id_vendedor == codigo_visitador);
+                }
+
+                var listaNC = nc
+                    .ToList()
+                    .Select(x => new {
+                        x.empresa,
+                        x.sucursal,
+                        x.identificacion,
+                        x.nombre_fiscal,
+                        fecha_documento = x.fecha_documento.Value.ToShortDateString(),
+                        x.secuencial_nc,
+                        x.motivo_nc,
+                        valor = x.valor_nc.Value.ToString("N2"),
+                        fecha_factura = x.fecha_factura.Value.ToShortDateString(),
+                        factura = x.numero_factura,
+                        x.vendedor,
+                    });
+
+                var nc_json = JsonConvert.SerializeObject(listaNC, Formatting.Indented);
+                return Json(nc_json, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public JsonResult ObtenerChequesPost(
+            string empresa,
+            string sucursal,
+            string tipoCliente,
+            string visitador = null)
+        {
+            var tipoC = JsonConvert.DeserializeObject(tipoCliente);
+            var tipoCliente_ = tipoCliente.Replace(@"[", string.Empty).Replace(@"]", string.Empty).Replace("\"", string.Empty);
+            string[] categoriaCliente = tipoCliente_.Split(',');
+
+            using (var context = new as2oasis())
+            {
+                var chequesPost =
+                    context.Cheques_Postfechados
+                    .Where(x => x.empresa == empresa &&
+                                x.sucursal == sucursal &&
+                                categoriaCliente.Contains(x.categoria)
+                            );
+
+                if (!String.IsNullOrEmpty(visitador))
+                {
+                    var codigo_visitador = Int16.Parse(visitador);
+                    chequesPost = chequesPost.Where(x => x.id_usuario == codigo_visitador);
+                }
+
+                var listaCHQPost = chequesPost
+                    .ToList()
+                    .Select(x => new {
+                        x.empresa,
+                        x.sucursal,
+                        x.codigo,
+                        x.nombre_cliente,
+                        x.codigo_cobro,
+                        valor = x.valor.ToString("N2"),
+                        fecha_aplicacion = x.fecha_cobro.Value.ToShortDateString(),
+                        fecha_creacion = x.fecha_creacion.Value.ToShortDateString(),
+                        x.secuencial_factura,
+                        x.dias_credito_otorgado,
+                        x.vendedor,
+                        descripcion = x.descripcion +" " +x.descripcion2
+                    });
+
+
+                var chequesPost_json = JsonConvert.SerializeObject(listaCHQPost, Formatting.Indented);
+
+                return Json(chequesPost_json, JsonRequestBehavior.AllowGet);
+             }
+        }
+
+        public ActionResult ChequesPost()
+        {
+            ViewBag.Opciones = ListaEmpresas();
+            ViewBag.Title = "Cheques postfechados";
+            return View();
+        }
+
+        public ActionResult NotasCredito()
+        {
+            ViewBag.Opciones = ListaEmpresas();
+            ViewBag.Title = "Notas de crédito";
+            return View();
+        }
+
+        public List<SelectListItem>  ListaEmpresas()
+        {
             List<SelectListItem> lst = new List<SelectListItem>();
 
-            lst.Add(new SelectListItem() { Text = "LABOVIDA", Value = "LABOV" });
+            //lst.Add(new SelectListItem() { Text = "LABOVIDA", Value = "LABOV" });
             lst.Add(new SelectListItem() { Text = "LEBENFARMA", Value = "LEBENFARMA S.A." });
             lst.Add(new SelectListItem() { Text = "FARMALIGHT", Value = "FARMALIGHT S.A." });
             lst.Add(new SelectListItem() { Text = "DANIVET", Value = "LABORATORIOS DANIVET S.A." });
             lst.Add(new SelectListItem() { Text = "DANIVET 2", Value = "LABORATORIOS DANIVET S.A. 2" });
             lst.Add(new SelectListItem() { Text = "ANYUPA", Value = "LABORATORIOS ANYUPA S.A." });
             lst.Add(new SelectListItem() { Text = "MEDITOTAL", Value = "MEDITOTAL S.A." });
-
-            ViewBag.Opciones = lst;
-
-            return View();
+            return lst;
         }
-
 
         // GET: Credito/Details/5
         public ActionResult Details(int id)
@@ -379,6 +523,36 @@ namespace Oasis.Controllers.Credito
             {
                 return View();
             }
+        }
+
+        [HttpGet]
+        public JsonResult SugerirFechas(string empresa, string sucursal)
+        {
+            as2oasis oasis = new as2oasis();
+            DateTime hoy = DateTime.Today;
+
+            var resultadoFecha =
+                oasis.presupuesto_cabecera.Where(x => x.empresa == empresa
+                && x.sucursal == sucursal
+                && (x.fecha_desde <= hoy
+                && x.fecha_hasta >= hoy)).ToList()
+                .Select(x=>new {
+                        fecha_desde=x.fecha_desde.ToShortDateString(),
+                        fecha_hasta=x.fecha_hasta.ToShortDateString()
+                }).FirstOrDefault();
+            var msjError = new {MensajeError="No se puede obtener una fecha sugerida"};
+            var resultadoFecha_json = JsonConvert.SerializeObject(resultadoFecha, Formatting.Indented,
+                        new JsonSerializerSettings()
+                        {
+                            ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+                        });
+
+            if (resultadoFecha is null) { 
+                return Json(msjError, JsonRequestBehavior.AllowGet);
+            }
+
+            return Json(resultadoFecha_json, JsonRequestBehavior.AllowGet);
+           
         }
     }
 }

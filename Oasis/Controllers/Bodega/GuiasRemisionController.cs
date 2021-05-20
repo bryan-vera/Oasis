@@ -158,7 +158,7 @@ namespace Oasis.Controllers.Bodega
 
 
         // GET: Imprimir
-        public void Imprimir(int id, float peso, float bultos)
+        public void Imprimir(int id, float peso, float bultos, bool EsLabovida = false)
         {
             ConexionMba cs = new ConexionMba();
 
@@ -219,9 +219,12 @@ namespace Oasis.Controllers.Bodega
                     identificacion = x.Field<string>(9),
                 });
             as2oasis db = new as2oasis();
+
             var guias = db.GuiaUrbano.AsEnumerable()
                     .Union(guia_labovida)
-                    .Where(x => x.id_guia_remision == id).FirstOrDefault();
+                    .Where(x => x.id_guia_remision == id
+                        && (EsLabovida==true?x.id_organizacion==69: x.id_organizacion != 69)
+                    ).FirstOrDefault();
 
             using (MemoryStream myMemoryStream = new MemoryStream())
             {

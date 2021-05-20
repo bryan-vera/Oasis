@@ -129,11 +129,7 @@ function GenerarDatos(id_vendedor, direccionURL, titulo) {
             // CREATE DYNAMIC TABLE.
             var div = document.createElement("div");
             div.className = "col-md-12";
-            //var btnDescargar = document.createElement("button");
-            //btnDescargar.className = "btn bg-gradient-success float-left GenerarExcelDetalle";
-            //btnDescargar.id = "GenerarExcelDetalle";
-            //btnDescargar.onclick = "";
-            //btnDescargar.innerText="Descargar"
+
             var row = document.createElement("div");
             row.className = "row col-md-4";
             var card = document.createElement("div");
@@ -144,13 +140,12 @@ function GenerarDatos(id_vendedor, direccionURL, titulo) {
             table.id = "tableDetalle";
             table.style = '';
 
-            // CREATE HTML TABLE HEADER ROW USING THE EXTRACTED HEADERS ABOVE
             var thead = document.createElement("thead");
             table.appendChild(thead);
             var tr_head = document.createElement("tr");
             for (var i = 0; i < col.length; i++) {
-                var th = document.createElement("th");      // TABLE HEADER.
-                th.innerHTML = col[i];
+                var th = document.createElement("th");  
+                th.innerHTML = (col[i].replace("_"," ")).toUpperCase();
                 tr_head.appendChild(th);
             }
 
@@ -158,7 +153,6 @@ function GenerarDatos(id_vendedor, direccionURL, titulo) {
 
             var tbody = document.createElement("tbody");
             table.appendChild(tbody);
-            //thead.appendChild(tr);
             var tr_body = document.createElement("tr");
             // ADD JSON DATA TO THE TABLE AS ROWS.
             for (var i = 0; i < d.length; i++) {
@@ -171,8 +165,11 @@ function GenerarDatos(id_vendedor, direccionURL, titulo) {
                 tbody.appendChild(tr_body);
             }
 
+            const cardBody = document.createElement("div");
+            cardBody.className = "card-body";
+            cardBody.appendChild(table);
             //row.appendChild(btnDescargar)
-            card.appendChild(table);
+            card.appendChild(cardBody);
             //div.appendChild(row);
             div.appendChild(card);
             CrearTablaDetalle(div.outerHTML, titulo);
@@ -222,231 +219,6 @@ $("botonVerDetalle").click(function () {
     event.preventDefault();
 })
 
-$("#GenerarCartera").click(function () {
-    var tipoCliente = [];
-    var empresa = $("#empresa_ind").val();
-    var sucursal = $("#sucursal_ind").val();
-    var localidad;
-
-    if ($('#chkLocalidad').is(":checked")) {
-        localidad = null
-    } else {
-        localidad = $("#localidad_ind").val();
-    }
-
-    $('.tipoCliente:checkbox:checked').each(function () {
-        tipoCliente.push($(this).attr('name'));
-    });
-
-    var eleccion_cartera_general = $('#cartera_general')[0].checked;
-
-    if (eleccion_cartera_general) {
-        $.ajax({
-            url: 'ObtenerCartera',
-            type: 'GET',
-            data: {
-                empresa: empresa,
-                sucursal: sucursal,
-                //localidad: this.localidad,
-                tipoCliente: JSON.stringify(tipoCliente)
-            },
-            dataType: "JSON",
-            contentType: "application/JSON",
-            success: function (d) {
-                $('#contenedorTabla').remove();
-                var contenedorTabla = document.createElement("div");
-                contenedorTabla.className = "col-md-12";
-                contenedorTabla.id = "contenedorTabla"
-                var row = document.createElement("div");
-                row.className = "row";
-                row.appendChild(contenedorTabla);
-                $('#contenedorPrimario').append(row);
-                d = JSON.parse(d);
-                var col = [];
-                var encabezado = ['EMPRESA', 'SUCURSAL',
-                    'RUC', 'CLIENTE', 'CATEGORIA',
-                    'VENDEDOR EN CLIENTE', 'VENDEDOR EN FACTURA',
-                    'SECUENCIAL',
-                    'FECHA FACTURA', 'FECHA VENCIMIENTO',
-                    'PROVINCIA', 'CIUDAD', 'PARROQUIA', 'DIRECCION',
-                    'VALOR FACTURA', 'CHQ. POST.', 'SALDO PENDIENTE',
-                    'DIAS EMITIDAS', 'DIAS VENCIDA'];
-                for (var i = 0; i < d.length; i++) {
-                    for (var key in d[i]) {
-                        if (col.indexOf(key) === -1) {
-                            col.push(key);
-                        }
-                    }
-                }
-
-                // CREATE DYNAMIC TABLE.
-                var div = document.createElement("div");
-                var row = document.createElement("div");
-                row.className = "row col-md-4";
-                var card = document.createElement("div");
-                card.className = "card";
-                card.style = "font-size: 15px;overflow-x: scroll;";
-                var cardbody = document.createElement("div");
-                cardbody.className = "card-body";
-                var table = document.createElement("table");
-                table.className = 'table table-hover tableDetalle';
-                table.id = "tableDetalle";
-                table.style = '';
-
-                // CREATE HTML TABLE HEADER ROW USING THE EXTRACTED HEADERS ABOVE
-                var thead = document.createElement("thead");
-                table.appendChild(thead);
-                var tr_head = document.createElement("tr");
-                for (var i = 0; i < encabezado.length; i++) {
-                    var th = document.createElement("th");      // TABLE HEADER.
-                    th.innerHTML = encabezado[i];
-                    tr_head.appendChild(th);
-                }
-
-                thead.appendChild(tr_head);
-
-                var tbody = document.createElement("tbody");
-                table.appendChild(tbody);
-                var tr_body = document.createElement("tr");
-                // ADD JSON DATA TO THE TABLE AS ROWS.
-                for (var i = 0; i < d.length; i++) {
-                    tr_body = document.createElement("tr");
-                    for (var j = 0; j < col.length; j++) {
-                        var tabCell = tr_body.insertCell(-1);
-                        tabCell.innerHTML = d[i][col[j]];
-                        tabCell.style = ' white-space: nowrap;';
-                    }
-                    tbody.appendChild(tr_body);
-                }
-
-                cardbody.appendChild(table);
-                card.appendChild(cardbody);
-                div.appendChild(card);
-                //CrearTablaDetalle(div.outerHTML, titulo);
-                $('#contenedorTabla').append(div);
-                $('#tableDetalle').DataTable({
-                    dom: 'Bfrtip',
-                    buttons: [
-                        'copy', 'csv', 'excel', 'pdf', 'print'
-                    ],
-                    language: {
-                        url: 'https://cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json'
-                    }
-                });
-            },
-            error: function (e) {
-                Toast.fire({
-                    icon: 'error',
-                    title: 'Hubo un error al intentar generar.'
-                })
-            }
-        })
-    } else {
-        var id_visitador = $('.js-data-vendedor-ajax').children("option:selected").val();
-        $.ajax({
-            url: 'ObtenerCarteraVisitador',
-            type: 'GET',
-            data: {
-                empresa: empresa,
-                sucursal: sucursal,
-                //localidad: this.localidad,
-                tipoCliente: JSON.stringify(tipoCliente),
-                visitador: id_visitador
-            },
-            dataType: "JSON",
-            contentType: "application/JSON",
-            success: function (d) {
-                $('#contenedorTabla').remove();
-                var contenedorTabla = document.createElement("div");
-                contenedorTabla.className = "col-md-12";
-                contenedorTabla.id = "contenedorTabla"
-                var row = document.createElement("div");
-                row.className = " row";
-                row.appendChild(contenedorTabla);
-                $('#contenedorPrimario').append(row);
-                d = JSON.parse(d);
-                var col = [];
-                var encabezado = ['EMPRESA', 'SUCURSAL',
-                    'RUC', 'CLIENTE', 'CATEGORIA',
-                    'VENDEDOR EN CLIENTE', 'VENDEDOR EN FACTURA',
-                    'SECUENCIAL',
-                    'FECHA FACTURA', 'FECHA VENCIMIENTO',
-                    'PROVINCIA', 'CIUDAD', 'PARROQUIA', 'DIRECCION',
-                    'VALOR FACTURA', 'CHQ. POST.', 'SALDO PENDIENTE',
-                    'DIAS EMITIDAS', 'DIAS VENCIDA'];
-                for (var i = 0; i < d.length; i++) {
-                    for (var key in d[i]) {
-                        if (col.indexOf(key) === -1) {
-                            col.push(key);
-                        }
-                    }
-                }
-
-                // CREATE DYNAMIC TABLE.
-                var div = document.createElement("div");
-                //div.className = "col-md-12"; 
-                var row = document.createElement("div");
-                row.className = "row col-md-4";
-                var card = document.createElement("div");
-                card.className = "card";
-                card.style = "font-size: 15px;overflow-x: scroll;";
-                var cardbody = document.createElement("div");
-                cardbody.className = "card-body";
-                var table = document.createElement("table");
-                table.className = 'table table-hover tableDetalle';
-                table.id = "tableDetalle";
-                table.style = '';
-
-                // CREATE HTML TABLE HEADER ROW USING THE EXTRACTED HEADERS ABOVE
-                var thead = document.createElement("thead");
-                table.appendChild(thead);
-                var tr_head = document.createElement("tr");
-                for (var i = 0; i < encabezado.length; i++) {
-                    var th = document.createElement("th");      // TABLE HEADER.
-                    th.innerHTML = encabezado[i];
-                    tr_head.appendChild(th);
-                }
-
-                thead.appendChild(tr_head);
-
-                var tbody = document.createElement("tbody");
-                table.appendChild(tbody);
-                var tr_body = document.createElement("tr");
-                // ADD JSON DATA TO THE TABLE AS ROWS.
-                for (var i = 0; i < d.length; i++) {
-                    tr_body = document.createElement("tr");
-                    for (var j = 0; j < col.length; j++) {
-                        var tabCell = tr_body.insertCell(-1);
-                        tabCell.innerHTML = d[i][col[j]];
-                        tabCell.style = ' white-space: nowrap;';
-                    }
-                    tbody.appendChild(tr_body);
-                }
-
-                cardbody.appendChild(table);
-                card.appendChild(cardbody);
-                div.appendChild(card);
-                //CrearTablaDetalle(div.outerHTML, titulo);
-                $('#contenedorTabla').append(div);
-                $('#tableDetalle').DataTable({
-                    dom: 'Bfrtip',
-                    buttons: [
-                        'copy', 'csv', 'excel', 'pdf', 'print'
-                    ],
-                    language: {
-                        url: 'https://cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json'
-                    }
-                });
-            },
-            error: function (e) {
-                Toast.fire({
-                    icon: 'error',
-                    title: 'Hubo un error al intentar generar.'
-                })
-            }
-        })
-    }
-});
 
 function GraficoBarras(identificador,tipoGrafico,presupuesto) {
     var ctx = document.getElementById(identificador).getContext('2d');
@@ -489,8 +261,12 @@ function GraficoBarras(identificador,tipoGrafico,presupuesto) {
         options: {
             //responsive: false,
             scales: {
+                x: {
+                    stacked:true
+                },
                 y: {
-                    beginAtZero: true
+                    beginAtZero: true,
+                    stacked:true
                 }
             }
         }
@@ -521,51 +297,64 @@ function interpolateColors(dataLength, colorScale, colorRangeInfo) {
 
 function GeneraGraficos(presupuesto) {
     $('#rowcontenedorGraficos').remove();
-    var elementos = $.parseHTML('<h3 class="card-title"><i class="fas fa-th mr-1"></i>  Totales                </h3>        <div class="card-tools">            <button type="button" class="btn bg-defaultbtn-sm" data-card-widget="collapse">                <i class="fas fa-minus"></i>            </button>            <button type="button" class="btn bg-defaultbtn-sm" data-card-widget="remove">                <i class="fas fa-times"></i>            </button>');
+    const elementos = $.parseHTML('<h3 class="card-title"><i class="fas fa-th mr-1"></i>  Totales                </h3>        <div class="card-tools">            <button type="button" class="btn bg-defaultbtn-sm" data-card-widget="collapse">                <i class="fas fa-minus"></i>            </button>            <button type="button" class="btn bg-defaultbtn-sm" data-card-widget="remove">                <i class="fas fa-times"></i>            </button>');
+
     var canva = document.createElement("canvas");
     canva.id = "contenedorBarra";
     canva.width = 400;
     canva.height = 200;
+
     var canva2 = document.createElement("canvas");
     canva2.id = "contenedorPastel";
     canva2.width = 400;
     canva2.height = 200;
+
     var cardHeader = document.createElement("div");
     cardHeader.className = "card-header border-0";
-    cardHeader.appendChild(elementos[0]);
-    cardHeader.appendChild(elementos[1]);
-    cardHeader.appendChild(elementos[2]);
+    cardHeader.appendChild(elementos[0].cloneNode(true));
+    cardHeader.appendChild(elementos[1].cloneNode(true));
+    cardHeader.appendChild(elementos[2].cloneNode(true));
+
     var cardHeader2 = document.createElement("div");
     cardHeader2.className = "card-header border-0";
-    cardHeader2.appendChild(elementos[0]);
-    cardHeader2.appendChild(elementos[1]);
-    cardHeader2.appendChild(elementos[2]);
+    cardHeader2.appendChild(elementos[0].cloneNode(true));
+    cardHeader2.appendChild(elementos[1].cloneNode(true));
+    cardHeader2.appendChild(elementos[2].cloneNode(true));
+
     var cardBody = document.createElement("div");
     cardBody.className = "card-body";
     cardBody.appendChild(canva);
+
     var cardBody2 = document.createElement("div");
     cardBody2.className = "card-body";
     cardBody2.appendChild(canva2);
+
     var cardBarra = document.createElement("div");
     cardBarra.className = "card";
     cardBarra.appendChild(cardHeader);
     cardBarra.appendChild(cardBody);
+
     var cardPastel = document.createElement("div");
     cardPastel.className = "card";
     cardPastel.appendChild(cardHeader2);
     cardPastel.appendChild(cardBody2);
+
     var contenedorGraficos2 = document.createElement("div");
     contenedorGraficos2.className = "col-md-12";
-    contenedorGraficos2.appendChild(cardPastel)
+    contenedorGraficos2.appendChild(cardPastel);
+
     var contenedorGraficos = document.createElement("div");
     contenedorGraficos.className = "col-md-12";
+
     contenedorGraficos.appendChild(cardBarra);
     contenedorGraficos2.appendChild(cardPastel);
+
     var row2 = document.createElement("div");
     row2.className = "row";
     row2.appendChild(contenedorGraficos);
     row2.appendChild(contenedorGraficos2);
     row2.id = "rowcontenedorGraficos";
+
     $('#contenedorPrimario').append(row2);
     GraficoBarras('contenedorBarra', 'bar',presupuesto);
     GraficoBarras('contenedorPastel', 'pie',presupuesto);
@@ -587,7 +376,7 @@ $("#GenerarPresupuesto").click(function () {
     });
     var fecha_desde = ConvertirFecha($('#fecha_presupuesto').data('daterangepicker').startDate._d);
     var fecha_hasta = ConvertirFecha($('#fecha_presupuesto').data('daterangepicker').endDate._d);
-
+    iniciaLoading();
     $.ajax({
         url: 'ObtenerPresupuesto',
         type: 'GET',
@@ -621,11 +410,7 @@ $("#GenerarPresupuesto").click(function () {
             card.style = "font-size: 15px;overflow-x: scroll;";
             var cardbody = document.createElement("div");
             cardbody.className = "card-body";
-            //var table = document.createElement("table");
-            //table.className = 'table table-hover tableDetalle';
-            //table.id = "tablaPresupuesto";
-            //table.style = '';
-            //$('.container-fluid').add('<div class="row"><div id="tablaPresupuesto" class="col-md-12"></div></div>');
+
             var totalPresupuestoVentas = 0;
             var totalVentas = 0;
             var totalAlcanceVentas = 0;
@@ -690,11 +475,22 @@ $("#GenerarPresupuesto").click(function () {
                 //"scrollY": "500px",
                 dom: 'Bfrtip',
                 "buttons": [
-                    'copy', 'csv', 'excel', 'pdf', 'print'
-                    //{ "extend": 'copy', "text": 'Copiar', "className": 'btn btn-default btn-xs' },
-                    //{ "extend": 'pdf', "text": 'PDF', "className": 'btn btn-default btn-xs' },
-                    //{ "extend": 'excel', "text": 'Excel', "className": 'btn btn-default btn-xs' },
-                    //{ "extend": 'print', "text": 'Imprimir', "className": 'btn btn-default btn-xs' },
+                    {
+                        "extend": 'copy', "text": 'Copiar', "className": 'btn btn-default btn-xs'
+                        , exportOptions: { columns: [0,1,2,3,4,5,6,7]}
+                    },
+                    {
+                        "extend": 'pdf', "text": 'PDF', "className": 'btn btn-default btn-xs'
+                        , exportOptions: { columns: [0, 1, 2, 3, 4, 5, 6, 7] }
+                    },
+                    {
+                        "extend": 'excel', "text": 'Excel', "className": 'btn btn-default btn-xs'
+                        , exportOptions: { columns: [0, 1, 2, 3, 4, 5, 6, 7] }
+                    },
+                    {
+                        "extend": 'print', "text": 'Imprimir', "className": 'btn btn-default btn-xs'
+                        , exportOptions: { columns: [0, 1, 2, 3, 4, 5, 6, 7] }
+                    },
                 ],
                 initComplete: function () {
                     $('.buttons-pdf').html('<i class="far fa-file-excel"></i>')
@@ -711,6 +507,7 @@ $("#GenerarPresupuesto").click(function () {
             var ventas = presupuesto.map(presupuesto => presupuesto.ventas_neta);
             var cobros = presupuesto.map(presupuesto => presupuesto.total_cobros);
             GeneraGraficos(presupuesto);
+            cierraLoading();
         },
         error: function (e) {
             Toast.fire({
@@ -722,3 +519,43 @@ $("#GenerarPresupuesto").click(function () {
 
     
 });
+
+function SugerirFecha() {
+    var empresa = $("#empresa").val();
+    var sucursal = $("#sucursal").val();
+    $.ajax({
+        url: 'SugerirFechas',
+        type: 'GET',
+        data: {
+            empresa: empresa,
+            sucursal: sucursal
+        },
+        dataType: "JSON",
+        contentType: "application/JSON",
+        success: function (d) {
+
+            if (d.MensajeError != null) {
+                Toast.fire({
+                    icon: 'error',
+                    title: d.MensajeError
+                })
+            } else {
+                const datos = JSON.parse(d);
+                Toast.fire({
+                    icon: 'success',
+                    title: 'El corte sugerido es desde ' + datos.fecha_desde + ' hasta ' +datos.fecha_hasta
+                })
+                $('#fecha_presupuesto').data('daterangepicker').setStartDate(datos.fecha_desde);
+                $('#fecha_presupuesto').data('daterangepicker').setEndDate(datos.fecha_hasta);
+            }
+            console.log(d);
+
+        },
+        error: function (e) {
+            Toast.fire({
+                icon: 'error',
+                title: 'No se encuentra un corte de fechas sugerido'
+            })
+        }
+    });
+}

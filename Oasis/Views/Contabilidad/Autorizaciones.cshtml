@@ -1,0 +1,230 @@
+﻿
+@{
+    ViewBag.Title = "Autorizaciones";
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card card-primary">
+            <div class="card-header">
+                <h3 class="card-title">Revisión de archivo de autorizaciones </h3>
+            </div>
+            <div class="card-body">
+                <div id="actions" class="row">
+                    <div class="col-lg-6">
+                        <div class="btn-group w-100">
+                            <span class="btn btn-success col fileinput-button dz-clickable">
+                                <i class="fas fa-plus"></i>
+                                <span>Subir archivos</span>
+                            </span>
+                            <button type="submit" class="btn btn-primary col start">
+                                <i class="fas fa-upload"></i>
+                                <span>Iniciar subida</span>
+                            </button>
+                            <button type="reset" class="btn btn-warning col cancel">
+                                <i class="fas fa-times-circle"></i>
+                                <span>Cancelar subida</span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 d-flex align-items-center">
+                        <div class="fileupload-process w-100">
+                            <div id="total-progress" class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+                                <div class="progress-bar progress-bar-success" style="width:0%;" data-dz-uploadprogress=""></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="table table-striped files" id="previews">
+                    <div id="template" class="row mt-2">
+                        <div class="col-auto">
+                            <span class="preview"><img src="data:," alt="" data-dz-thumbnail /></span>
+                        </div>
+                        <div class="col d-flex align-items-center">
+                            <p class="mb-0">
+                                <span class="lead" data-dz-name></span>
+                                (<span data-dz-size></span>)
+                            </p>
+                            <strong class="error text-danger" data-dz-errormessage></strong>
+                        </div>
+                        <div class="col-4 d-flex align-items-center">
+                            <div class="progress progress-striped active w-100" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+                                <div class="progress-bar progress-bar-success" style="width:0%;" data-dz-uploadprogress></div>
+                            </div>
+                        </div>
+                        <div class="col-auto d-flex align-items-center">
+                            <div class="btn-group">
+                                <button class="btn btn-primary start">
+                                    <i class="fas fa-upload"></i>
+                                    <span>Iniciar</span>
+                                </button>
+                                <button data-dz-remove class="btn btn-warning cancel">
+                                    <i class="fas fa-times-circle"></i>
+                                    <span>Cancelar</span>
+                                </button>
+                                <button data-dz-remove class="btn btn-danger delete">
+                                    <i class="fas fa-trash"></i>
+                                    <span>Borrar</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <div class="card-footer"></div>
+        </div>
+    </div>
+
+</div>
+
+@section Scripts{
+    <script src="~/Content/FrontEnd/plugins/dropzone/dropzone.js"></script>
+    <script>
+        // DropzoneJS Demo Code Start
+        Dropzone.autoDiscover = false
+
+        // Get the template HTML and remove it from the doument template HTML and remove it from the doument
+        var previewNode = document.querySelector("#template")
+        previewNode.id = ""
+        var previewTemplate = previewNode.parentNode.innerHTML
+        previewNode.parentNode.removeChild(previewNode)
+
+        var myDropzone = new Dropzone(document.body, { // Make the whole body a dropzone
+            url: "RevisarTXT", // Set the url
+            maxFiles: 1,
+            thumbnailWidth: 80,
+            thumbnailHeight: 80,
+            parallelUploads: 20,
+            previewTemplate: previewTemplate,
+            autoQueue: false, // Make sure the files aren't queued until manually added
+            previewsContainer: "#previews", // Define the container to display the previews
+            clickable: ".fileinput-button", // Define the element that should be used as click trigger to select files.
+            acceptedFiles: ".txt"
+        })
+
+        myDropzone.on("addedfile", function (file) {
+            // Hookup the start button
+            file.previewElement.querySelector(".start").onclick = function () { myDropzone.enqueueFile(file) }
+        })
+
+        myDropzone.on("done", function (file,done) {
+            if (file.size == 0) {
+                done("Empty files will not be uploaded.");
+            }
+            else { done(); }
+        })
+
+        // Update the total progress bar
+        myDropzone.on("totaluploadprogress", function (progress) {
+            document.querySelector("#total-progress .progress-bar").style.width = progress + "%"
+        })
+
+        myDropzone.on("sending", function (file) {
+            iniciaLoading();
+            // Show the total progress bar when upload starts
+            document.querySelector("#total-progress").style.opacity = "1"
+            // And disable the start button
+            file.previewElement.querySelector(".start").setAttribute("disabled", "disabled")
+        })
+
+        // Hide the total progress bar when nothing's uploading anymore
+        myDropzone.on("queuecomplete", function (progress) {
+            document.querySelector("#total-progress").style.opacity = "0"
+        })
+
+        myDropzone.on('error', function (file, response) {
+            cierraLoading();
+        });
+
+        myDropzone.on("success", function (e,d) {
+            $('#contenedorTabla').remove();
+            var contenedorTabla = document.createElement("div");
+            contenedorTabla.className = "col-md-12";
+            contenedorTabla.id = "contenedorTabla"
+            var row = document.createElement("div");
+            row.className = " row";
+            row.appendChild(contenedorTabla);
+            $('#contenedorPrimario').append(row);
+            d = JSON.parse(d);
+            var col = [];
+            var encabezado = ['FACTURA','PROVEEDOR',
+                'CLAVE AUTORIZACION'];
+            for (var i = 0; i < d.length; i++) {
+                for (var key in d[i]) {
+                    if (col.indexOf(key) === -1) {
+                        col.push(key);
+                    }
+                }
+            }
+
+            // CREATE DYNAMIC TABLE.
+            var div = document.createElement("div");
+            //div.className = "col-md-12"; 
+            var row = document.createElement("div");
+            row.className = "row col-md-4";
+            var card = document.createElement("div");
+            card.className = "card";
+            card.style = "font-size: 15px;overflow-x: scroll;";
+            var cardbody = document.createElement("div");
+            cardbody.className = "card-body";
+            var table = document.createElement("table");
+            table.className = 'table table-hover tableDetalle';
+            table.id = "tableDetalle";
+            table.style = '';
+
+            // CREATE HTML TABLE HEADER ROW USING THE EXTRACTED HEADERS ABOVE
+            var thead = document.createElement("thead");
+            table.appendChild(thead);
+            var tr_head = document.createElement("tr");
+            for (var i = 0; i < encabezado.length; i++) {
+                var th = document.createElement("th");      // TABLE HEADER.
+                th.innerHTML = encabezado[i];
+                tr_head.appendChild(th);
+            }
+
+            thead.appendChild(tr_head);
+
+            var tbody = document.createElement("tbody");
+            table.appendChild(tbody);
+            var tr_body = document.createElement("tr");
+            // ADD JSON DATA TO THE TABLE AS ROWS.
+            for (var i = 0; i < d.length; i++) {
+                tr_body = document.createElement("tr");
+                for (var j = 0; j < col.length; j++) {
+                    var tabCell = tr_body.insertCell(-1);
+                    tabCell.innerHTML = d[i][col[j]];
+                    tabCell.style = ' white-space: nowrap;';
+                }
+                tbody.appendChild(tr_body);
+            }
+
+            cardbody.appendChild(table);
+            card.appendChild(cardbody);
+            div.appendChild(card);
+            //CrearTablaDetalle(div.outerHTML, titulo);
+            $('#contenedorTabla').append(div);
+            $('#tableDetalle').DataTable({
+                dom: 'Bfrtip',
+                buttons: [
+
+                    'copy', 'csv', 'excel', 'pdf', 'print'
+                ],
+                language: {
+                    url: 'https://cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json'
+                }
+            });
+            cierraLoading();
+            //alert("Se ha completado");
+        })
+
+        // Setup the buttons for all transfers
+        // The "add files" button doesn't need to be setup because the config
+        // `clickable` has already been specified.
+        document.querySelector("#actions .start").onclick = function () {
+            myDropzone.enqueueFiles(myDropzone.getFilesWithStatus(Dropzone.ADDED))
+        }
+        document.querySelector("#actions .cancel").onclick = function () {
+            myDropzone.removeAllFiles(true)
+        }
+        // DropzoneJS Demo Code End
+    </script>
+}

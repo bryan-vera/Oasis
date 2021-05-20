@@ -21,7 +21,7 @@ namespace Oasis.Models
         public string categoria { get; set; }
         public Nullable<int> id_vendedor_cliente { get; set; }
         public string vendedor_cliente { get; set; }
-        public int id_vendedor_factura { get; set; }
+        public Nullable<int> id_vendedor_factura { get; set; }
         public string vendedor_factura { get; set; }
         public string secuencial_factura { get; set; }
         public System.DateTime fecha_factura { get; set; }
@@ -31,9 +31,10 @@ namespace Oasis.Models
         public string parroquia { get; set; }
         public string direccion { get; set; }
         public Nullable<decimal> valor_factura { get; set; }
-        public Nullable<decimal> totalChequePost { get; set; }
+        public decimal totalChequePost { get; set; }
         public Nullable<decimal> saldo_pendiente { get; set; }
         public Nullable<int> dias_emitida { get; set; }
         public Nullable<int> dias_diferencia { get; set; }
+        public string contacto { get; set; }
     }
 }

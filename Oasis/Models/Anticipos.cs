@@ -12,23 +12,23 @@ namespace Oasis.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Cobros_Consolidado
+    public partial class Anticipos
     {
         public string empresa { get; set; }
         public string sucursal { get; set; }
-        public string codigo_cobro { get; set; }
+        public string codigo_anticipo { get; set; }
         public string descripcion { get; set; }
         public string descripcion2 { get; set; }
         public int estado { get; set; }
-        public Nullable<System.DateTime> fecha_aplicacion { get; set; }
-        public decimal valor { get; set; }
-        public string codigo { get; set; }
-        public string nombre_comercial { get; set; }
-        public string numero { get; set; }
-        public string categoria { get; set; }
-        public int id_vendedor { get; set; }
-        public string vendedor { get; set; }
-        public Nullable<System.DateTime> fecha_factura { get; set; }
+        public Nullable<System.DateTime> fecha_contabilizacion { get; set; }
         public Nullable<System.DateTime> fecha_creacion { get; set; }
+        public decimal valor_anticipo { get; set; }
+        public string ruc_cliente { get; set; }
+        public string nombre_cliente { get; set; }
+        public string sencuencia_documento { get; set; }
+        public Nullable<System.DateTime> fecha_documento { get; set; }
+        public string categoria { get; set; }
+        public Nullable<int> id_vistador { get; set; }
+        public string visitador { get; set; }
     }
 }

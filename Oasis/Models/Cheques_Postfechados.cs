@@ -12,23 +12,28 @@ namespace Oasis.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Cobros_Consolidado
+    public partial class Cheques_Postfechados
     {
+        public int id_organizacion { get; set; }
         public string empresa { get; set; }
         public string sucursal { get; set; }
+        public string codigo { get; set; }
+        public string nombre_cliente { get; set; }
         public string codigo_cobro { get; set; }
+        public int id_cuenta_por_cobrar { get; set; }
+        public Nullable<int> id_factura { get; set; }
+        public string secuencial_factura { get; set; }
         public string descripcion { get; set; }
         public string descripcion2 { get; set; }
-        public int estado { get; set; }
-        public Nullable<System.DateTime> fecha_aplicacion { get; set; }
         public decimal valor { get; set; }
-        public string codigo { get; set; }
-        public string nombre_comercial { get; set; }
-        public string numero { get; set; }
-        public string categoria { get; set; }
-        public int id_vendedor { get; set; }
-        public string vendedor { get; set; }
-        public Nullable<System.DateTime> fecha_factura { get; set; }
+        public Nullable<System.DateTime> fecha_cobro { get; set; }
         public Nullable<System.DateTime> fecha_creacion { get; set; }
+        public Nullable<int> dias_credito_otorgado { get; set; }
+        public Nullable<System.DateTime> fecha_contabilizacion { get; set; }
+        public string vendedor { get; set; }
+        public string categoria { get; set; }
+        public Nullable<int> id_usuario { get; set; }
+        public int estado { get; set; }
+        public Nullable<System.DateTime> fecha_factura { get; set; }
     }
 }

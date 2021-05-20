@@ -12,7 +12,10 @@
         <EntityTypeShape EntityType="oasisAS2.Cobros_Consolidado" Width="1.5" PointX="8.375" PointY="0.75" />
         <EntityTypeShape EntityType="oasisAS2.Presupuesto_Vendedor_Detalle" Width="1.5" PointX="5" PointY="4.5" />
         <EntityTypeShape EntityType="oasisAS2.Vendedores" Width="1.5" PointX="0.75" PointY="6.75" />
-        <EntityTypeShape EntityType="oasisAS2.Cartera" Width="1.5" PointX="7.375" PointY="5.75" />
+        <EntityTypeShape EntityType="oasisAS2.Cheques_Postfechados" Width="1.5" PointX="3.375" PointY="8.75" />
+        <EntityTypeShape EntityType="oasisAS2.NC_Consolidado" Width="1.5" PointX="5.375" PointY="8.75" />
+        <EntityTypeShape EntityType="oasisAS2.Cartera" Width="1.5" PointX="8.375" PointY="5.625" />
+        <EntityTypeShape EntityType="oasisAS2.Anticipos" Width="1.5" PointX="0.75" PointY="9.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

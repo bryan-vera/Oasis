@@ -73,7 +73,7 @@
                             @Html.DisplayFor(modelItem => item.secuencial_guia)
                         </td>
                         <td>
-                            <button id="Imprimir" class="btn btn-block btn-primary imprimir" data-id_guia_remision="@item.id_guia_remision">Imprimir</button>
+                            <button id="Imprimir" class="btn btn-block btn-primary imprimir" data-codigo_organizacion="@item.id_organizacion" data-id_guia_remision="@item.id_guia_remision">Imprimir</button>
                         </td>
                     </tr>
                 }
@@ -91,6 +91,7 @@
 </div>
 
 @section Scripts {
+    <script src="~/Content/js/GuiaRemision.js"></script>
     <script>
         console.log("Test");
         $('#tableGuiasUrbano').DataTable({

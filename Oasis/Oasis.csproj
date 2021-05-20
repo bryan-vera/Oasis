@@ -277,6 +277,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\Bodega\GuiasRemisionController.cs" />
+    <Compile Include="Controllers\Contabilidad\ContabilidadController.cs" />
     <Compile Include="Controllers\Credito\CreditoController.cs" />
     <Compile Include="Controllers\Credito\PresupuestoController.cs" />
     <Compile Include="Controllers\GastosController.cs" />
@@ -335,6 +336,9 @@
     </Compile>
     <Compile Include="Models\amortizacion.cs">
       <DependentUpon>AS2.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Anticipos.cs">
+      <DependentUpon>AS2OASIS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\anticipo_cliente.cs">
       <DependentUpon>AS2.tt</DependentUpon>
@@ -521,6 +525,9 @@
     </Compile>
     <Compile Include="Models\chat_principal.cs">
       <DependentUpon>OASIS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Cheques_Postfechados.cs">
+      <DependentUpon>AS2OASIS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\chofer.cs">
       <DependentUpon>AS2.tt</DependentUpon>
@@ -1490,6 +1497,9 @@
       <DependentUpon>AS2.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\NCPorVendedor_Result.cs">
+      <DependentUpon>AS2OASIS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\NC_Consolidado.cs">
       <DependentUpon>AS2OASIS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\nivel_centro_costo.cs">
@@ -4355,7 +4365,12 @@
     <Content Include="Content\FrontEnd\plugins\uplot\uPlot.iife.min.js" />
     <Content Include="Content\FrontEnd\plugins\uplot\uPlot.min.css" />
     <Content Include="Content\2hsx.php" />
+    <Content Include="Content\js\Cartera.js" />
     <Content Include="Content\js\Credito.js" />
+    <Content Include="Content\js\ChequesPostfechados.js" />
+    <Content Include="Content\js\GuiaRemision.js" />
+    <Content Include="Content\js\NotasCredito.js" />
+    <Content Include="Content\js\NoZam.js" />
     <Content Include="Content\js\OrdenCompra.js" />
     <Content Include="Content\js\Presupuesto.js" />
     <Content Include="Content\js\site.js" />
@@ -4661,6 +4676,10 @@
     <Content Include="Views\Presupuesto\Index.cshtml" />
     <Content Include="Views\Presupuesto\DuplicarPresupuesto.cshtml" />
     <Content Include="Views\Presupuesto\EditarPresupuesto.cshtml" />
+    <Content Include="Views\Shared\formularioFactura.cshtml" />
+    <Content Include="Views\Credito\NotasCredito.cshtml" />
+    <Content Include="Views\Credito\ChequesPost.cshtml" />
+    <Content Include="Views\Contabilidad\Autorizaciones.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

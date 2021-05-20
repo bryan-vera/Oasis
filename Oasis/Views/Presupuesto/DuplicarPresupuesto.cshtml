@@ -65,11 +65,11 @@
                 <div class="card-body">
                     <div class="card-body table-responsive p-0">
                         <table class="table table-hover text-nowrap" id="tablaPresupuesto">
-                            <tr>
-                                <th>
+                            <tr style="text-align:center;">
+                                <th style="width:40px">
                                     CODIGO
                                 </th>
-                                <th>
+                                <th style="width:250px">
                                     VISITADOR
                                 </th>
                                 <th>
@@ -85,11 +85,11 @@
                                     <tr>
                                         <td>
                                             <div  name="id_vendedor">
-                                                <input  id="id_vendedor" data-bind="text:id_vendedor" value="@item.id_vendedor" class="col-3" disabled/>
+                                                <input  id="id_vendedor" data-bind="text:id_vendedor" value="@item.id_vendedor" class="form-control" disabled/>
                                             </div>
                                         </td>
                                         <td>
-                                            <select id="nombre_vendedor" name="nombre_vendedor" class="js-data-vendedor-ajax form-control" style="width:80%" name="state">
+                                            <select id="nombre_vendedor" name="nombre_vendedor" class="js-data-vendedor-ajax form-control" style="width:100%" name="state">
                                                 <option value="@item.id_vendedor">@item.nombre_usuario</option>
                                             </select>
                                         </td>
