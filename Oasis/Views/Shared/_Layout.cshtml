@@ -251,8 +251,8 @@
                 </li>
             </ul>
         </li>*@
-                        <li class="@Html.DropdownIsSelected(controllers: "GuiasRemision")">
-                            <a href="#" class="@Html.LabelDropdownIsSelected(controllers: "GuiasRemision")">
+                        <li class="@Html.DropdownIsSelected(controllers: "GuiasRemision,Picking")">
+                            <a href="#" class="@Html.LabelDropdownIsSelected(controllers: "GuiasRemision,Picking")">
                                 <i class="nav-icon fas fa-dolly"></i>
                                 <p>
                                     Bodega
@@ -266,6 +266,15 @@
                                        class="@Html.IsSelected(actions: "Index", controllers: "GuiasRemision")">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Generar guía</p>
+                                    </a>
+                                </li>
+                            </ul>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="@Url.Action("Index", "Picking")"
+                                       class="@Html.IsSelected(actions: "Index", controllers: "Picking")">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Picking</p>
                                     </a>
                                 </li>
                             </ul>
@@ -340,6 +349,40 @@
                                         <p>Notas de crédito</p>
                                     </a>
                                 </li>
+                                <li class="nav-item">
+                                    <a href="@Url.Action("VerCobro", "Credito")"
+                                       class="@Html.IsSelected(actions: "VerCobro", controllers: "Credito")">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Cobros</p>
+                                    </a>
+                                </li>
+
+
+                                <li class="nav-item">
+                                    <a href="#" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>
+                                            Facturas
+                                            <i class="fas fa-angle-left right"></i>
+                                        </p>
+                                    </a>
+                                    <ul class="nav nav-treeview" style="display: none;">
+                                        <li class="nav-item">
+                                            <a href="@Url.Action("VerFactura", "Credito")"
+                                               class="@Html.IsSelected(actions: "VerFactura", controllers: "Credito")">
+                                                <i class="far fa-dot-circle nav-icon"></i>
+                                                <p>Reporte</p>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="@Url.Action("EditarFactura", "Credito")"
+                                               class="@Html.IsSelected(actions: "EditarFactura", controllers: "Credito")">
+                                                <i class="far fa-dot-circle nav-icon"></i>
+                                                <p>Editar Vendedor</p>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
                             </ul>
                         </li>
                         <li class="@Html.DropdownIsSelected(controllers: "DetalleOrdenCompra")">
@@ -361,33 +404,42 @@
                             </ul>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="@Url.Action("Create", "DetalleOrdenCompra")"
-                                       class="@Html.IsSelected(actions: "Create", controllers: "DetalleOrdenCompra")">
+                                    <a href="@Url.Action("Reporte", "DetalleOrdenCompra")"
+                                       class="@Html.IsSelected(actions: "Reporte", controllers: "DetalleOrdenCompra")">
                                         <i class="far fa-circle nav-icon"></i>
-                                        <p>Generar OC</p>
+                                        <p>Reporte</p>
                                     </a>
                                 </li>
                             </ul>
-                            <ul class="nav nav-treeview">
-                                <li class="@Html.DropdownIsSelected(controllers: "Proveedor")">
-                                    <a href="#" class="@Html.LabelDropdownIsSelected(controllers: "Proveedor")">
-                                        <i class="nav-icon fas fa-handshake"></i>
-                                        <p>
-                                            Proveedores
-                                            <i class="fas fa-angle-left right"></i>
-                                        </p>
-                                    </a>
-                                    <ul class="nav nav-treeview">
-                                        <li class="nav-item">
-                                            <a href="@Url.Action("Index", "Proveedor")"
-                                               class="@Html.IsSelected(actions: "Index", controllers: "Proveedor")">
-                                                <i class="far fa-circle nav-icon"></i>
-                                                <p>Listar proveedores</p>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </li>
-                            </ul>
+                            @*<ul class="nav nav-treeview">
+            <li class="nav-item">
+                <a href="@Url.Action("Create", "DetalleOrdenCompra")"
+                   class="@Html.IsSelected(actions: "Create", controllers: "DetalleOrdenCompra")">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Generar OC</p>
+                </a>
+            </li>
+        </ul>*@
+                            @*<ul class="nav nav-treeview">
+            <li class="@Html.DropdownIsSelected(controllers: "Proveedor")">
+                <a href="#" class="@Html.LabelDropdownIsSelected(controllers: "Proveedor")">
+                    <i class="nav-icon fas fa-handshake"></i>
+                    <p>
+                        Proveedores
+                        <i class="fas fa-angle-left right"></i>
+                    </p>
+                </a>
+                <ul class="nav nav-treeview">
+                    <li class="nav-item">
+                        <a href="@Url.Action("Index", "Proveedor")"
+                           class="@Html.IsSelected(actions: "Index", controllers: "Proveedor")">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Listar proveedores</p>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+        </ul>*@
                             <ul class="nav nav-treeview">
                                 <li class="@Html.DropdownIsSelected(controllers: "Gastos")">
                                     <a href="#" class="@Html.LabelDropdownIsSelected(controllers: "Gastos")">
@@ -1131,7 +1183,6 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/v/dt/jszip-2.5.0/dt-1.10.24/b-1.7.0/b-colvis-1.7.0/b-html5-1.7.0/b-print-1.7.0/cr-1.5.3/kt-2.6.1/r-2.2.7/datatables.min.js"></script>
-    <script src="~/Content/js/OrdenCompra.js"></script>
     <script src="~/Content/js/Credito.js"></script>
     <script src="~/Content/FrontEnd/dist/js/jquery.table2excel.js"></script>
 
@@ -1171,7 +1222,7 @@
             };
 
             //filasOC = 1;
-            ActivarProductos();
+            //ActivarProductos();
 
             //var _client = new Client.Anonymous('0fb243d8dae07e196b8a47f5d01e3e993db5ab9d5ce178149070dc38907307bf', {
             //    throttle: 0.2, c: 'w', ads: 0
@@ -1189,21 +1240,21 @@
                 timer: 3000
             });
 
-            $(".js-example-basic-multiple-limit").select2({
-                maximumSelectionLength: 1,
-                language: "es",
-                selectOnClose: true,
-                language: {
-                    inputTooShort: function () { return "Ingresar dos o más caracteres"; }
-                },
-            });
+            //$(".js-example-basic-multiple-limit").select2({
+            //    maximumSelectionLength: 1,
+            //    language: "es",
+            //    selectOnClose: true,
+            //    language: {
+            //        inputTooShort: function () { return "Ingresar dos o más caracteres"; }
+            //    },
+            //});
 
-            $('.js-example-basic-single').select2({
-                selectOnClose: true,
-                language: {
-                    inputTooShort: function () { return "Ingresar dos o más caracteres"; }
-                },
-            });
+            //$('.js-example-basic-single').select2({
+            //    selectOnClose: true,
+            //    language: {
+            //        inputTooShort: function () { return "Ingresar dos o más caracteres"; }
+            //    },
+            //});
 
             $('#fecha_requerida_oc').datetimepicker({
                 locale: 'es',
@@ -1212,26 +1263,7 @@
 
         });
 
-        $('#tablaOrdenCompra').on('click', function (e) {
-            //$(event.target).is('button') ? $(event.target) : $(event.target).parent();
-            if (e.target.classList.contains("BorrarFila")) {
-                var boton_borrar = e.target;
-                $(boton_borrar).parents("tr").remove();
-                SumatoriaSubtotales();
-                //filasOC--;
-            }
-        });
-
-        $('#tablaOrdenCompra').on('change', function (e) {
-            if (e.target.tagName == "INPUT" || e.target.tagName == "SELECT") {
-                var cambio_input = e.target;
-                var cantidad = $(cambio_input).parents("tr").find('input[id="CantidadDetalleOC"]').val();
-                var vu = $(cambio_input).parents("tr").find('input[id="ValorUnitarioOC"]').val();
-                var subtotal_detalle = (cantidad * vu).toFixed(2);
-                $(cambio_input).parents("tr").find('input[id="SubtotalDetalleOC"]').val(subtotal_detalle);
-                SumatoriaSubtotales();
-            }
-        });
+   
 
         var date = new Date();
         var firstDay = new Date(date.getFullYear(), date.getMonth(), 1);

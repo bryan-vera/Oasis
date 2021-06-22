@@ -10,9 +10,11 @@ namespace Oasis.ViewModel
     public class DetalleOrdenCompra
     {
         public int id_oc_principal { get; set; }
-        public string empresa { get; set; }
-        public int id_dpto { get; set; }
-        public string id_proveedor { get; set; }
+        //public string empresa { get; set; }
+        //public int id_dpto { get; set; }
+        public int id_proveedor { get; set; }
+        public int id_departamento { get; set; }
+        public int id_organizacion { get; set; }
         public System.DateTime fecha_documento { get; set; }
         public decimal valor_total { get; set; }
         public bool anulada { get; set; }

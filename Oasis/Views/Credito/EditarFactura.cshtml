@@ -1,0 +1,182 @@
+﻿
+@{
+    ViewBag.Title = "Editar Factura";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card card-primary">
+            <div class="card-header">
+                <h2 class="card-title">Cambio de vendedor</h2>
+                <div class="card-tools">
+                    <button type="button" class="btn bg-primary btn-sm" data-card-widget="collapse">
+                        <i class="fas fa-minus"></i>
+                    </button>
+                    <button type="button" class="btn bg-primary btn-sm" data-card-widget="remove">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>
+            <!-- form start -->
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Empresa</label>
+                            @Html.DropDownList("empresa_ind",
+                                        new SelectList(ViewBag.Opciones, "Value", "Text"),
+                                        htmlAttributes: new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Factura</label>
+                            <select class="form-control" id="selectFacturas"></select>
+                        </div>
+                    </div>
+                    </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="col-md-6" id="">
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Visitador actual</label>
+                                <input class="form-control" data-id_vendedor="0" id="vendedorActual" disabled/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="col-md-6" id="divVendedor">
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Visitador nuevo</label>
+                                <select class="form-control js-data-vendedor-ajax" id="vendedorNuevo">
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /.card-body -->
+            <div class="card-footer">
+                <button type="button" onclick="CambiarVisitador()" id="Confirmar" class="btn btn-primary  float-right">Confirmar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+
+        function CambiarVisitador() {
+            var id_visitador_nuevo = $("#vendedorNuevo").val();
+            var id_factura = $("#selectFacturas").select2('data')[0].id;
+
+            console.log(" Se va a reemplazar a " + id_visitador_nuevo + " en " + id_factura);
+
+            $.ajax({
+                url: 'GuardarFactura',
+                type: 'POST',
+                data: {
+                    id_factura: id_factura,
+                    id_visitador_nuevo: id_visitador_nuevo,
+                },
+                success: function (d) {
+                    Swal.fire(
+                        '¡Listo!',
+                        'Se ha modificado la factura.',
+                        'success'
+                    );
+                    $('#vendedorActual').val("");
+                    $('#vendedorActual').data('id_vendedor', '');
+                    $('#vendedorNuevo').val(null).trigger('change');
+                    $('#selectFacturas').val(null).trigger('change');
+                    $('#selectFacturas').empty();
+                    ActivarFacturas();
+                },
+                error: function (e) {
+                    Toast.fire({
+                        icon: 'error',
+                        title: 'Hubo un error al intentar guardar.'
+                    })
+                }
+            })
+
+
+        }
+
+        $('.js-data-vendedor-ajax').select2({
+            minimumInputLength: 2,
+            language: {
+                inputTooShort: function () { return "Ingresar dos o más caracteres"; }
+            },
+            tags: [],
+            ajax: {
+                url: '/Presupuesto/ObtenerVendedores',
+                processResults: function (data) {
+                    return {
+                        results: $.map(data, function (item) {
+                            return {
+                                text: item.username,
+                                id: item.id_vendedor
+                            }
+                        })
+                    };
+                },
+                dataType: 'json',
+                data: function (params) {
+                    var query = {
+                        textoBusqueda: params.term,
+                        empresa: $('#empresa_ind').val(),
+                        sucursal: $('#sucursal_ind').val()
+                    }
+                    return query;
+                }
+            }
+        });
+        function ActivarFacturas() {
+
+        $('#selectFacturas').select2({
+            minimumResultsForSearch: -1,
+            minimumInputLength: 2,
+            language: {
+                inputTooShort: function () { return "Ingresar dos o más caracteres"; }
+            },
+            ajax: {
+                url: '/Credito/ObtenerFacturas',
+                processResults: function (data) {
+                    return {
+                        results: $.map(data, function (item) {
+                            return {
+                                text: item.secuencial,
+                                id: item.codigo_factura,
+                                id_vendedor: item.id_vendedor,
+                                nombre_vendedor: item.vendedor
+                            }
+                        })
+                    };
+                },
+                dataType: 'json',
+                data: function (params) {
+                    var query = {
+                        textoBusqueda: params.term,
+                        empresa: $('#empresa_ind').val()
+                    }
+                    return query;
+                }
+            }
+        }).on('change', function (e) {
+            if ($(this).select2('data')[0] != null) {
+                var id_vendedor = $(this).select2('data')[0].id_vendedor;
+                var nombre_vendedor = $(this).select2('data')[0].nombre_vendedor;
+                $('#vendedorActual').val(nombre_vendedor);
+                $('#vendedorActual').data('id_vendedor', id_vendedor);
+            }
+            
+        });
+        }
+
+        ActivarFacturas();
+    </script>
+        
+
+}

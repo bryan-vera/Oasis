@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Oasis.Models.invt_productos_gastos>
+﻿@model IEnumerable<Oasis.Models.productos>
 
 @{
     ViewBag.Title = "Inicio";
@@ -19,22 +19,22 @@
                     <table class="table table-striped">
                         <tr>
                             <th>
-                                @Html.DisplayNameFor(model => model.id_producto)
+                                Código
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model.descripcion)
+                                Descripción
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model.valor_unitario)
+                               Valor unitario
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model.grupo_categoria)
+                                Categoría
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model.um)
+                                UM
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model.grava_iva)
+                                IVA
                             </th>
                             <th></th>
                         </tr>
@@ -52,7 +52,7 @@
                             @Html.DisplayFor(modelItem => item.valor_unitario)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.grupo_categoria)
+                            @Html.DisplayFor(modelItem => item.categoria)
                         </td>
                         <td>
                             @Html.DisplayFor(modelItem => item.um)
@@ -60,7 +60,7 @@
                         <td>
                             @*@(modelItem=>item.grava_iva ? "Yes" : "No");*@
 
-                            @Html.DisplayFor(modelItem => item.grava_iva, "YesNo")
+                            @Html.DisplayFor(modelItem => item.iva, "YesNo")
                         </td>
                         <td>
                             @Html.ActionLink("Editar", "Edit", new { id = item.id_producto }) |

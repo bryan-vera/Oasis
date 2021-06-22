@@ -37,6 +37,20 @@ namespace Oasis.Models
         public virtual DbSet<NC_Consolidado> NC_Consolidado { get; set; }
         public virtual DbSet<Cartera> Cartera { get; set; }
         public virtual DbSet<Anticipos> Anticipos { get; set; }
+        public virtual DbSet<departamentos> departamentos { get; set; }
+        public virtual DbSet<prov_oc_detalle> prov_oc_detalle { get; set; }
+        public virtual DbSet<prov_oc_principal> prov_oc_principal { get; set; }
+        public virtual DbSet<invt_categoria> invt_categoria { get; set; }
+        public virtual DbSet<productos> productos { get; set; }
+        public virtual DbSet<DetalleOCEnlazada> DetalleOCEnlazada { get; set; }
+        public virtual DbSet<invt_um> invt_um { get; set; }
+        public virtual DbSet<ordenes_compra> ordenes_compra { get; set; }
+        public virtual DbSet<Ventas_Consolidado> Ventas_Consolidado { get; set; }
+        public virtual DbSet<DVP> DVP { get; set; }
+        public virtual DbSet<guia_urbano_troq> guia_urbano_troq { get; set; }
+        public virtual DbSet<PickingGuias> PickingGuias { get; set; }
+        public virtual DbSet<picking> picking { get; set; }
+        public virtual DbSet<geoubicacion> geoubicacion { get; set; }
     
         public virtual ObjectResult<Presupuesto_Result> Presupuesto(string empresa, string sucursal, Nullable<System.DateTime> fecha_desde, Nullable<System.DateTime> fecha_hasta, string tipoCliente)
         {

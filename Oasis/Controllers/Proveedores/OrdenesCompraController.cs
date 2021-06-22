@@ -14,8 +14,8 @@ namespace Oasis.Controllers.Proveedores
         // GET: OrdenesCompra
         public ActionResult Index()
         {
-            OASISContext oc = new OASISContext();            
-            return View(oc.prov_oc_principal);
+            as2oasis oc = new as2oasis();            
+            return View(oc.ordenes_compra);
         }
 
         // GET: OrdenesCompra/Details/5

@@ -1,0 +1,319 @@
+﻿
+@{
+    ViewBag.Title = "Facturas";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card card-primary">
+            <div class="card-header">
+                <h2 class="card-title">Facturas</h2>
+                <div class="card-tools">
+                    <button type="button" class="btn bg-primary btn-sm" data-card-widget="collapse">
+                        <i class="fas fa-minus"></i>
+                    </button>
+                    <button type="button" class="btn bg-primary btn-sm" data-card-widget="remove">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>
+            <!-- form start -->
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-5">
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Empresa</label>
+                            @Html.DropDownList("empresa_ind",
+                                        new SelectList(ViewBag.Opciones, "Value", "Text"),
+                                        htmlAttributes: new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Región</label>
+                            <select class="form-control" id="sucursal_ind">
+                                <option value="COSTA">COSTA</option>
+                                <option value="SIERRA">SIERRA</option>
+                                <option value="AUSTRO">AUSTRO</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <label>Localidad</label>
+                        <div class="row">
+                            <div class="col-lg-5">
+                                <select class="form-control" id="localidad" disabled="">
+                                    <option value="CIUDAD">CIUDAD</option>
+                                    <option value="GIRA">GIRA</option>
+                                </select>
+                            </div>
+                            <div class="custom-control custom-checkbox" style="display: inline-block; align-self: center;">
+                                <input class="custom-control-input" type="checkbox" id="chkLocalidad" checked="" disabled="">
+                                <label for="chkLocalidad" class="custom-control-label" disabled="">Ambas localidades</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-5">
+                        <div class="form-group">
+                            <label>Fecha de facturación:</label>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">
+                                                <i class="far fa-calendar-alt"></i>
+                                            </span>
+                                        </div>
+                                        <input type="text" class="form-control float-right" id="fecha_presupuesto">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="exampleInputPassword1">Tipo de cliente</label>
+                            <div class="col-sm-6">
+                                <!-- checkbox -->
+                                <div class="form-group">
+                                    <div class="custom-control custom-checkbox">
+                                        <input class="custom-control-input tipoCliente" name="INSTITUCIONES" type="checkbox" id="chkInstituciones">
+                                        <label for="chkInstituciones" class="custom-control-label">Instituciones</label>
+                                    </div>
+                                    <div class="custom-control custom-checkbox">
+                                        <input class="custom-control-input tipoCliente" name="FARMACIA" type="checkbox" id="chkFarmacia" checked="">
+                                        <label for="chkFarmacia" class="custom-control-label">Farmacia</label>
+                                    </div>
+                                    <div class="custom-control custom-checkbox">
+                                        <input class="custom-control-input tipoCliente" name="DISTRIBUIDORES" type="checkbox" id="chkDistribuidores">
+                                        <label for="chkDistribuidores" class="custom-control-label">Distribuidores</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="exampleInputPassword1">Tipo de reporte</label>
+                            <div class="col-md-10">
+                                <!-- checkbox -->
+                                <div class="form-group">
+                                    <div class="form-check">
+                                        <input class="form-check-input reporte_general" id="reporte_general" type="radio" name="radio1" checked="">
+                                        <label class="form-check-label" style="font-weight:700;" for="reporte_general">General</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input reporte_visitador" id="reporte_visitador" type="radio" name="radio1">
+                                        <label class="form-check-label" style="font-weight:700;" for="reporte_visitador">Por visitador</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2" style="visibility: hidden" id="divVendedor">
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Visitador</label>
+                            <select class="form-control js-data-vendedor-ajax" id="sucursal">
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div> 
+            <!-- /.card-body -->
+            <div class="card-footer">
+                <button type="button" id="GenerarFacturas" class="btn btn-primary  float-right">Generar</button>
+            </div>
+        </div>
+    </div>
+    </div>
+
+
+
+@section Scripts {
+    <script>
+        $('.reporte_visitador').change(
+            function () {
+                if (this.checked) {
+                    $("#divVendedor").css('visibility', 'visible');
+                }
+            });
+
+        $('.reporte_general').change(
+            function () {
+                if (this.checked) {
+                    $("#divVendedor").css('visibility', 'hidden');
+                    $("#DetalleIndividual").css('visibility', 'hidden');
+                }
+            });
+        ActivarVendedores();
+        function ActivarVendedores() {
+            $('.js-data-vendedor-ajax').select2({
+                //selectOnClose: true,
+                minimumInputLength: 2,
+                language: {
+                    inputTooShort: function () {return "Ingresar dos o más caracteres";}
+                },
+                tags: [],
+                ajax: {
+                    url: '/Presupuesto/ObtenerVendedores',
+                    processResults: function (data) {
+                        return {
+                            results: $.map(data, function (item) {
+                                return {
+                                    text: item.username,
+                                    id: item.id_vendedor
+                                }
+                            })
+                        };
+                    },
+                    dataType: 'json',
+                    data: function (params) {
+                        var query = {
+                            textoBusqueda: params.term,
+                            empresa: $('#empresa_ind').val(),
+                            sucursal: $('#sucursal_ind').val()
+                        }
+                        return query;
+                    }
+                }
+            }).on('change', function (e) {
+                $("#DetalleIndividual").css('visibility', 'visible');
+                //var id_vendedor = $(this).select2('data')[0].id_vendedor;
+                //$(e.target).closest('#id_vendedor').val(id_vendedor);
+            });
+        }
+    </script>
+    <script>
+        $("#GenerarFacturas").click(function () {
+            var tipoCliente = [];
+            var empresa = $("#empresa_ind").val();
+            var sucursal = $("#sucursal_ind").val();
+            var localidad;
+            var fecha_desde = ConvertirFecha($('#fecha_presupuesto').data('daterangepicker').startDate._d);
+            var fecha_hasta = ConvertirFecha($('#fecha_presupuesto').data('daterangepicker').endDate._d);
+            iniciaLoading();
+
+            if ($('#chkLocalidad').is(":checked")) {
+                localidad = null
+            } else {
+                localidad = $("#localidad_ind").val();
+            }
+
+            $('.tipoCliente:checkbox:checked').each(function () {
+                tipoCliente.push($(this).attr('name'));
+            });
+
+            var eleccion_reporte_general = $('#reporte_general')[0].checked;
+            let id_visitador = null;
+            if (!eleccion_reporte_general) {
+                id_visitador = $('.js-data-vendedor-ajax').children("option:selected").val();
+            }
+
+            $.ajax({
+                url: 'ReporteFacturas',
+                type: 'GET',
+                data: {
+                    empresa: empresa,
+                    sucursal: sucursal,
+                    tipoCliente: JSON.stringify(tipoCliente),
+                    visitador: id_visitador,
+                    fecha_desde: fecha_desde,
+                    fecha_hasta: fecha_hasta,
+                },
+                dataType: "JSON",
+                contentType: "application/JSON",
+                success: function (d) {
+                    $('#contenedorTabla').remove();
+                    var contenedorTabla = document.createElement("div");
+                    contenedorTabla.className = "col-md-12";
+                    contenedorTabla.id = "contenedorTabla"
+                    var row = document.createElement("div");
+                    row.className = "row";
+                    row.appendChild(contenedorTabla);
+                    $('#contenedorPrimario').append(row);
+                    d = JSON.parse(d);
+                    var col = [];
+                    var encabezado = ["EMPRESA", "SUCURSAL", "CATEGORIA",
+                        "RUC", "CLIENTE",
+                        "SECUENCIAL", "FECHA", "VALOR",
+                        "VENDEDOR", "MEMO","ESTADO"];
+                    for (var i = 0; i < d.length; i++) {
+                        for (var key in d[i]) {
+                            if (col.indexOf(key) === -1) {
+                                col.push(key);
+                            }
+                        }
+                    }
+
+                    // CREATE DYNAMIC TABLE.
+                    var div = document.createElement("div");
+                    var row = document.createElement("div");
+                    row.className = "row col-md-4";
+                    var card = document.createElement("div");
+                    card.className = "card";
+                    card.style = "font-size: 15px;overflow-x: scroll;";
+                    var cardbody = document.createElement("div");
+                    cardbody.className = "card-body";
+                    var table = document.createElement("table");
+                    table.className = 'table table-hover tableDetalle';
+                    table.id = "tableDetalle";
+                    table.style = '';
+
+                    // CREATE HTML TABLE HEADER ROW USING THE EXTRACTED HEADERS ABOVE
+                    var thead = document.createElement("thead");
+                    table.appendChild(thead);
+                    var tr_head = document.createElement("tr");
+                    for (var i = 0; i < encabezado.length; i++) {
+                        var th = document.createElement("th");      // TABLE HEADER.
+                        th.innerHTML = encabezado[i];
+                        tr_head.appendChild(th);
+                    }
+
+                    thead.appendChild(tr_head);
+
+                    var tbody = document.createElement("tbody");
+                    table.appendChild(tbody);
+                    var tr_body = document.createElement("tr");
+                    // ADD JSON DATA TO THE TABLE AS ROWS.
+                    for (var i = 0; i < d.length; i++) {
+                        tr_body = document.createElement("tr");
+                        for (var j = 0; j < col.length; j++) {
+                            var tabCell = tr_body.insertCell(-1);
+                            tabCell.innerHTML = d[i][col[j]];
+                            tabCell.style = ' white-space: nowrap;';
+                        }
+                        tbody.appendChild(tr_body);
+                    }
+
+                    cardbody.appendChild(table);
+                    card.appendChild(cardbody);
+                    div.appendChild(card);
+                    //CrearTablaDetalle(div.outerHTML, titulo);
+                    $('#contenedorTabla').append(div);
+                    $('#tableDetalle').DataTable({
+                        dom: 'Bfrtip',
+                        buttons: [
+                            'copy', 'csv', 'excel', 'pdf', 'print'
+                        ],
+                        language: {
+                            url: 'https://cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json'
+                        }
+                    });
+                    cierraLoading();
+                    
+                },
+                error: function (e) {
+                    cierraLoading();
+                    Toast.fire({
+                        icon: 'error',
+                        title: 'Hubo un error al intentar generar.'
+                    })
+                }
+            })
+        });
+    </script>
+}
+

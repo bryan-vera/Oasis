@@ -71,10 +71,7 @@ namespace Oasis.Controllers.Bodega
                     direccion = x.Field<string>(11),
                     secuencial_factura = x.Field<string>(7),
                     id_guia_remision = (Int16.Parse(
-                        x.Field<string>(7).Split('-')[1].Substring(3, 10).Substring(7, 3) + 
-                        x.Field<string>(7).Split('-')[1].Substring(3, 10).Substring(0, 1)) 
-                        )
-                *10,
+                        x.Field<string>(7).Split('-')[1].Substring(3, 10).Substring(1, 9))),
                     identificacion = x.Field<string>(9),
                 })
                 ;
@@ -183,7 +180,8 @@ namespace Oasis.Controllers.Bodega
                 " WHERE ANULADA = CAST('FALSE' AS BOOLEAN) AND CONFIRMADO = CAST('TRUE' AS BOOLEAN) " +
                 " AND FECHA_FACTURA >= '2021/04/01'  AND  FIP.CLIENT_TYPE IN ('DISTR', 'FARMA')" +
                 " AND VEN.GROUP_CATEGORY = 'SELLm' AND VEN.CORP=FIP.EMPRESA " +
-                " AND  FP.EMPRESA = 'LABOV'";
+                " AND  FP.EMPRESA = 'LABOV'" +
+                " AND FP.codigo_factura like '%"+id+"%'";
 
             OdbcCommand DbCommand = new OdbcCommand(cadena, cs.getConexion());
             OdbcDataAdapter adp1 = new OdbcDataAdapter();
@@ -213,9 +211,7 @@ namespace Oasis.Controllers.Bodega
                     direccion = x.Field<string>(11),
                     secuencial_factura = x.Field<string>(7),
                     id_guia_remision = (Int16.Parse(
-                        x.Field<string>(7).Split('-')[1].Substring(3, 10).Substring(7, 3) + 
-                        x.Field<string>(7).Split('-')[1].Substring(3, 10).Substring(0, 1)) 
-                        )*10,
+                        x.Field<string>(7).Split('-')[1].Substring(3, 10).Substring(1, 9))),
                     identificacion = x.Field<string>(9),
                 });
             as2oasis db = new as2oasis();
@@ -225,6 +221,9 @@ namespace Oasis.Controllers.Bodega
                     .Where(x => x.id_guia_remision == id
                         && (EsLabovida==true?x.id_organizacion==69: x.id_organizacion != 69)
                     ).FirstOrDefault();
+
+
+
 
             using (MemoryStream myMemoryStream = new MemoryStream())
             {
@@ -263,19 +262,27 @@ namespace Oasis.Controllers.Bodega
 
                 Response.Clear();
                 Response.ClearHeaders();
-                //Response.AddHeader("Content-Type", "application/pdf");
-                //Response.AddHeader("Content-Length", pdf_generado.Length.ToString());
-                //Response.AddHeader("Content-Disposition", "inline; filename=file.pdf");
-                //Response.BinaryWrite(Convert.ToBase64String(pdf_generado));
-                //Response.Flush();
-                //Response.End();
-
                 Response.Write(Convert.ToBase64String(pdf_generado));
                 Response.Flush();
                 Response.End();
-
-
             }
+
+            var registro_guia = new guia_urbano_troq();
+            registro_guia.ciudad = guias.ciudad;
+            registro_guia.direccion = guias.direccion;
+            registro_guia.empresa = guias.empresa;
+            registro_guia.fecha_factura = guias.fecha_factura;
+            registro_guia.fecha_guia_troquelada = DateTime.Now;
+            registro_guia.identificacion = guias.identificacion;
+            registro_guia.id_factura = guias.id_guia_remision;
+            registro_guia.id_organizacion = guias.id_organizacion;
+            registro_guia.parroquia = guias.parroquia;
+            registro_guia.provincia = guias.provincia;
+            registro_guia.secuencial_factura = guias.secuencial_factura;
+            registro_guia.valor_factura = guias.valor_factura;
+            db.guia_urbano_troq.Add(registro_guia);
+            db.SaveChanges();
+
         }
 
 

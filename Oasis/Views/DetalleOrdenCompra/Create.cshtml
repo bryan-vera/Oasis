@@ -20,19 +20,17 @@
                 <div class="invoice p-3 mb-3">
                     <div class="card-body">
                         <!-- title row -->
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="row form-group">
-                                    <div class="col-md-4">
-                                        @Html.DropDownListFor(
-                                            model => model.empresa, 
-                                            new SelectList(ViewBag.Opciones, "Value", "Text"),
-                                            htmlAttributes: new { @class = "form-control" })
-                                    </div>
-
-                                    <div class="col-md-8">
-                                        <h4 class="float-right">Fecha: @(DateTime.Now.ToString("dd/MM/yyyy"))</h4>
-                                    </div>
+                        <div class="row invoice-info">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Empresa</label>
+                                    <input id="empresa" value="@ViewBag.Empresa" data-id_empresa="@ViewBag.ID_Empresa" class="form-control" disabled>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class=" form-group">
+                                        <label>Fecha</label>
+                                        <input id="fecha_documento" class="form-control"  value="@ViewBag.Fecha" disabled/>
                                 </div>
                             </div>
                             <!-- /.col -->
@@ -42,38 +40,44 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Proveedor</label>
-                                    <select name="id_proveedor" class="js-data-proveedor-ajax form-control" id="id_proveedor">
-                                    </select>
+                                    <input id="id_proveedor" value="@ViewBag.Proveedor" class="form-control" data-id_proveedor="@ViewBag.ID_Proveedor" disabled />
+                                    @*<select name="id_proveedor" class="js-data-proveedor-ajax form-control" id="id_proveedor">
+                                        </select>*@
 
                                 </div>
-                                <!-- /.form-group -->
-                                <div class="form-group">
-                                    <label>Departamento</label>
-                                    @Html.DropDownListFor( model=>model.id_dpto, ViewBag.Departamentos as IEnumerable<SelectListItem>,
-                                    new { @class = "js-example-basic-single form-control"})
-                                </div>
-                                <!-- /.form-group -->
+
                             </div>
                             <!-- /.col -->
                             <div class="col-md-6">
-                                <div class="form-group">
-                                    <label>Fecha requerida</label>
-                                    <div class="input-group date" id="fecha_requerida_oc" data-target-input="nearest">
-                                        <input type="text" name="fecha_documento" id="fecha_documento" class="form-control datetimepicker-input" data-target="#fecha_requerida_oc"
-                                               data-inputmask-alias="datetime" data-inputmask-inputformat="dd/mm/yyyy" data-mask="" inputmode="numeric">
-                                        <div class="input-group-append" data-target="#fecha_requerida_oc" data-toggle="datetimepicker">
-                                            <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                                        </div>
-                                    </div>
-                                </div>
                                 <!-- /.form-group -->
                                 <div class="form-group">
-                                    <label>Memo</label>
-                                    <textarea class="form-control" rows="3" placeholder="..."></textarea>
+                                    <label>Departamento</label>
+                                    @Html.DropDownListFor(model => model.id_departamento, ViewBag.Departamentos as IEnumerable<SelectListItem>,
+     new { @class = "select-departamentos form-control" })
                                 </div>
+                                <!-- /.form-group -->
+                                @*<div class="form-group">
+                                        <label>Fecha requerida</label>
+                                        <div class="input-group date" id="fecha_requerida_oc" data-target-input="nearest">
+                                            <input type="text" name="fecha_documento" id="fecha_documento" class="form-control datetimepicker-input" data-target="#fecha_requerida_oc"
+                                                   data-inputmask-alias="datetime" data-inputmask-inputformat="dd/mm/yyyy" data-mask="" inputmode="numeric">
+                                            <div class="input-group-append" data-target="#fecha_requerida_oc" data-toggle="datetimepicker">
+                                                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                            </div>
+                                        </div>
+                                    </div>*@
+                                <!-- /.form-group -->
                                 <!-- /.form-group -->
                             </div>
                             <!-- /.col -->
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>Memo</label>
+                                    <textarea class="form-control" rows="2"></textarea>
+                                </div>
+                            </div>
                         </div>
                         <!-- /.row -->
                         <!-- Table row -->
@@ -83,9 +87,9 @@
                                     <thead>
                                         <tr>
                                             <th style="width: 46.66%">Producto</th>
-                                            <th style="width: 10%">Cant</th>
-                                            <th style="width: 10%">V.U.</th>
-                                            <th style="width: 10%">DSCTO</th>
+                                            <th style="width: 15%">Cant</th>
+                                            <th style="width: 15%">V.U.</th>
+                                            @*<th style="width: 10%">DSCTO</th>*@
                                             <th style="width: 13.34%">Subtotal</th>
                                             <th style="width: 10%"></th>
                                         </tr>
@@ -108,12 +112,12 @@
                                                        id="ValorUnitarioOC"
                                                        min="0" step=".01" style="text-align: right;" />
                                             </td>
-                                            <td>
+                                            @*<td>
                                                 <input type="number"
                                                        class="form-control form-control-border DescuentoOC"
                                                        id="DescuentoOC"
                                                        min="0" style="text-align: right;" />
-                                            </td>
+                                            </td>*@
                                             <td>
                                                 <input type="number"
                                                        class="form-control form-control-border SubtotalDetalleOC"
@@ -144,7 +148,7 @@
                                     <table class="table">
                                         <tbody>
                                             <tr>
-                                                <th style="width:50%">Subtotal:</th>
+                                                <th style="width:50%">Subtotal</th>
                                                 <td>
                                                     <div class="input-group">
                                                         <div class="input-group-prepend">
@@ -172,7 +176,7 @@
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <th>Total:</th>
+                                                <th>Total</th>
                                                 <td>
                                                     <div class="input-group">
                                                         <div class="input-group-prepend">
@@ -182,6 +186,23 @@
                                                                class="form-control form-control-border SubtotalDetalleOC"
                                                                id="TotalPrincipalOC"
                                                                name="valor_total"
+                                                               min="0" style="text-align: right;" disabled />
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th>Diferencia</th>
+                                                <td>
+                                                    <div class="input-group">
+                                                        <div class="input-group-prepend">
+                                                            <span class="input-group-text">$</span>
+                                                        </div>
+                                                        <input type="number"
+                                                               value="@ViewBag.ValorTotal"
+                                                               class="form-control form-control-border DiferenciaTotalOC"
+                                                               data-valortotal="@ViewBag.ValorTotal"
+                                                               id="DiferenciaTotalOC"
+                                                               name="diferencia_totalOC"
                                                                min="0" style="text-align: right;" disabled />
                                                     </div>
                                                 </td>
@@ -197,15 +218,16 @@
                         <div class="row justify-content-end">
                             <div class="btn-toolbar ">
                                 <div class="btn-group" role="group" aria-label="Basic example">
-                                    <button type="button" class="btn btn-danger me-md-2">
+                                    @Html.ActionLink("Cancelar", "Index", new { id = "" }, new {@class= "btn btn-danger me-md-2" })
+                                    @*<button type="button" class="btn btn-danger me-md-2">
                                         <i class="fas fa-ban"></i> Cancelar
-                                    </button>
+                                    </button>*@
                                     <button type="button" id="submit" class="btn btn-primary me-md-2">
                                         <i class="far fa-credit-card"></i> Confirmar
                                     </button>
                                     @*<button type="button" class="btn btn-primary me-md-2">
-                                            <i class="fas fa-download"></i> Generate PDF
-                                        </button>*@
+            <i class="fas fa-download"></i> Generate PDF
+        </button>*@
                                 </div>
                             </div>
 
@@ -282,3 +304,12 @@
 <div>
     @Html.ActionLink("Regresar", "Index")
 </div>
+
+@section Scripts {
+    <script>
+        var id_oc = "@ViewBag.ID_OC";</script>
+    <script src="~/Content/js/OrdenCompra.js"></script>
+    <script>
+        ActivarProductos();</script>
+
+}

@@ -12,9 +12,15 @@ namespace Oasis.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class invt_categoria
+    public partial class PickingGuias
     {
-        public string categoria { get; set; }
-        public string descripcion { get; set; }
+        public string empresa { get; set; }
+        public string numero { get; set; }
+        public Nullable<System.DateTime> fecha_inicio_pick { get; set; }
+        public Nullable<System.DateTime> fecha_fin_pick { get; set; }
+        public Nullable<System.DateTime> fecha_inicio_desp { get; set; }
+        public Nullable<System.DateTime> fecha_fin_desp { get; set; }
+        public Nullable<System.DateTime> fecha_guia_troquelada { get; set; }
+        public Nullable<int> Diferencia { get; set; }
     }
 }

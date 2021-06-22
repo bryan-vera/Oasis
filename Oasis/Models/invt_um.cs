@@ -12,9 +12,9 @@ namespace Oasis.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class invt_categoria
+    public partial class invt_um
     {
-        public string categoria { get; set; }
+        public string um { get; set; }
         public string descripcion { get; set; }
     }
 }

@@ -12,9 +12,16 @@ namespace Oasis.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class invt_categoria
+    public partial class ordenes_compra
     {
-        public string categoria { get; set; }
-        public string descripcion { get; set; }
+        public int id_empresa { get; set; }
+        public string empresa { get; set; }
+        public int id_orden_compra { get; set; }
+        public System.DateTime fecha { get; set; }
+        public string secuencial { get; set; }
+        public int id_cliente { get; set; }
+        public string cliente { get; set; }
+        public Nullable<decimal> valor_total { get; set; }
+        public int orden_enlazada { get; set; }
     }
 }

@@ -12,16 +12,21 @@ namespace Oasis.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class prov_oc_detalle
+    public partial class DetalleOCEnlazada
     {
-        public int id_oc_detalle { get; set; }
-        public int id_oc_principal { get; set; }
-        public int id_producto { get; set; }
+        public string empresa { get; set; }
+        public string proveedor { get; set; }
+        public string ruc_proveedor { get; set; }
+        public int id_oc { get; set; }
+        public int codigo_producto { get; set; }
+        public string descripcion_producto { get; set; }
+        public string categoria_producto { get; set; }
+        public string um_producto { get; set; }
         public decimal cantidad_producto { get; set; }
         public decimal valor_linea { get; set; }
-        public decimal iva { get; set; }
-    
-        public virtual prov_oc_principal prov_oc_principal { get; set; }
-        public virtual productos productos { get; set; }
+        public decimal valor_total { get; set; }
+        public string secuencial { get; set; }
+        public System.DateTime fecha { get; set; }
+        public string departamento { get; set; }
     }
 }

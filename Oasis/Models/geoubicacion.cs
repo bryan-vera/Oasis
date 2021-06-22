@@ -12,9 +12,13 @@ namespace Oasis.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class invt_categoria
+    public partial class geoubicacion
     {
-        public string categoria { get; set; }
-        public string descripcion { get; set; }
+        public int id_ubicacion { get; set; }
+        public decimal latitud { get; set; }
+        public decimal longitud { get; set; }
+        public int id_usuario { get; set; }
+        public bool indicador_mock { get; set; }
+        public System.DateTime fecha_hora { get; set; }
     }
 }

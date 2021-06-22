@@ -8,49 +8,117 @@ using Oasis.Models;
 using Oasis.ViewModel;
 using iTextSharp.text;
 using iTextSharp.text.pdf;
+using Newtonsoft.Json;
 
 namespace Oasis.Controllers.Proveedores
 {
     public class DetalleOrdenCompraController : Controller
     {
+        public List<SelectListItem> ListaEmpresas()
+        {
+            List<SelectListItem> lst = new List<SelectListItem>();
+
+            //lst.Add(new SelectListItem() { Text = "LABOVIDA", Value = "LABOV" });
+            lst.Add(new SelectListItem() { Text = "LEBENFARMA", Value = "LEBENFARMA S.A." });
+            lst.Add(new SelectListItem() { Text = "FARMALIGHT", Value = "FARMALIGHT S.A." });
+            lst.Add(new SelectListItem() { Text = "DANIVET", Value = "LABORATORIOS DANIVET S.A." });
+            lst.Add(new SelectListItem() { Text = "DANIVET 2", Value = "LABORATORIOS DANIVET S.A. 2" });
+            lst.Add(new SelectListItem() { Text = "ANYUPA", Value = "LABORATORIOS ANYUPA S.A." });
+            lst.Add(new SelectListItem() { Text = "MEDITOTAL", Value = "MEDITOTAL S.A." });
+            return lst;
+        }
+
+        [HttpPost]
+        public JsonResult ListaOC()
+        {
+            as2oasis oa = new as2oasis();
+            var listaOrdenComprar = oa.ordenes_compra
+                .OrderByDescending(x => x.fecha)
+                .AsEnumerable().Select(x => new
+                {
+                    Id_oc = x.id_orden_compra,
+                    Empresa = x.empresa,
+                    Secuencial = x.secuencial,
+                    Fecha = x.fecha.ToShortDateString(),
+                    Proveedor = x.cliente,
+                    Total = x.valor_total,
+                    Enlazado = x.orden_enlazada
+                })
+                .ToList();
+            return new JsonResult { Data = listaOrdenComprar };
+        }
+
+        [HttpPost]
+        public JsonResult ReporteOC()
+        {
+            as2oasis oa = new as2oasis();
+            var detalleOrdenCompra = oa.DetalleOCEnlazada
+                .OrderByDescending(x => x.fecha)
+                .AsEnumerable()
+                .Select(x => new
+                {
+                    empresa = x.empresa,
+                    proveedor = x.proveedor,
+                    ruc_proveedor = x.ruc_proveedor,
+                    secuencial = x.secuencial,
+                    fecha = x.fecha.ToShortDateString(),
+                    departamento = x.departamento,
+                    codigo_producto = x.codigo_producto,
+                    descripcion_producto = x.descripcion_producto,
+                    categoria_producto = x.categoria_producto,
+                    um_producto = x.um_producto,
+                    cantidad_producto = x.cantidad_producto,
+                    valor_linea = x.valor_linea.ToString("N2"),
+                    valor_total = x.valor_total.ToString("N2")
+                })
+                .ToList();
+            return new JsonResult { Data = detalleOrdenCompra };
+        }
 
         // GET: DetalleOrdenCompra
         public ActionResult Index()
         {
-            OASISContext oc = new OASISContext();
-            List<DetalleOrdenCompra> DetalleOrdenCompralist = new List<DetalleOrdenCompra>(); // to hold list of Customer and order details
-            List<prov_oc_principal> OrdenCompraLista = new List<prov_oc_principal>(); // to hold list of Customer and order details
-
-
-
-            return View((from prov_oc_principal in oc.prov_oc_principal.Take(10)
-                        select prov_oc_principal).ToList());
+            ViewBag.Opciones = ListaEmpresas();
+            return View();
         }
+
+        public ActionResult Reporte()
+        {
+            return View();
+        }
+
+        //public ActionResult Detallar(string id_oc)
+        //{
+        //    ViewBag.Opciones = ListaEmpresas();
+        //    return View();
+        //}
+
 
         [HttpPost]
         public ActionResult Create(DetalleOrdenCompra ocModel)
         {
             bool status = false;
-            using (OASISContext oasis = new OASISContext())
+            using (as2oasis oasis = new as2oasis())
             {
-            var oc_principal = new prov_oc_principal();
-            oc_principal.fecha_documento = ocModel.fecha_documento;
-            oc_principal.id_proveedor = ocModel.id_proveedor;
-            oc_principal.valor_total = ocModel.valor_total;
-            oc_principal.empresa = ocModel.empresa;
-            oc_principal.id_dpto = ocModel.id_dpto;
-            oasis.prov_oc_principal.Add(oc_principal);
-            oasis.SaveChanges();
+                var oc_principal = new prov_oc_principal();
+                oc_principal.fecha_documento = ocModel.fecha_documento;
+                oc_principal.id_proveedor = ocModel.id_proveedor;
+                oc_principal.valor_total = ocModel.valor_total;
+                oc_principal.id_organizacion = ocModel.id_organizacion;
+                oc_principal.id_departamento = ocModel.id_departamento;
+                oc_principal.id_oc_principal = ocModel.id_oc_principal;
+                oasis.prov_oc_principal.Add(oc_principal);
+                oasis.SaveChanges();
 
-            int pk = oc_principal.id_oc_principal;  // You can get primary key of your inserted row
-            foreach (var i in ocModel.ListaDeDetalleOrdenCompra)
+                int pk = oc_principal.id_oc_principal;  // You can get primary key of your inserted row
+                foreach (var i in ocModel.ListaDeDetalleOrdenCompra)
                 {
 
                     var oc_detalle = new prov_oc_detalle();
                     //oc_principal.prov_oc_detalle.Add(i);
                     oc_detalle.prov_oc_principal = oc_principal;
                     oc_detalle.cantidad_producto = i.cantidad_producto;
-                    oc_detalle.descuento = i.descuento;
+                    //oc_detalle.descuento = i.descuento;
                     oc_detalle.id_producto = i.id_producto;
                     oc_detalle.valor_linea = i.valor_linea;
                     oasis.prov_oc_detalle.Add(oc_detalle);
@@ -59,10 +127,10 @@ namespace Oasis.Controllers.Proveedores
                 status = true;
             }
             ModelState.Clear();
-          
+
 
             ViewBag.SuccessMessage = "Se ha registrado el producto";
-            return new JsonResult { Data = new { status=status} } ;
+            return new JsonResult { Data = new { status = status } };
         }
 
         // GET: Gastos/Details/5
@@ -75,12 +143,12 @@ namespace Oasis.Controllers.Proveedores
                 oasis.prov_oc_detalle
                 .Where(x => x.id_oc_principal == id)
                 .Select(x => new
-                { 
-                    codigo=x.id_producto,
-                    descripcion = x.invt_productos_gastos.descripcion,
+                {
+                    codigo = x.id_producto,
+                    //descripcion = x.invt_productos_gastos.descripcion,
                     cantidad = x.cantidad_producto,
-                    um = x.invt_productos_gastos.um,
-                    valor_unitario = x.invt_productos_gastos.valor_unitario,
+                    //um = x.invt_productos_gastos.um,
+                    //valor_unitario = x.invt_productos_gastos.valor_unitario,
                     valor_linea = x.valor_linea
                 });
 
@@ -91,18 +159,18 @@ namespace Oasis.Controllers.Proveedores
                 {
                     valor_total = x.valor_total,
                     anulada = x.anulada,
-                    empresa = x.empresa,
-                    departamento = x.id_dpto,
+                    //empresa = x.empresa,
+                    //departamento = x.id_dpto,
                     fecha_documento = x.fecha_documento,
                     ruc_proveedor = x.id_proveedor
-                }) 
+                })
                 ;
 
             var ruc_proveedor = principal.FirstOrDefault().ruc_proveedor;
 
             var proveedor =
                 as2.empresa
-                    .Where(x => x.identificacion == ruc_proveedor)
+                    //.Where(x => x.identificacion == ruc_proveedor)
                     .Select(x => new
                     {
                         x.direccion_empresa.FirstOrDefault().ubicacion.direccion1,
@@ -170,7 +238,7 @@ namespace Oasis.Controllers.Proveedores
                 R.MemoryStream = myMemoryStream;
                 var doc = R.CrearDoc();
                 var pdf = R.CrearPDF();
-                
+
                 PdfPTable tabla_general = new PdfPTable(2)
                 {
                     LockedWidth = true,
@@ -178,7 +246,7 @@ namespace Oasis.Controllers.Proveedores
                     SpacingBefore = 4f
                 };
 
-                tabla_general.SetWidths(new float[] { 275f,275f });
+                tabla_general.SetWidths(new float[] { 275f, 275f });
 
                 //Inicia la apertura del documento y escritura
                 doc.AddTitle("PDF");
@@ -200,7 +268,7 @@ namespace Oasis.Controllers.Proveedores
                 tabla_interna.DefaultCell.Border = Rectangle.NO_BORDER;
                 tabla_interna.AddCell(celda);
                 celda = new PdfPCell(tabla_interna);
-                celda.Border=PdfPCell.NO_BORDER;
+                celda.Border = PdfPCell.NO_BORDER;
                 tabla_general.AddCell(celda);
 
                 Chunk c1 = new Chunk("LABOVIDA S.A. \n", R.titulo);
@@ -237,17 +305,17 @@ namespace Oasis.Controllers.Proveedores
                 //tabla_general.AddCell(celda);
                 //tabla_general.DefaultCell.Border = Rectangle.NO_BORDER;
                 c1 = new Chunk("Fecha de emisión:", R.subtitulo_negrita);
-                var c1_ = new Chunk(principal.FirstOrDefault().fecha_documento.ToShortDateString()+ "\n", R.subtitulo);
+                var c1_ = new Chunk(principal.FirstOrDefault().fecha_documento.ToShortDateString() + "\n", R.subtitulo);
                 c2 = new Chunk("Proveedor:", R.subtitulo_negrita);
-                var c2_ = new Chunk(proveedor.nombre_comercial +"\n", R.subtitulo);
+                var c2_ = new Chunk(proveedor.nombre_comercial + "\n", R.subtitulo);
                 c3 = new Chunk("RUC / C.I.:", R.subtitulo_negrita);
-                var c3_ = new Chunk(principal.FirstOrDefault().ruc_proveedor+"\n", R.subtitulo);
+                var c3_ = new Chunk(principal.FirstOrDefault().ruc_proveedor + "\n", R.subtitulo);
                 c4 = new Chunk("Dirección: ", R.subtitulo_negrita);
-                var c4_ = new Chunk(proveedor.direccion1+"\n", R.subtitulo);
+                var c4_ = new Chunk(proveedor.direccion1 + "\n", R.subtitulo);
                 c5 = new Chunk("Teléfono: ", R.subtitulo_negrita);
-                var c5_ = new Chunk(proveedor.telefono1+"\n", R.subtitulo);
+                var c5_ = new Chunk(proveedor.telefono1 + "\n", R.subtitulo);
                 c6 = new Chunk("Email: ", R.subtitulo_negrita);
-                var c6_ = new Chunk(proveedor.email1+"\n", R.subtitulo);
+                var c6_ = new Chunk(proveedor.email1 + "\n", R.subtitulo);
                 p1 = new Phrase();
                 p1.Add(c1);
                 p1.Add(c1_);
@@ -334,7 +402,7 @@ namespace Oasis.Controllers.Proveedores
                 tabla_detalle.SetWidths(new float[] { 100f, 250f, 50f, 50f, 50f, 50f });
 
                 foreach (var det in detalle)
-                {                   
+                {
                     celda = new PdfPCell(new Phrase(det.codigo.ToString(), R.subtitulo));
                     celda.HorizontalAlignment = PdfPCell.ALIGN_CENTER;
                     celda.VerticalAlignment = PdfPCell.ALIGN_MIDDLE;
@@ -343,7 +411,7 @@ namespace Oasis.Controllers.Proveedores
                     //celda.Padding = 20f;
                     celda.FixedHeight = 20f;
                     tabla_detalle.AddCell(celda);
-                    celda = new PdfPCell(new Phrase(new Chunk(det.descripcion.ToString() , R.subtitulo)));
+                    //celda = new PdfPCell(new Phrase(new Chunk(det.descripcion.ToString() , R.subtitulo)));
                     celda.FixedHeight = 20f;
                     celda.HorizontalAlignment = PdfPCell.ALIGN_LEFT;
                     celda.VerticalAlignment = PdfPCell.ALIGN_MIDDLE;
@@ -359,7 +427,7 @@ namespace Oasis.Controllers.Proveedores
                     celda.Border = PdfPCell.LEFT_BORDER | PdfPCell.RIGHT_BORDER;
                     celda.Padding = 5f;
                     tabla_detalle.AddCell(celda);
-                    celda = new PdfPCell(new Phrase(new Chunk(det.um.ToString(), R.subtitulo)));
+                    //celda = new PdfPCell(new Phrase(new Chunk(det.um.ToString(), R.subtitulo)));
                     celda.FixedHeight = 20f;
                     celda.HorizontalAlignment = PdfPCell.ALIGN_CENTER;
                     celda.VerticalAlignment = PdfPCell.ALIGN_MIDDLE;
@@ -367,7 +435,7 @@ namespace Oasis.Controllers.Proveedores
                     celda.Border = PdfPCell.LEFT_BORDER | PdfPCell.RIGHT_BORDER;
                     //celda.Padding = 20f;
                     tabla_detalle.AddCell(celda);
-                    celda = new PdfPCell(new Phrase(new Chunk(det.valor_unitario.ToString(), R.subtitulo)));
+                    //celda = new PdfPCell(new Phrase(new Chunk(det.valor_unitario.ToString(), R.subtitulo)));
                     celda.FixedHeight = 20f;
                     celda.HorizontalAlignment = PdfPCell.ALIGN_RIGHT;
                     celda.VerticalAlignment = PdfPCell.ALIGN_MIDDLE;
@@ -418,7 +486,7 @@ namespace Oasis.Controllers.Proveedores
                 {
                     LockedWidth = true,
                     TotalWidth = 550f,
-                    SpacingBefore=15f
+                    SpacingBefore = 15f
                 };
 
 
@@ -429,10 +497,10 @@ namespace Oasis.Controllers.Proveedores
                 celda.FixedHeight = 20f;
                 celda.HorizontalAlignment = PdfPCell.ALIGN_RIGHT;
                 celda.VerticalAlignment = PdfPCell.ALIGN_MIDDLE;
-                celda.Border =  PdfPCell.TOP_BORDER | PdfPCell.LEFT_BORDER | PdfPCell.RIGHT_BORDER;
+                celda.Border = PdfPCell.TOP_BORDER | PdfPCell.LEFT_BORDER | PdfPCell.RIGHT_BORDER;
                 tablaTotales.AddCell(celda);
 
-                celda = new PdfPCell(new Phrase( new Chunk(principal.FirstOrDefault().valor_total.ToString(), R.subtitulo)));
+                celda = new PdfPCell(new Phrase(new Chunk(principal.FirstOrDefault().valor_total.ToString(), R.subtitulo)));
                 celda.FixedHeight = 20f;
                 celda.HorizontalAlignment = PdfPCell.ALIGN_RIGHT;
                 celda.VerticalAlignment = PdfPCell.ALIGN_MIDDLE;
@@ -481,12 +549,12 @@ namespace Oasis.Controllers.Proveedores
 
 
                 doc.Close();
-                var pdf_generado= R.GenerarPDF();
+                var pdf_generado = R.GenerarPDF();
 
                 Response.Clear();
                 Response.ClearHeaders();
                 Response.AddHeader("Content-Type", "application/pdf");
-                Response.AddHeader("Content-Length",pdf_generado.Length.ToString());
+                Response.AddHeader("Content-Length", pdf_generado.Length.ToString());
                 Response.AddHeader("Content-Disposition", "inline; filename=file.pdf");
                 Response.BinaryWrite(pdf_generado);
                 Response.Flush();
@@ -498,13 +566,13 @@ namespace Oasis.Controllers.Proveedores
         }
 
 
-        public ActionResult Create()
+        public ActionResult Create(int id_oc)
         {
             DetalleOrdenCompra DetalleOC = new DetalleOrdenCompra();
             departamentos departamento = new departamentos();
             List<SelectListItem> lst = new List<SelectListItem>();
             AS2Context as2 = new AS2Context();
-            OASISContext oasis = new OASISContext();
+            as2oasis oasis = new as2oasis();
 
             lst.Add(new SelectListItem() { Text = "LABOVIDA", Value = "LABOV" });
             lst.Add(new SelectListItem() { Text = "LEBENFARMA", Value = "LEBEN" });
@@ -512,6 +580,24 @@ namespace Oasis.Controllers.Proveedores
             lst.Add(new SelectListItem() { Text = "DANIVET", Value = "DANIV" });
             lst.Add(new SelectListItem() { Text = "ANYUPA", Value = "ANYUP" });
             lst.Add(new SelectListItem() { Text = "MEDITOTAL", Value = "MEDIT" });
+
+            var datos_oc =
+                oasis.ordenes_compra
+                .AsEnumerable()
+                .Where(x => x.id_orden_compra == id_oc)
+                .Select(x => new
+                {
+                    x.id_empresa,
+                    x.empresa,
+                    fecha = x.fecha.ToShortDateString(),
+                    x.id_cliente,
+                    x.cliente,
+                    x.valor_total
+                })
+                .FirstOrDefault();
+
+
+            //join emp in as2.empresa on new {Empresa = emp }
 
             var proveedores =
                as2.empresa
@@ -531,16 +617,22 @@ namespace Oasis.Controllers.Proveedores
                .AsEnumerable()
                .Select(x => new departamentos
                {
-                   ID_DPTO = x.ID_DPTO,
-                   NOMBRE_DEPARTAMENTO = x.NOMBRE_DEPARTAMENTO
+                   id_departamento = x.id_departamento,
+                   nombre = x.nombre
                })
-               ;
+               .OrderBy(x => x.nombre);
 
 
             ViewBag.Opciones = lst;
-
+            ViewBag.ID_Empresa = datos_oc.id_empresa;
+            ViewBag.Empresa = datos_oc.empresa;
+            ViewBag.Fecha = datos_oc.fecha;
+            ViewBag.Proveedor = datos_oc.cliente;
+            ViewBag.ID_Proveedor = datos_oc.id_cliente;
+            ViewBag.ValorTotal = datos_oc.valor_total;
+            ViewBag.ID_OC = id_oc;
             //ViewBag.Proveedores = new SelectList(proveedores, "identificacion", "nombre_comercial");
-            ViewBag.Departamentos = new SelectList(lista_departamentos, "ID_DPTO", "NOMBRE_DEPARTAMENTO");
+            ViewBag.Departamentos = new SelectList(lista_departamentos, "id_departamento", "nombre");
 
             return View(DetalleOC);
         }

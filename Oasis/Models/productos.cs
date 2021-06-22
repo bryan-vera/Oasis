@@ -12,21 +12,20 @@ namespace Oasis.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class prov_oc_principal
+    public partial class productos
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public prov_oc_principal()
+        public productos()
         {
             this.prov_oc_detalle = new HashSet<prov_oc_detalle>();
         }
     
-        public int id_oc_principal { get; set; }
-        public int id_proveedor { get; set; }
-        public System.DateTime fecha_documento { get; set; }
-        public decimal valor_total { get; set; }
-        public bool anulada { get; set; }
-        public int id_organizacion { get; set; }
-        public int id_departamento { get; set; }
+        public int id_producto { get; set; }
+        public string descripcion { get; set; }
+        public decimal valor_unitario { get; set; }
+        public string um { get; set; }
+        public string categoria { get; set; }
+        public bool iva { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<prov_oc_detalle> prov_oc_detalle { get; set; }

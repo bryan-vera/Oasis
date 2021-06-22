@@ -277,10 +277,12 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\Bodega\GuiasRemisionController.cs" />
+    <Compile Include="Controllers\Bodega\PickingController.cs" />
     <Compile Include="Controllers\Contabilidad\ContabilidadController.cs" />
     <Compile Include="Controllers\Credito\CreditoController.cs" />
     <Compile Include="Controllers\Credito\PresupuestoController.cs" />
     <Compile Include="Controllers\GastosController.cs" />
+    <Compile Include="Controllers\Geoubicacion\GeoubicacionController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\InventarioGastosController.cs" />
     <Compile Include="Controllers\InventarioItemController.cs" />
@@ -701,7 +703,7 @@
       <DependentUpon>AS2.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\departamentos.cs">
-      <DependentUpon>OASIS.tt</DependentUpon>
+      <DependentUpon>AS2OASIS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\departamento_rubro.cs">
       <DependentUpon>AS2.tt</DependentUpon>
@@ -723,6 +725,9 @@
     </Compile>
     <Compile Include="Models\destino_costo.cs">
       <DependentUpon>AS2.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DetalleOCEnlazada.cs">
+      <DependentUpon>AS2OASIS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\detalles_factura_contrato_arrendamiento.cs">
       <DependentUpon>AS2.tt</DependentUpon>
@@ -1126,6 +1131,9 @@
     <Compile Include="Models\dotacion_empleado.cs">
       <DependentUpon>AS2.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\DVP.cs">
+      <DependentUpon>AS2OASIS.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\ejercicio.cs">
       <DependentUpon>AS2.tt</DependentUpon>
     </Compile>
@@ -1261,6 +1269,9 @@
     <Compile Include="Models\gasto_producto_factura_proveedor.cs">
       <DependentUpon>AS2.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\geoubicacion.cs">
+      <DependentUpon>AS2OASIS.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\grupo_articulo_servicio.cs">
       <DependentUpon>AS2.tt</DependentUpon>
     </Compile>
@@ -1278,6 +1289,9 @@
     </Compile>
     <Compile Include="Models\guia_remision.cs">
       <DependentUpon>AS2.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\guia_urbano_troq.cs">
+      <DependentUpon>AS2OASIS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\herramienta.cs">
       <DependentUpon>AS2.tt</DependentUpon>
@@ -1367,7 +1381,7 @@
       <DependentUpon>AS2.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\invt_categoria.cs">
-      <DependentUpon>OASIS.tt</DependentUpon>
+      <DependentUpon>AS2OASIS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\invt_productos.cs">
       <DependentUpon>OASIS.tt</DependentUpon>
@@ -1380,6 +1394,9 @@
     </Compile>
     <Compile Include="Models\invt_productos_stock.cs">
       <DependentUpon>OASIS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\invt_um.cs">
+      <DependentUpon>AS2OASIS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Laboratorios.cs" />
     <Compile Include="Models\lectura_balanza.cs">
@@ -1547,6 +1564,9 @@
     <Compile Include="Models\operacion_produccion.cs">
       <DependentUpon>AS2.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ordenes_compra.cs">
+      <DependentUpon>AS2OASIS.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\orden_despacho_cliente.cs">
       <DependentUpon>AS2.tt</DependentUpon>
     </Compile>
@@ -1630,6 +1650,12 @@
     </Compile>
     <Compile Include="Models\permiso_empleado.cs">
       <DependentUpon>AS2.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\picking.cs">
+      <DependentUpon>AS2OASIS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\PickingGuias.cs">
+      <DependentUpon>AS2OASIS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\plantilla.cs">
       <DependentUpon>AS2.tt</DependentUpon>
@@ -1736,6 +1762,9 @@
     <Compile Include="Models\producto.cs">
       <DependentUpon>AS2.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\productos.cs">
+      <DependentUpon>AS2OASIS.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\producto_accesorio.cs">
       <DependentUpon>AS2.tt</DependentUpon>
     </Compile>
@@ -1782,10 +1811,10 @@
       <DependentUpon>AS2.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\prov_oc_detalle.cs">
-      <DependentUpon>OASIS.tt</DependentUpon>
+      <DependentUpon>AS2OASIS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\prov_oc_principal.cs">
-      <DependentUpon>OASIS.tt</DependentUpon>
+      <DependentUpon>AS2OASIS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\pro_alarmas.cs">
       <DependentUpon>OASIS.tt</DependentUpon>
@@ -2340,6 +2369,9 @@
       <DependentUpon>OASIS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\VentasPorVendedor_Result.cs">
+      <DependentUpon>AS2OASIS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Ventas_Consolidado.cs">
       <DependentUpon>AS2OASIS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\venta_ats.cs">
@@ -4680,9 +4712,15 @@
     <Content Include="Views\Credito\NotasCredito.cshtml" />
     <Content Include="Views\Credito\ChequesPost.cshtml" />
     <Content Include="Views\Contabilidad\Autorizaciones.cshtml" />
+    <Content Include="Views\DetalleOrdenCompra\Reporte.cshtml" />
+    <Content Include="Views\Credito\EditarFactura.cshtml" />
+    <Content Include="Views\Credito\VerFactura.cshtml" />
+    <Content Include="Views\Credito\VerCobro.cshtml" />
+    <Content Include="Views\Picking\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Geoubicacion\" />
     <Folder Include="Views\InventarioGastos\" />
     <Folder Include="Views\InventarioItem\" />
   </ItemGroup>

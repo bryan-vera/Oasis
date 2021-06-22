@@ -14,30 +14,9 @@ namespace Oasis.Models
     
     public partial class departamentos
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public departamentos()
-        {
-            this.rrhh_cargos_laborales = new HashSet<rrhh_cargos_laborales>();
-            this.tckt_categoria = new HashSet<tckt_categoria>();
-            this.user_bitacora = new HashSet<user_bitacora>();
-            this.user_bitacora1 = new HashSet<user_bitacora>();
-            this.prov_oc_principal = new HashSet<prov_oc_principal>();
-        }
-    
-        public int ID_DPTO { get; set; }
-        public string NOMBRE_DEPARTAMENTO { get; set; }
-        public Nullable<int> ID_JEFE_AREA { get; set; }
-        public Nullable<sbyte> TCKT_DISPONIBLE { get; set; }
-    
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<rrhh_cargos_laborales> rrhh_cargos_laborales { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tckt_categoria> tckt_categoria { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<user_bitacora> user_bitacora { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<user_bitacora> user_bitacora1 { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<prov_oc_principal> prov_oc_principal { get; set; }
+        public int id_departamento { get; set; }
+        public string nombre { get; set; }
+        public int id_jefe_area { get; set; }
+        public bool ticket_disponible { get; set; }
     }
 }

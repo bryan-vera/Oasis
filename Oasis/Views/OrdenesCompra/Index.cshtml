@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Oasis.Models.prov_oc_principal>
+﻿@model IEnumerable<Oasis.Models.ordenes_compra>
 
 @{
     ViewBag.Title = "Index";
@@ -16,19 +16,19 @@
                 <table class="table table-hover text-nowrap">
                     <tr>
                         <th>
-                            @Html.DisplayNameFor(model => model.id_oc_principal)
+                            @Html.DisplayNameFor(model => model.empresa)
                         </th>
                         <th>
-                            @Html.DisplayNameFor(model => model.id_proveedor)
+                            @Html.DisplayNameFor(model => model.fecha)
                         </th>
                         <th>
-                            @Html.DisplayNameFor(model => model.fecha_documento)
+                            @Html.DisplayNameFor(model => model.secuencial)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.cliente)
                         </th>
                         <th>
                             @Html.DisplayNameFor(model => model.valor_total)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.anulada)
                         </th>
                         <th></th>
                     </tr>
@@ -37,19 +37,19 @@
                     {
                         <tr>
                             <td>
-                                @Html.DisplayFor(modelItem => item.id_oc_principal)
+                                @Html.DisplayFor(modelItem => item.empresa)
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => item.id_proveedor)
+                                @Html.DisplayFor(modelItem => item.fecha)
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => item.fecha_documento)
+                                @Html.DisplayFor(modelItem => item.secuencial)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.cliente)
                             </td>
                             <td>
                                 @Html.DisplayFor(modelItem => item.valor_total)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.anulada)
                             </td>
                             <td>
                                 @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |

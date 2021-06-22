@@ -9,11 +9,12 @@ namespace Oasis.Controllers
 {
     public class GastosController : Controller
     {
+       
         // GET: Gastos
         public ActionResult Index()
         {
-            OASISContext oasis = new OASISContext();
-            return View(oasis.invt_productos_gastos.ToList());
+            as2oasis oasis = new as2oasis();
+            return View(oasis.productos.ToList());
         }
 
         // GET: Gastos/Details/5
@@ -25,34 +26,35 @@ namespace Oasis.Controllers
         // GET: Gastos/Create
         public ActionResult Create()
         {
-            invt_productos_gastos productos = new invt_productos_gastos();
+            //as2oasis oasis = new as2oasis();
+            productos productos = new productos();
             return View(productos);
         }
 
         public JsonResult ObtenerProductos(string textoBusqueda)
         {
-            OASISContext oasis = new OASISContext();
+            as2oasis oasis = new as2oasis();
             oasis.Configuration.LazyLoadingEnabled = false;
-            var productos= oasis.invt_productos_gastos.Where(x=>x.descripcion.Contains(textoBusqueda)).ToList();
+            var productos=oasis.productos.Where(x=>x.descripcion.Contains(textoBusqueda)).ToList();
             return Json(productos, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
-        public ActionResult Create(invt_productos_gastos productoModel)
+        public ActionResult Create(productos productoModel)
         {
-            using(OASISContext oasis = new OASISContext())
+            using(as2oasis oasis = new as2oasis())
             {
-                if(oasis.invt_productos_gastos.Any(x => x.descripcion == productoModel.descripcion))
+                if(oasis.productos.Any(x => x.descripcion == productoModel.descripcion))
                 {
                     ViewBag.ProductoDuplicado = true;
                     return View("Create", productoModel);
                 }
-                oasis.invt_productos_gastos.Add(productoModel);
+                oasis.productos.Add(productoModel);
                 oasis.SaveChanges();
             }
             ModelState.Clear();
             ViewBag.SuccessMessage = "Se ha registrado el producto";
-            return View("Create",new invt_productos_gastos());
+            return View("Create",new productos());
         }
 
         // POST: Gastos/Create
@@ -76,11 +78,11 @@ namespace Oasis.Controllers
         {
             try
             {
-                using(var db = new OASISContext())
+                using(var db = new as2oasis())
                 {
                     //invt_productos_gastos productos = db.invt_productos_gastos.Where(z => z.id_producto == id).FirstOrDefault();
-                    invt_productos_gastos productos_2 = db.invt_productos_gastos.Find(id);
-                    ViewBag.categoria = productos_2.grupo_categoria;
+                    productos productos_2 = db.productos.Find(id);
+                    ViewBag.categoria = productos_2.categoria;
                     return View(productos_2);
                 }
             }
@@ -95,18 +97,19 @@ namespace Oasis.Controllers
         // POST: Gastos/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, invt_productos_gastos producto)
+        public ActionResult Edit(int id, productos producto)
         {
             try
             {
-                using (var db = new OASISContext())
+                using (var db = new as2oasis())
                 {
                     //invt_productos_gastos productos = db.invt_productos_gastos.Where(z => z.id_producto == id).FirstOrDefault();
-                    invt_productos_gastos productos_2 = db.invt_productos_gastos.Find(id);
-                    productos_2.descripcion = producto.descripcion;
-                    productos_2.grupo_categoria = producto.grupo_categoria;
-                    productos_2.um = producto.um;
+                    productos productos_2 = db.productos.Find(id);
+                    productos_2.descripcion = producto.descripcion.Trim();
+                    productos_2.categoria = producto.categoria.Trim();
+                    productos_2.um = producto.um.Trim();
                     productos_2.valor_unitario = producto.valor_unitario;
+                    productos_2.iva = producto.iva;
                     db.SaveChanges();
                     return RedirectToAction("Index");
                 }

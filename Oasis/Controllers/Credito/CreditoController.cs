@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.IO;
 using System.Linq;
 using System.Web;
@@ -124,6 +125,121 @@ namespace Oasis.Controllers.Credito
             }
         }
 
+        [HttpGet]
+        public JsonResult ReporteCobros(
+            string empresa,
+            string sucursal,
+            string fecha_desde,
+            string fecha_hasta,
+            string tipoCliente,
+            string visitador)
+        {
+            var tipoC = JsonConvert.DeserializeObject(tipoCliente);
+            var tipoCliente_ = tipoCliente.Replace(@"[", string.Empty).Replace(@"]", string.Empty).Replace("\"", string.Empty);
+            string[] categoriaCliente = tipoCliente_.Split(',');
+
+            using (var context = new as2oasis())
+            {
+                var cobros =
+                    context.Cobros_Consolidado
+                    .ToList()
+                    .Where(x => x.empresa == empresa &&
+                                x.sucursal == sucursal &&
+                                categoriaCliente.Contains(x.categoria) &&
+                                x.fecha_creacion >= DateTime.Parse(fecha_desde) &&
+                                x.fecha_creacion <= DateTime.Parse(fecha_hasta)
+                            );
+
+                if (!String.IsNullOrEmpty(visitador))
+                {
+                    var codigo_visitador = Int16.Parse(visitador);
+                    cobros = cobros.Where(x => x.id_vendedor == codigo_visitador);
+                }
+
+                var listaCobros = cobros
+                    .ToList()
+                    .Select(x => new
+                    {
+                        x.empresa,
+                        x.sucursal,
+                        x.categoria,
+                        x.codigo,
+                        x.nombre_comercial,
+                        x.codigo_cobro,
+                        fecha_creacion = x.fecha_creacion.Value.ToShortDateString(),
+                        fecha_aplicacion = x.fecha_aplicacion.Value.ToShortDateString(),
+                        valor = x.valor.ToString("N2"),
+                        secuencial_factura=x.numero,
+                        fecha_factura = x.fecha_factura.Value.ToShortDateString(),
+                        fecha_vencimiento = x.fecha_vencimiento.Value.ToShortDateString(),
+                        x.vendedor,
+                        descripcion = x.descripcion_factura
+                    });
+
+
+                var listaCobros_json = JsonConvert.SerializeObject(listaCobros, Formatting.Indented);
+
+                return Json(listaCobros_json, JsonRequestBehavior.AllowGet);
+
+            }
+        }
+
+        [HttpGet]
+        public JsonResult ReporteFacturas(
+            string empresa,
+            string sucursal,
+            string fecha_desde,
+            string fecha_hasta,
+            string tipoCliente,
+            string visitador)
+        {
+            var tipoC = JsonConvert.DeserializeObject(tipoCliente);
+            var tipoCliente_ = tipoCliente.Replace(@"[", string.Empty).Replace(@"]", string.Empty).Replace("\"", string.Empty);
+            string[] categoriaCliente = tipoCliente_.Split(',');
+
+            using (var context = new as2oasis())
+            {
+                var facturas =
+                    context.Ventas_Consolidado
+                    .ToList()
+                    .Where(x => x.empresa == empresa &&
+                                x.sucursal == sucursal &&
+                                categoriaCliente.Contains(x.categoria) &&
+                                x.fecha_factura >= DateTime.Parse(fecha_desde) &&
+                                x.fecha_factura <= DateTime.Parse(fecha_hasta)
+                            );
+
+                if (!String.IsNullOrEmpty(visitador))
+                {
+                    var codigo_visitador = Int16.Parse(visitador);
+                    facturas = facturas.Where(x => x.id_vendedor == codigo_visitador);
+                }
+
+                var listaFacturas = facturas
+                    .ToList()
+                    .Select(x => new
+                    {
+                        x.empresa,
+                        x.sucursal,
+                        x.categoria,
+                        x.identificacion,
+                        x.nombre_comercial,
+                        x.secuencial_factura,
+                        fecha_factura = x.fecha_factura.ToShortDateString(),
+                        valor = x.valor_factura,
+                        x.vendedor,
+                        x.descripcion,
+                        x.estado
+                    });
+
+
+                var listaFacturas_json = JsonConvert.SerializeObject(listaFacturas, Formatting.Indented);
+
+                return Json(listaFacturas_json, JsonRequestBehavior.AllowGet);
+
+            }
+        }
+
         public JsonResult ObtenerNCPorVendedor(
             string empresa,
             string sucursal,
@@ -158,6 +274,33 @@ namespace Oasis.Controllers.Credito
             }
         }
          
+        public ActionResult VerFactura()
+        {
+            ViewBag.Opciones = ListaEmpresas();
+            return View();
+        }
+
+        public ActionResult VerCobro()
+        {
+            ViewBag.Opciones = ListaEmpresas();
+            return View();
+        }
+
+        [HttpGet]
+        public JsonResult DetalleFactura(string ClaveAcceso)
+        {
+            ClaveAcceso = ClaveAcceso.Substring(1, ClaveAcceso.Length-1);
+            using (var context = new as2oasis())
+            {
+                var detalle_factura =
+                    context.DVP 
+                    .Where(x => x.clave_acceso.Contains(ClaveAcceso))
+                    .Select(x => new { x.Cliente, x.Código_producto, x.Producto, x.Cantidad, x.UM });
+                var presupuesto_json = JsonConvert.SerializeObject(detalle_factura, Formatting.Indented);
+
+                return Json(presupuesto_json, JsonRequestBehavior.AllowGet);
+            }
+        }
 
 
         public JsonResult ObtenerPresupuesto(
@@ -169,7 +312,7 @@ namespace Oasis.Controllers.Credito
 
             DateTime fecha_desde_ = DateTime.Parse(fecha_desde);
             DateTime fecha_hasta_ = DateTime.Parse(fecha_hasta);
-            var tipoC = JsonConvert.DeserializeObject(tipoCliente);
+            //var tipoC = JsonConvert.DeserializeObject(tipoCliente);
             //string csv = jsonToCSV(tipoCliente, ",");
 
             //var lista = tipoC.Split(',');
@@ -229,6 +372,32 @@ namespace Oasis.Controllers.Credito
             }
             //return View();
         }
+
+        [HttpGet]
+        public JsonResult ObtenerFacturas(string textoBusqueda, string empresa)
+        {
+            AS2Context as2 = new AS2Context();
+            var facturas = from factura in as2.factura_cliente
+                           .Where(x => x.id_factura_cliente_padre == null
+                           && x.numero.Contains(textoBusqueda))
+                           join vendedor in as2.usuario
+                           on factura.id_agente_comercial equals vendedor.id_usuario into VendedorFactura
+                           from vfc in VendedorFactura.DefaultIfEmpty()
+                           join emp in as2.organizacion
+                           on factura.id_organizacion equals emp.id_organizacion
+                           where emp.nombre_comercial == empresa
+                           select new
+                           {
+                               codigo_factura = factura.id_factura_cliente,
+                               secuencial = factura.numero,
+                               id_vendedor = factura.id_agente_comercial,
+                               vendedor = vfc.nombre_usuario.ToUpper()
+                           };
+
+            return Json(facturas, JsonRequestBehavior.AllowGet);
+
+        }
+
 
         public JsonResult ObtenerCarteraVisitador(
             string empresa,
@@ -316,10 +485,17 @@ namespace Oasis.Controllers.Credito
 
 
 
+        public ActionResult EditarFactura()
+        {
+            ViewBag.Opciones = ListaEmpresas();
+            return View();
+        }
+
+
         // GET: Cartera
         public ActionResult Cartera()
         {
-            ViewBag.Opciones = ViewBag.Opciones = ListaEmpresas();
+            ViewBag.Opciones = ListaEmpresas();
             return View();
         }
 
@@ -486,6 +662,24 @@ namespace Oasis.Controllers.Credito
             return View();
         }
 
+
+        [HttpPost]
+        public ActionResult GuardarFactura (int id_factura, int id_visitador_nuevo)
+        {
+            try
+            {
+                AS2Context as2 = new AS2Context();
+                factura_cliente fact = new factura_cliente();
+                fact = as2.factura_cliente.Find(id_factura);
+                fact.id_agente_comercial = id_visitador_nuevo;
+                as2.Entry(fact).State = EntityState.Modified;
+                as2.SaveChanges();
+                return new HttpStatusCodeResult(200);
+            } catch
+            {
+                return new HttpStatusCodeResult(400);
+            }
+        }
 
         // POST: Credito/Edit/5
         [HttpPost]

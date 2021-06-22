@@ -1,57 +1,182 @@
-﻿@model IEnumerable<Oasis.Models.prov_oc_principal>
-
+﻿
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Ordenes de compra";
 }
 
-<h2>Index</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.id_oc_principal)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.id_proveedor)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.fecha_documento)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.valor_total)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.anulada)
-        </th>
-        <th></th>
-    </tr>
+<!--<div class="row">
+    <div class="col-md-12">
+        <div class="card card-primary">
+            <div class="card-header">
+                <h2 class="card-title">Ordenes de compra</h2>
+                <div class="card-tools">
+                    <button type="button" class="btn bg-primary btn-sm" data-card-widget="collapse">
+                        <i class="fas fa-minus"></i>
+                    </button>
+                    <button type="button" class="btn bg-primary btn-sm" data-card-widget="remove">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>-->
+            <!-- form start -->
+            <!--<div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Empresa</label>
+                            @Html.DropDownList("empresa_ind",
+                                        new SelectList(ViewBag.Opciones, "Value", "Text"),
+                                        htmlAttributes: new { @class = "form-control" })
+                        </div>                       
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Región</label>
+                            <select class="form-control" id="sucursal_ind">
+                                <option value="COSTA">COSTA</option>
+                                <option value="SIERRA">SIERRA</option>
+                                <option value="AUSTRO">AUSTRO</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer">
+                <button type="button" id="DetalleIndividual" style="visibility: hidden" class="btn btn-info  float-left">Detalle individual</button>
+                <button type="button" id="GenerarCartera" class="btn btn-primary  float-right">Generar</button>
+            </div>
+        </div>
+    </div>
+</div>-->
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.id_oc_principal)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.id_proveedor)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.fecha_documento)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.valor_total)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.anulada)
-        </td>
-        <td>
-            @Html.ActionLink("Imprimir", "Imprimir", new { id = item.id_oc_principal }, new { target = "_blank" }) |
-            @Html.ActionLink("Enviar", "Enviar", new { id = item.id_oc_principal }) |
-            @Html.ActionLink("Anular", "Delete", new { id = item.id_oc_principal })
-        </td>
-    </tr>
+<div class="row">
+    <div class="col-md-12">
+        <div class="card card-primary">           
+            <!-- form start -->
+            <div class="card-body">
+                <table id="tablaOC">
+                    <thead>
+                        <tr>
+                            <th>Empresa</th>
+                            <th>Secuencial</th>
+                            <th>Fecha</th>
+                            <th>Proveedor</th>
+                            <th>Total</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tr>
+                        <td></td>
+                    </tr>
+                </table>
+            </div>
+            <!-- /.card-body -->
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    <script>
+        $('#tablaOC').DataTable({
+            dom: 'Bfrtip',
+            buttons: [
+                'copy', 'csv', 'excel', 'pdf', 'print'
+            ],
+            "processing": true,
+            //"serverSide": true,
+            "ajax": {
+                "url": "DetalleOrdenCompra/ListaOC",
+                "type": "POST",
+                "dataSrc": ""
+            },
+            "columns": [
+                { "data": "Empresa" },
+                { "data": "Secuencial" },
+                { "data": "Fecha" },
+                { "data": "Proveedor" },
+                { "data": "Total" },
+                { "data": "Enlazado" }
+            ],
+            columnDefs: [
+                {
+                    targets: 5,
+                    render: function (data, type, row, meta) {
+                        if (row.Enlazado == 0) {
+                            return '<input type="button" class="btn btn-info form-control" onClick="Detallar('+row.Id_oc+')" data-id="' + row.Id_oc + '" value="Detallar"/>'
+                        } else { 
+                            return '<input type="button" class="btn btn-success form-control" onClick="VerDetalle(' + row.Id_oc +')" data-id="' + row.Id_oc + '" value="Enlazado" disabled/>'
+                        }
+                    }
+
+                }
+            ],
+            language: {
+                url: 'https://cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json'
+            }
+        });
+
+    </script>
+
+    <script src="~/Content/js/OrdenCompra.js"></script>
+    <script>
+
+        function Detallar(id_oc) {
+            var url = '@Url.Action("Create", "DetalleOrdenCompra")?id_oc=' + id_oc;
+            window.location.href = url;
+        }
+
+        $('.cartera_visitador').change(
+            function () {
+                if (this.checked) {
+                    $("#divVendedor").css('visibility', 'visible');
+                }
+            });
+
+        $('.cartera_general').change(
+            function () {
+                if (this.checked) {
+                    $("#divVendedor").css('visibility', 'hidden');
+                    $("#DetalleIndividual").css('visibility', 'hidden');
+                }
+            });
+        ActivarVendedores();
+
+        function ActivarVendedores() {
+            $('.js-data-vendedor-ajax').select2({
+                //selectOnClose: true,
+                minimumInputLength: 2,
+                language: {
+                    inputTooShort: function () {return "Ingresar dos o más caracteres";}
+                },
+                tags: [],
+                ajax: {
+                    url: '/Presupuesto/ObtenerVendedores',
+                    processResults: function (data) {
+                        return {
+                            results: $.map(data, function (item) {
+                                return {
+                                    text: item.username,
+                                    id: item.id_vendedor
+                                }
+                            })
+                        };
+                    },
+                    dataType: 'json',
+                    data: function (params) {
+                        var query = {
+                            textoBusqueda: params.term,
+                            empresa: $('#empresa_ind').val(),
+                            sucursal: $('#sucursal_ind').val()
+                        }
+                        return query;
+                    }
+                }
+            }).on('change', function (e) {
+                $("#DetalleIndividual").css('visibility', 'visible');
+                //var id_vendedor = $(this).select2('data')[0].id_vendedor;
+                //$(e.target).closest('#id_vendedor').val(id_vendedor);
+            });
+        }
+    </script>
 }
-
-</table>

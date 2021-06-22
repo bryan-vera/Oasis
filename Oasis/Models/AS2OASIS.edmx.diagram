@@ -16,7 +16,23 @@
         <EntityTypeShape EntityType="oasisAS2.NC_Consolidado" Width="1.5" PointX="5.375" PointY="8.75" />
         <EntityTypeShape EntityType="oasisAS2.Cartera" Width="1.5" PointX="8.375" PointY="5.625" />
         <EntityTypeShape EntityType="oasisAS2.Anticipos" Width="1.5" PointX="0.75" PointY="9.75" />
-      </Diagram>
+        <EntityTypeShape EntityType="oasisAS2.departamentos" Width="1.5" PointX="10.375" PointY="8.75" />
+        <EntityTypeShape EntityType="oasisAS2.prov_oc_detalle" Width="1.5" PointX="12.625" PointY="5" />
+        <EntityTypeShape EntityType="oasisAS2.prov_oc_principal" Width="1.5" PointX="10.375" PointY="13" />
+        <AssociationConnector Association="oasisAS2.FK_prov_oc_detalle_prov_oc_principal" />
+        <EntityTypeShape EntityType="oasisAS2.invt_categoria" Width="1.5" PointX="7.375" PointY="11.75" />
+        <EntityTypeShape EntityType="oasisAS2.productos" Width="1.5" PointX="12.375" PointY="1" />
+        <AssociationConnector Association="oasisAS2.FK_prov_oc_detalle_productos" />
+        <EntityTypeShape EntityType="oasisAS2.DetalleOCEnlazada" Width="1.5" PointX="12.375" PointY="8.75" />
+        <EntityTypeShape EntityType="oasisAS2.invt_um" Width="1.5" PointX="12.375" PointY="13.75" />
+        <EntityTypeShape EntityType="oasisAS2.ordenes_compra" Width="2.375" PointX="14.625" PointY="1.25" />
+        <EntityTypeShape EntityType="oasisAS2.Ventas_Consolidado" Width="1.5" PointX="0.75" PointY="14.75" />
+        <EntityTypeShape EntityType="oasisAS2.DVP" Width="1.5" PointX="16.75" PointY="11" />
+        <EntityTypeShape EntityType="oasisAS2.guia_urbano_troq" Width="1.5" PointX="3.375" PointY="15.75" />
+        <EntityTypeShape EntityType="oasisAS2.PickingGuias" Width="1.5" PointX="9.375" PointY="16.75" />
+        <EntityTypeShape EntityType="oasisAS2.picking" Width="1.5" PointX="15.375" PointY="4.75" />
+        <EntityTypeShape EntityType="oasisAS2.geoubicacion" Width="1.5" PointX="5.375" PointY="14.75" />
+        </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
 </edmx:Edmx>

@@ -1,5 +1,4 @@
-﻿@model Oasis.Models.invt_productos_gastos
-@using Oasis.Controllers;
+﻿@model Oasis.Models.productos
 @using Oasis.Models;
 
 @{
@@ -14,16 +13,14 @@
 
     <div class="row">
         <div class="col-md-12">
-            <hr />
-
+            <hr/>
             <div class="card card-primary">
                 <div class="card-header">
                     <h3 class="card-title">Nuevo producto</h3>
                 </div>
-
                 <div class="card-body">
                     <div class="form-group">
-                        @Html.LabelFor(model => model.descripcion, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <label class="control-label col-md-2" for="categoria">Descripción</label>
                         <div class="col-md-10">
                             @Html.EditorFor(model => model.descripcion, new { htmlAttributes = new { @class = "form-control" } })
                             @Html.ValidationMessageFor(model => model.descripcion, "", new { @class = "text-danger" })
@@ -31,7 +28,7 @@
                     </div>
 
                     <div class="form-group">
-                        @Html.LabelFor(model => model.valor_unitario, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <label class="control-label col-md-2" for="valor_unitario">Valor unitario</label>
                         <div class="col-md-10">
                             @Html.EditorFor(model => model.valor_unitario, new { htmlAttributes = new { @class = "form-control" } })
                             @Html.ValidationMessageFor(model => model.valor_unitario, "", new { @class = "text-danger" })
@@ -39,12 +36,12 @@
                     </div>
 
                     <div class="form-group">
-                        @Html.LabelFor(model => model.grupo_categoria, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <label class="control-label col-md-2" for="categoria">Categoria</label>
                         <div class="col-md-10">
                             @{
-                                OASISContext db = new OASISContext();
+                                as2oasis db = new as2oasis();
                                 List<invt_categoria> lista_categoria = db.invt_categoria.ToList();
-                                <select name="grupo_categoria" class="form-control">
+                                <select name="categoria" class="form-control">
                                     @{
                                         <option value="" disabled hidden selected>Selecciona la categoría</option>
                                         foreach (invt_categoria cat in lista_categoria)
@@ -53,28 +50,35 @@
                                         }
                                     }
                                 </select>
-                            }                          
+                            }
                         </div>
                     </div>
 
                     <div class="form-group">
-                        @Html.LabelFor(model => model.um, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <label class="control-label col-md-2" for="um">UM</label>
                         <div class="col-md-10">
-                            @Html.EditorFor(model => model.um, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.um, "", new { @class = "text-danger" })
+                            @{
+                                List<invt_um> lista_um  = db.invt_um.ToList();
+                                <select name="um" class="form-control">
+                                    @{
+                                        <option value="" disabled hidden selected>Selecciona la UM</option>
+                                        foreach (invt_um um in lista_um)
+                                        {
+                                            <option value="@um.um">@um.um</option>
+                                        }
+                                    }
+                                </select>
+                            }
                         </div>
                     </div>
 
                     <div class="form-group">
-                        @Html.LabelFor(model => model.grava_iva, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <label class="control-label col-md-2" for="iva">IVA</label>
                         <div class="col-md-10">
                             <div class="form-check">
-                                <input type="checkbox" name="grava_iva" class="form-check-input" id="grava_iva">
-                                <label class="form-check-label" for="grava_iva">IVA 12%</label>
+                                @Html.CheckBoxFor(model => model.iva, new { htmlAttributes = new { @class = "form-control" } })
                             </div>
-                            @*@Html.CheckBoxFor(model=>model.grava_IVA, new { htmlAttributes = new { @class = "form-control" } })*@
-                            @*@Html.EditorFor(model => model.grava_iva, new { htmlAttributes = new { @class = "form-control" } })*@
-                            @Html.ValidationMessageFor(model => model.grava_iva, "", new { @class = "text-danger" })
+                            @Html.ValidationMessageFor(model => model.iva, "", new { @class = "text-danger" })
                         </div>
                     </div>
 
