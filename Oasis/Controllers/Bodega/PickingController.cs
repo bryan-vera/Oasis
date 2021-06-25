@@ -2,6 +2,7 @@
 using Oasis.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -130,6 +131,24 @@ namespace Oasis.Controllers.Bodega
 
         }
 
+        [HttpGet]
+        public ActionResult DescargarAPP()
+        {
+            byte[] fileBytes = System.IO.File.ReadAllBytes(@"C:\\Mobile\\APP.apk");
+            string fileName = "PickingHorus.apk";
+            return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, fileName);
+        }
+
+        byte[] GetFile(string s)
+        {
+            System.IO.FileStream fs = System.IO.File.OpenRead(s);
+            byte[] data = new byte[fs.Length];
+            int br = fs.Read(data, 0, data.Length);
+            if (br != fs.Length)
+                throw new System.IO.IOException(s);
+            return data;
+        }
+
 
         [HttpGet]
         public string LecturaPicking(string ClaveAcceso)
@@ -145,14 +164,16 @@ namespace Oasis.Controllers.Bodega
                         x.Secuencial_documento,
                         x.Cliente,
                         x.Fecha_factura,
-                        x.Empresa
+                        x.Empresa,
+                        x.clave_acceso
                     })
                     .Select(x => new {
                         x.Key.Cliente,
                         x.Key.id_factura_cliente,
                         x.Key.Secuencial_documento,
                         x.Key.Fecha_factura,
-                        x.Key.Empresa
+                        x.Key.Empresa,
+                        x.Key.clave_acceso
                     })
                     .FirstOrDefault();
 
@@ -186,6 +207,7 @@ namespace Oasis.Controllers.Bodega
                     Fecha_factura = id_factura.Fecha_factura.Value.ToShortDateString(),
                     FechaUltimoEstado = datos_picking.Count == 0 ? "" :
                         datos_picking.OrderByDescending(z => z.estado).First().fecha_hora.Value.ToString(),
+                    id_factura.clave_acceso,
                     DetalleFactura = detalle_factura
                 };
 

@@ -4717,10 +4717,10 @@
     <Content Include="Views\Credito\VerFactura.cshtml" />
     <Content Include="Views\Credito\VerCobro.cshtml" />
     <Content Include="Views\Picking\Index.cshtml" />
+    <Content Include="Views\Geoubicacion\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Geoubicacion\" />
     <Folder Include="Views\InventarioGastos\" />
     <Folder Include="Views\InventarioItem\" />
   </ItemGroup>
