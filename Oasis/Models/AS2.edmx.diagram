@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="ecd33c951abc499695a28418e63b330f" Name="Diagram1">
+      <Diagram DiagramId="ecd33c951abc499695a28418e63b330f" Name="Diagram1" ZoomLevel="35">
         <EntityTypeShape EntityType="AS2Model.accion" Width="1.5" PointX="120.75" PointY="879.25" IsExpanded="true" />
         <EntityTypeShape EntityType="AS2Model.actividad" Width="1.5" PointX="3" PointY="16.375" IsExpanded="true" />
         <EntityTypeShape EntityType="AS2Model.actividad_imagen_orden_trabajo_mantenimiento" Width="1.5" PointX="126" PointY="831" IsExpanded="true" />
@@ -584,7 +584,6 @@
         <EntityTypeShape EntityType="AS2Model.unidad_manejo" Width="1.5" PointX="15" PointY="832.875" IsExpanded="true" />
         <EntityTypeShape EntityType="AS2Model.unidad_manejo_producto" Width="1.5" PointX="43.25" PointY="842.75" IsExpanded="true" />
         <EntityTypeShape EntityType="AS2Model.unidad_medicion" Width="1.5" PointX="30.75" PointY="2.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="AS2Model.usuario" Width="1.5" PointX="97" PointY="853.875" IsExpanded="true" />
         <EntityTypeShape EntityType="AS2Model.usuario_bodega" Width="1.5" PointX="84" PointY="819.125" IsExpanded="true" />
         <EntityTypeShape EntityType="AS2Model.usuario_cuenta_contable" Width="1.5" PointX="105.25" PointY="872.125" IsExpanded="true" />
         <EntityTypeShape EntityType="AS2Model.usuario_cuenta_organizacion" Width="1.5" PointX="112.25" PointY="829.5" IsExpanded="true" />
@@ -1046,7 +1045,6 @@
         <AssociationConnector Association="AS2Model.FK_lx54gtys9kxdyjh24u7ibc9pk" ManuallyRouted="false" />
         <AssociationConnector Association="AS2Model.FK_nxbb07kx0729jg5m6749hnibh" ManuallyRouted="false" />
         <AssociationConnector Association="AS2Model.FK_bi9vecexyqhls14gpoc417yql" ManuallyRouted="false" />
-        <AssociationConnector Association="AS2Model.FK_fi3or6vdjydr0onm7p6llokpt" ManuallyRouted="false" />
         <AssociationConnector Association="AS2Model.FK_lloh1gs4msku3ul41dy9apxkq" ManuallyRouted="false" />
         <AssociationConnector Association="AS2Model.FK_1ue4ugrab4rf5247ll1mccmbi" ManuallyRouted="false" />
         <AssociationConnector Association="AS2Model.FK_5igvgjed5ujpuxgyj5r731c8j" ManuallyRouted="false" />
@@ -1070,7 +1068,6 @@
         <AssociationConnector Association="AS2Model.FK_fw4yx1d6hwko879sgb99tsg27" ManuallyRouted="false" />
         <AssociationConnector Association="AS2Model.FK_g4jxps6n4bbop5r2o94hqyyh3" ManuallyRouted="false" />
         <AssociationConnector Association="AS2Model.FK_i6qr0n5eaummdt4da5rllehva" ManuallyRouted="false" />
-        <AssociationConnector Association="AS2Model.FK_psmb5rvb6csiff8iy7oc3l4u9" ManuallyRouted="false" />
         <AssociationConnector Association="AS2Model.FK_1iat94qmpn3xn71vw4hqv3rps" ManuallyRouted="false" />
         <AssociationConnector Association="AS2Model.FK_4tm7ix35ro7rarlk3k9fh7fux" ManuallyRouted="false" />
         <AssociationConnector Association="AS2Model.FK_5ry507hqmyisg2y6nb5q5wsf1" ManuallyRouted="false" />
@@ -1157,7 +1154,6 @@
         <AssociationConnector Association="AS2Model.FK_gkk5i3jh40d0uvga4l7jg9oq1" ManuallyRouted="false" />
         <AssociationConnector Association="AS2Model.FK_1anmgrxfldenhhpg8irp3f4gy" ManuallyRouted="false" />
         <AssociationConnector Association="AS2Model.FK_1quodtkniy9c2l68sbl2vta4v" ManuallyRouted="false" />
-        <AssociationConnector Association="AS2Model.FK_2k4fopelgm1cd4d7mt4b2tfia" ManuallyRouted="false" />
         <AssociationConnector Association="AS2Model.FK_5680rvgq6smjxsgneejjjo8ml" ManuallyRouted="false" />
         <AssociationConnector Association="AS2Model.FK_cvrssgwg8yb3ice9g7ewix4y4" ManuallyRouted="false" />
         <AssociationConnector Association="AS2Model.FK_dg1r4t088mru1bygdrhuin4ve" ManuallyRouted="false" />
@@ -1170,7 +1166,6 @@
         <AssociationConnector Association="AS2Model.FK_sa32v38v6pd5d9m0jcglji9jq" ManuallyRouted="false" />
         <AssociationConnector Association="AS2Model.FK_83r60q3cydkvbfv6vnyrq5l22" ManuallyRouted="false" />
         <AssociationConnector Association="AS2Model.FK_87x1jxneaie7qhq93r0x7bgbc" ManuallyRouted="false" />
-        <AssociationConnector Association="AS2Model.FK_9yuxvmt9ibkbgouesmarkkyk2" ManuallyRouted="false" />
         <AssociationConnector Association="AS2Model.FK_hycalobhijysxmfu0hxkauly5" ManuallyRouted="false" />
         <AssociationConnector Association="AS2Model.FK_iy26n0uubig79r4sx1gjk6poq" ManuallyRouted="false" />
         <AssociationConnector Association="AS2Model.FK_jeq8s7t5981yd2wo0ot8n6fam" ManuallyRouted="false" />
@@ -1618,7 +1613,6 @@
         <AssociationConnector Association="AS2Model.FK_6v8a373qjm7opk9rci7ltf9p" ManuallyRouted="false" />
         <AssociationConnector Association="AS2Model.FK_d44s45brs4og2r31ia5xj7ns6" ManuallyRouted="false" />
         <AssociationConnector Association="AS2Model.FK_hreqk0jb051eyhg75mdpjesjg" ManuallyRouted="false" />
-        <AssociationConnector Association="AS2Model.FK_pl47scmw53eik5qar5bxo2vgk" ManuallyRouted="false" />
         <AssociationConnector Association="AS2Model.FK_hdtb91f7n9t410aphg17sf8wr" ManuallyRouted="false" />
         <AssociationConnector Association="AS2Model.FK_sucwn0aqft0jgp1llfdknqmtq" ManuallyRouted="false" />
         <AssociationConnector Association="AS2Model.FK_98241hqcpkw9d91vacptc30fw" ManuallyRouted="false" />
@@ -1725,7 +1719,6 @@
         <AssociationConnector Association="AS2Model.FK_5ougwpv46desaamqsij3r7k5n" ManuallyRouted="false" />
         <AssociationConnector Association="AS2Model.FK_if0yt1q7wguyiro7srbm904ie" ManuallyRouted="false" />
         <AssociationConnector Association="AS2Model.FK_lm9inifivpmdxexb7sl238mlh" ManuallyRouted="false" />
-        <AssociationConnector Association="AS2Model.FK_qhyg7pb3yg0d5yeo33liqqfty" ManuallyRouted="false" />
         <AssociationConnector Association="AS2Model.FK_sv4yjnfuunnib2814ttb27ryx" ManuallyRouted="false" />
         <AssociationConnector Association="AS2Model.FK_1qqxowe6bk3r158xgirvycmow" ManuallyRouted="false" />
         <AssociationConnector Association="AS2Model.FK_27iuh6h62kes0a07fd46fimy4" ManuallyRouted="false" />
@@ -1743,7 +1736,6 @@
         <AssociationConnector Association="AS2Model.FK_br4hv2xj2i1tyjc772ub597e1" ManuallyRouted="false" />
         <AssociationConnector Association="AS2Model.FK_tbklq44vnt0qnpbwwroh9p0th" ManuallyRouted="false" />
         <AssociationConnector Association="AS2Model.FK_td90ddave1es47lqa93qcp89r" ManuallyRouted="false" />
-        <AssociationConnector Association="AS2Model.FK_ut6glyumfrnwm6cjgy0l8u44" ManuallyRouted="false" />
         <AssociationConnector Association="AS2Model.FK_9p4h56ydw3s1mgjp9hkrldm5c" ManuallyRouted="false" />
         <AssociationConnector Association="AS2Model.FK_emwbucd508ktvq7gn49r8kga4" ManuallyRouted="false" />
         <AssociationConnector Association="AS2Model.FK_bod1vj1gcgv7tttqaxmscppte" ManuallyRouted="false" />
@@ -1822,7 +1814,6 @@
         <AssociationConnector Association="AS2Model.FK_ppuas1odmf83vd43tnl5upni2" ManuallyRouted="false" />
         <AssociationConnector Association="AS2Model.FK_6j6apbtomvgw56ueeokriltel" ManuallyRouted="false" />
         <AssociationConnector Association="AS2Model.FK_n5757v3cn0u269dg1kaj1a1hp" ManuallyRouted="false" />
-        <AssociationConnector Association="AS2Model.FK_se2qegg0jwtfb7p22ranych6r" ManuallyRouted="false" />
         <AssociationConnector Association="AS2Model.FK_sn8g7bdscp7is9k55y9ph9tss" ManuallyRouted="false" />
         <AssociationConnector Association="AS2Model.FK_fuwyurckugl98o4sta8iubeaq" ManuallyRouted="false" />
         <AssociationConnector Association="AS2Model.FK_n8bovdkbkh51g43p3sclrgo9i" ManuallyRouted="false" />
@@ -1862,7 +1853,6 @@
         <AssociationConnector Association="AS2Model.FK_rlmng6c3d7ujptibppb2skw1" ManuallyRouted="false" />
         <AssociationConnector Association="AS2Model.FK_rpnj5t0gt58yymgdie8jsr0l1" ManuallyRouted="false" />
         <AssociationConnector Association="AS2Model.FK_538amfxjgf9xttydu7nqspif2" ManuallyRouted="false" />
-        <AssociationConnector Association="AS2Model.FK_gd1kycgqi4dgfr8ncfqeeua2t" ManuallyRouted="false" />
         <AssociationConnector Association="AS2Model.FK_ry44dfoynut5njlsfwer7v7cp" ManuallyRouted="false" />
         <AssociationConnector Association="AS2Model.FK_1ak4cjphve1afg04vqcj75286" ManuallyRouted="false" />
         <AssociationConnector Association="AS2Model.FK_1f0g6oqre4wdt7yttqdaaiin5" ManuallyRouted="false" />
@@ -1930,7 +1920,6 @@
         <AssociationConnector Association="AS2Model.FK_7ujtbe70hunytpmvu89wiy6xb" ManuallyRouted="false" />
         <AssociationConnector Association="AS2Model.FK_8apvyg4s5j7xxpe0q3d6fbnhf" ManuallyRouted="false" />
         <AssociationConnector Association="AS2Model.FK_9n0v9ir163mojedf7pr6k57nq" ManuallyRouted="false" />
-        <AssociationConnector Association="AS2Model.FK_9na7lny3owcia98799gx6c2af" ManuallyRouted="false" />
         <AssociationConnector Association="AS2Model.FK_bkccm6s3h7unl6f82yrg8dngn" ManuallyRouted="false" />
         <AssociationConnector Association="AS2Model.FK_dvci7yuw3jf9kysjynoa78f5l" ManuallyRouted="false" />
         <AssociationConnector Association="AS2Model.FK_e7xpxx9a0irr8j5v78obnt874" ManuallyRouted="false" />
@@ -2015,7 +2004,6 @@
         <AssociationConnector Association="AS2Model.FK_7774cdo32fr2vc87u4i1eqg7h" ManuallyRouted="false" />
         <AssociationConnector Association="AS2Model.FK_82tajurq55gykjgntluw9y6q5" ManuallyRouted="false" />
         <AssociationConnector Association="AS2Model.FK_8jl7oecl7pqym198ov9cpb6o7" ManuallyRouted="false" />
-        <AssociationConnector Association="AS2Model.FK_8xebmbeu08jicjhj6i8in7w3s" ManuallyRouted="false" />
         <AssociationConnector Association="AS2Model.FK_acfhip2313lhp0liic9skf5es" ManuallyRouted="false" />
         <AssociationConnector Association="AS2Model.FK_dufycoi7vxlrn3rsfn5d8nrgr" ManuallyRouted="false" />
         <AssociationConnector Association="AS2Model.FK_ego4o0qut4hlnpn2u3wwvaqgt" ManuallyRouted="false" />
@@ -2168,7 +2156,6 @@
         <AssociationConnector Association="AS2Model.FK_77e12uko1dwswuqm93b3q30am" ManuallyRouted="false" />
         <AssociationConnector Association="AS2Model.FK_3xyhp1eqlo7j5b1pfntkyci3d" ManuallyRouted="false" />
         <AssociationConnector Association="AS2Model.FK_ld2mwk1a1ick7lh9x23yemfir" ManuallyRouted="false" />
-        <AssociationConnector Association="AS2Model.FK_ohqpk5mk4c4ky82rmikdqdhsu" ManuallyRouted="false" />
         <AssociationConnector Association="AS2Model.FK_5hcyy4ho5qnulbiix8jcn62ks" ManuallyRouted="false" />
         <AssociationConnector Association="AS2Model.FK_mpkas67nq1m67t87r9p72gc98" ManuallyRouted="false" />
         <AssociationConnector Association="AS2Model.FK_my5rq35fpw69w5xijok1k3afl" ManuallyRouted="false" />
@@ -2225,8 +2212,6 @@
         <AssociationConnector Association="AS2Model.FK_o6ijk9x1jw1flb9ol0bddjtxb" ManuallyRouted="false" />
         <AssociationConnector Association="AS2Model.FK_pvnke6801cijslv8hrolmvn1b" ManuallyRouted="false" />
         <AssociationConnector Association="AS2Model.FK_6pj2rp2trsj16vw6l1hkj2vwi" ManuallyRouted="false" />
-        <AssociationConnector Association="AS2Model.FK_n0xs5vi7msc8lumwrvk9wtxyo" ManuallyRouted="false" />
-        <AssociationConnector Association="AS2Model.FK_25mnkjb4om0822je1lq84lwtc" ManuallyRouted="false" />
         <AssociationConnector Association="AS2Model.FK_7wo682vgl2ixt3hnj8fgyfu09" ManuallyRouted="false" />
         <AssociationConnector Association="AS2Model.FK_gchrseseb92qdllhnfrggsv0h" ManuallyRouted="false" />
         <AssociationConnector Association="AS2Model.FK_35fvnftqkopc3o2o4ahddghcv" ManuallyRouted="false" />
@@ -2261,7 +2246,6 @@
         <AssociationConnector Association="AS2Model.FK_5tkpjpic8vduyl01c6d51xkt6" ManuallyRouted="false" />
         <AssociationConnector Association="AS2Model.FK_9co7qhqkijkdg4pwhpcqs4ggi" ManuallyRouted="false" />
         <AssociationConnector Association="AS2Model.FK_kvdtvmjwk220ku12oojubr8kl" ManuallyRouted="false" />
-        <AssociationConnector Association="AS2Model.FK_q0xktkrcawbgsq84el823s3o8" ManuallyRouted="false" />
         <AssociationConnector Association="AS2Model.FK_qouneccbjt96865umq9cn5bif" ManuallyRouted="false" />
         <AssociationConnector Association="AS2Model.FK_t6kjdcvbrdfx6cj7fd4y100ve" ManuallyRouted="false" />
         <AssociationConnector Association="AS2Model.FK_65e3wmqlad6kjo2pac3iayvwe" ManuallyRouted="false" />
@@ -2272,7 +2256,6 @@
         <AssociationConnector Association="AS2Model.FK_toeb3kvn8gwvic3e8w1wabmn" ManuallyRouted="false" />
         <AssociationConnector Association="AS2Model.FK_s3765hivyxbqs550ehdtvclju" ManuallyRouted="false" />
         <AssociationConnector Association="AS2Model.FK_w6f5mxrjnxup79oylrsaugj2" ManuallyRouted="false" />
-        <AssociationConnector Association="AS2Model.FK_4yballkc2pt7f9m417ghospke" ManuallyRouted="false" />
         <AssociationConnector Association="AS2Model.FK_918c58ia51n2wvf2s3t5g43cj" ManuallyRouted="false" />
         <AssociationConnector Association="AS2Model.FK_mu0coekve8bw10gvp5deqsi49" ManuallyRouted="false" />
         <AssociationConnector Association="AS2Model.FK_b6xxtjmkrw464nwabqjr9n3j5" ManuallyRouted="false" />
@@ -2281,9 +2264,7 @@
         <AssociationConnector Association="AS2Model.FK_3hjvtjmsance55nsj0d3uso2u" ManuallyRouted="false" />
         <AssociationConnector Association="AS2Model.FK_6e36yq23o3a5450mewo04v069" ManuallyRouted="false" />
         <AssociationConnector Association="AS2Model.FK_ece0p5tqfdubajpkutekprdrn" ManuallyRouted="false" />
-        <AssociationConnector Association="AS2Model.FK_meh96a776eo9xwbie2s62v5wk" ManuallyRouted="false" />
         <AssociationConnector Association="AS2Model.FK_8ynu7bdw8k1jwxr8rlne6v6cn" ManuallyRouted="false" />
-        <AssociationConnector Association="AS2Model.FK_ke0p9pqm9ey1fwjs1027wcjew" ManuallyRouted="false" />
         <AssociationConnector Association="AS2Model.FK_otvf9kn09oq8ongxi59lot5b" ManuallyRouted="false" />
         <AssociationConnector Association="AS2Model.FK_q9jafutl0w0pldkos7esu7dr8" ManuallyRouted="false" />
         <AssociationConnector Association="AS2Model.FK_2kbx7x627rtblprx05um194bh" ManuallyRouted="false" />
@@ -2293,13 +2274,11 @@
         <AssociationConnector Association="AS2Model.FK_jo2uyi2y1q2ktdwbw7udpqee5" ManuallyRouted="false" />
         <AssociationConnector Association="AS2Model.FK_nrvm79ka5f8i0andb19athr4v" ManuallyRouted="false" />
         <AssociationConnector Association="AS2Model.FK_ce74cwklq17ehi0396b3mxskw" ManuallyRouted="false" />
-        <AssociationConnector Association="AS2Model.FK_64gutfplj2gawrguvqkbiprl7" ManuallyRouted="false" />
         <AssociationConnector Association="AS2Model.FK_j58mybkoloeupakkcu9q0x9dc" ManuallyRouted="false" />
         <AssociationConnector Association="AS2Model.FK_9q4x6lgtgwi4aseitpmeraqkm" ManuallyRouted="false" />
         <AssociationConnector Association="AS2Model.FK_83sx1pj4o9k6a0di59pmv5q83" ManuallyRouted="false" />
         <AssociationConnector Association="AS2Model.FK_how4qemnv91ku2iu1ecmfqof4" ManuallyRouted="false" />
         <AssociationConnector Association="AS2Model.FK_7m0dx4cjy31f2e74y02podvvy" ManuallyRouted="false" />
-        <AssociationConnector Association="AS2Model.FK_26veel0ca6cwforsfp52ocbjq" ManuallyRouted="false" />
         <AssociationConnector Association="AS2Model.FK_o3ifspmn3bgel5xhfmstfouyb" ManuallyRouted="false" />
         <AssociationConnector Association="AS2Model.FK_9lqqwtuyycbtm0yc50pc0up2" ManuallyRouted="false" />
         <AssociationConnector Association="AS2Model.FK_guserlffuiho1bfdib4wx4gr4" ManuallyRouted="false" />
@@ -2347,7 +2326,6 @@
         <AssociationConnector Association="AS2Model.FK_6lifv3248ecpoho1adwcp29m" ManuallyRouted="false" />
         <AssociationConnector Association="AS2Model.FK_c831u8kvwrhbjotd0rg5bt3q1" ManuallyRouted="false" />
         <AssociationConnector Association="AS2Model.FK_lilgutw14d5927i2dfmmg7evh" ManuallyRouted="false" />
-        <AssociationConnector Association="AS2Model.FK_7k6h24cvcjca17evolbhoc8xt" ManuallyRouted="false" />
         <AssociationConnector Association="AS2Model.FK_dbjh2g140vyys0d10ekihykqg" ManuallyRouted="false" />
         <AssociationConnector Association="AS2Model.FK_1guslst2j7mpbkxurxoxqkd2t" ManuallyRouted="false" />
         <AssociationConnector Association="AS2Model.FK_3bh5qbi2eejq2672dn3cv34oe" ManuallyRouted="false" />
@@ -2355,7 +2333,6 @@
         <AssociationConnector Association="AS2Model.FK_6pxbn01w80i4s3gqlyefnbcha" ManuallyRouted="false" />
         <AssociationConnector Association="AS2Model.FK_9hh4ssgah6jevu3f8ysp41uf" ManuallyRouted="false" />
         <AssociationConnector Association="AS2Model.FK_fj1lbw3irppgh5xql2roafksk" ManuallyRouted="false" />
-        <AssociationConnector Association="AS2Model.FK_lpboj38y1lsydiqm2o158tud0" ManuallyRouted="false" />
         <AssociationConnector Association="AS2Model.FK_o5u7wqsh8oejp29h2kq4w8h2q" ManuallyRouted="false" />
         <AssociationConnector Association="AS2Model.FK_qtowwyn709od8fiov1qyiy43d" ManuallyRouted="false" />
         <AssociationConnector Association="AS2Model.FK_s6he03feo36ukhi8bi0uca19m" ManuallyRouted="false" />
@@ -2380,7 +2357,6 @@
         <AssociationConnector Association="AS2Model.FK_cp8yy7ocety2bgarswihysobo" ManuallyRouted="false" />
         <AssociationConnector Association="AS2Model.FK_p3wfebnfkv9hmfgh7n1msw2d7" ManuallyRouted="false" />
         <AssociationConnector Association="AS2Model.FK_3ogfdj6ba3cg09uq0e67108j5" ManuallyRouted="false" />
-        <AssociationConnector Association="AS2Model.FK_7j88df7nf7esqg8yutc4ofeia" ManuallyRouted="false" />
         <AssociationConnector Association="AS2Model.FK_snkjuk094jp7qg2ctvjag7heo" ManuallyRouted="false" />
         <AssociationConnector Association="AS2Model.FK_15kyoe85nr3ki64ak45oi8io4" ManuallyRouted="false" />
         <AssociationConnector Association="AS2Model.FK_bt36u7esonqo1bo6rui6b536e" ManuallyRouted="false" />
@@ -2413,7 +2389,6 @@
         <AssociationConnector Association="AS2Model.FK_tjc9gbxuqr926gnam7ocj9ktu" ManuallyRouted="false" />
         <AssociationConnector Association="AS2Model.FK_eyesyg7rtwg5drvyf7hmnnm4i" ManuallyRouted="false" />
         <AssociationConnector Association="AS2Model.FK_7udbraalw1j7nhkxd71ipj2bk" ManuallyRouted="false" />
-        <AssociationConnector Association="AS2Model.FK_7ablwi664xwvlleqrj63mhvto" ManuallyRouted="false" />
         <AssociationConnector Association="AS2Model.FK_40a8gw9x5q1w52yrrd9e9to4u" ManuallyRouted="false" />
         <AssociationConnector Association="AS2Model.FK_4pqov1e5ad80vj2g91enk0lhx" ManuallyRouted="false" />
         <AssociationConnector Association="AS2Model.FK_ctmur1lgughoc1ldnm1yfa319" ManuallyRouted="false" />
@@ -2432,21 +2407,12 @@
         <AssociationConnector Association="AS2Model.FK_d247cqbkewm34f3wn7ni3vbtd" ManuallyRouted="false" />
         <AssociationConnector Association="AS2Model.FK_llf6ekrdavi8l9jbqbnkg7b69" ManuallyRouted="false" />
         <AssociationConnector Association="AS2Model.FK_o1fym7ev0lh3inbki67hpqdux" ManuallyRouted="false" />
-        <AssociationConnector Association="AS2Model.FK_fddgw2vgjkerospmy8n4adper" ManuallyRouted="false" />
         <AssociationConnector Association="AS2Model.FK_jh6uqfta4l5l79xelmqanynt2" ManuallyRouted="false" />
         <AssociationConnector Association="AS2Model.FK_3p6a9u8ounmbpiwnyrd0hj565" ManuallyRouted="false" />
         <AssociationConnector Association="AS2Model.FK_8ufkwopg301bhq4g2tavhtbsu" ManuallyRouted="false" />
         <AssociationConnector Association="AS2Model.FK_lfi9eyp61y3rka49i83p9gj6m" ManuallyRouted="false" />
         <AssociationConnector Association="AS2Model.FK_mdspnaaoyvi4j1gwthwggb8bc" ManuallyRouted="false" />
         <AssociationConnector Association="AS2Model.FK_5ndinn1s7axb9k7p8mfn2ta6w" ManuallyRouted="false" />
-        <AssociationConnector Association="AS2Model.FK_37tytd5u2h92bth3v5ruad05y" ManuallyRouted="false" />
-        <AssociationConnector Association="AS2Model.FK_9sjxfo70dom9sriwvfkvngtir" ManuallyRouted="false" />
-        <AssociationConnector Association="AS2Model.FK_dkoa693fmjv7tbx1qewi9yn8t" ManuallyRouted="false" />
-        <AssociationConnector Association="AS2Model.FK_ibkm48naegnlptxsfou4w2mqj" ManuallyRouted="false" />
-        <AssociationConnector Association="AS2Model.FK_ihi6nnbq3v0aw68qqqalvgi2e" ManuallyRouted="false" />
-        <AssociationConnector Association="AS2Model.FK_m1bta94ox0l5csd41b9f6l3cb" ManuallyRouted="false" />
-        <AssociationConnector Association="AS2Model.FK_sc77vppaufgdisv43toam7cpu" ManuallyRouted="false" />
-        <AssociationConnector Association="AS2Model.FK_t0jrkhdu40pmbp82te24spvh2" ManuallyRouted="false" />
         <AssociationConnector Association="AS2Model.FK_a5yukys8q5bp9t0rrr3unuk4r" ManuallyRouted="false" />
         <AssociationConnector Association="AS2Model.FK_nvu0i4y81dr88ajbv5yfbv2f0" ManuallyRouted="false" />
         <AssociationConnector Association="AS2Model.FK_aui001ly09m1vsr90hwox2dnm" ManuallyRouted="false" />
@@ -2456,7 +2422,6 @@
         <AssociationConnector Association="AS2Model.conjunto_atributo_atributo" ManuallyRouted="false" />
         <AssociationConnector Association="AS2Model.impuesto_categoria" ManuallyRouted="false" />
         <AssociationConnector Association="AS2Model.permiso_accion" ManuallyRouted="false" />
-        <AssociationConnector Association="AS2Model.usuario_rol" ManuallyRouted="false" />
         <EntityTypeShape EntityType="AS2Model.detalle_flujo_aprobacion" Width="1.5" PointX="100.25" PointY="801.5" />
         <EntityTypeShape EntityType="AS2Model.flujo_aprobacion" Width="1.5" PointX="98" PointY="801" />
         <AssociationConnector Association="AS2Model.FK_mwl5py25uq9faswyhf0r65pnk" />
@@ -2465,7 +2430,6 @@
         <AssociationConnector Association="AS2Model.FK_roif4mydjt5qp2uv7k29vvu38" />
         <AssociationConnector Association="AS2Model.FK_3tc63cdlpp7kh631vrlrf0u2a" />
         <AssociationConnector Association="AS2Model.FK_ajnbv3qunyt3v1dy15om5ra83" />
-        <AssociationConnector Association="AS2Model.FK_coc3917q5y75yye9497xpogf5" />
         <AssociationConnector Association="AS2Model.FK_dq801vugjh23ygski1o81um43" />
         <AssociationConnector Association="AS2Model.FK_e7ck8sjam8irjhuwjry0rpc66" />
         <AssociationConnector Association="AS2Model.FK_ex30rinc6164k4ff5qbcd6iqs" />
@@ -2473,7 +2437,6 @@
         <AssociationConnector Association="AS2Model.FK_knoqttpqphaju4nsxtcylysbs" />
         <AssociationConnector Association="AS2Model.FK_nntww7nfgf5jowihexdnqr6to" />
         <AssociationConnector Association="AS2Model.FK_q2m831awuji9uejgj6ggb70tv" />
-        <AssociationConnector Association="AS2Model.FK_y9hcu84486wiraadmwgv0puw" />
         <AssociationConnector Association="AS2Model.FK_yrf81mr0eq1srryvspox52b9" />
         <AssociationConnector Association="AS2Model.FK_sapwrcwofeq0dx7diqb2kckjk" />
         <AssociationConnector Association="AS2Model.FK_f6nivgmawwm90l986wxlwgk40" />

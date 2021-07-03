@@ -499,6 +499,58 @@ namespace Oasis.Controllers.Credito
             return View();
         }
 
+        public JsonResult ObtenerNC(
+            string empresa,
+            string sucursal,
+            string fecha_desde,
+            string fecha_hasta,
+            string tipocliente,
+            string visitador = null
+            )
+        {
+            DateTime fecha_desde_ = DateTime.Parse(fecha_desde);
+            DateTime fecha_hasta_ = DateTime.Parse(fecha_hasta);
+
+
+            var tipoCliente_ = tipocliente.Replace(@"[", string.Empty).Replace(@"]", string.Empty).Replace("\"", string.Empty);
+            string[] categoriaCliente = tipoCliente_.Split(',');
+
+            using (var context = new as2oasis())
+            {
+                var nc =
+                    context.NC_Diario
+                    .Where(x => x.empresa == empresa &&
+                                x.sucursal == sucursal &&
+                                categoriaCliente.Contains(x.categoria)
+                            );
+
+                if (!String.IsNullOrEmpty(visitador))
+                {
+                    var codigo_visitador = Int16.Parse(visitador);
+                    nc = nc.Where(x => x.id_vendedor == codigo_visitador);
+                }
+
+                var listaNC = nc
+                    .ToList()
+                    .Select(x => new {
+                        x.empresa,
+                        x.sucursal,
+                        x.identificacion,
+                        x.nombre_fiscal,
+                        fecha_documento = x.fecha_documento.Value.ToShortDateString(),
+                        x.secuencial_nc,
+                        x.motivo_nc,
+                        valor = x.valor_nc.Value.ToString("N2"),
+                        fecha_factura = x.fecha_factura.Value.ToShortDateString(),
+                        factura = x.numero_factura,
+                        x.vendedor,
+                    });
+
+                var nc_json = JsonConvert.SerializeObject(listaNC, Formatting.Indented);
+                return Json(nc_json, JsonRequestBehavior.AllowGet);
+            }
+        }
+
         public JsonResult ObtenerNCAfectacion(
             string empresa,
             string sucursal,
@@ -734,6 +786,23 @@ namespace Oasis.Controllers.Credito
                         fecha_desde=x.fecha_desde.ToShortDateString(),
                         fecha_hasta=x.fecha_hasta.ToShortDateString()
                 }).FirstOrDefault();
+
+            if (resultadoFecha == null)
+            {
+                resultadoFecha =
+                    oasis.presupuesto_cabecera.Where(
+                    x => x.empresa == empresa
+                    && x.sucursal == sucursal)
+                    .OrderByDescending(x => x.fecha_hasta)
+                    .ToList()
+                    .Select(x => new
+                    {
+                        fecha_desde = x.fecha_desde.ToShortDateString(),
+                        fecha_hasta = x.fecha_hasta.ToShortDateString()
+                    })
+                    .FirstOrDefault(); 
+            }
+
             var msjError = new {MensajeError="No se puede obtener una fecha sugerida"};
             var resultadoFecha_json = JsonConvert.SerializeObject(resultadoFecha, Formatting.Indented,
                         new JsonSerializerSettings()

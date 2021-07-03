@@ -32,5 +32,8 @@ namespace Oasis.Models
         public string telefono1 { get; set; }
         public string telefono2 { get; set; }
         public string estado { get; set; }
+        public Nullable<System.DateTime> fecha_creacion_pedido { get; set; }
+        public Nullable<System.DateTime> fecha_autorizacion_pedido { get; set; }
+        public string numero { get; set; }
     }
 }

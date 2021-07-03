@@ -48,9 +48,12 @@ namespace Oasis.Models
         public virtual DbSet<Ventas_Consolidado> Ventas_Consolidado { get; set; }
         public virtual DbSet<DVP> DVP { get; set; }
         public virtual DbSet<guia_urbano_troq> guia_urbano_troq { get; set; }
-        public virtual DbSet<PickingGuias> PickingGuias { get; set; }
         public virtual DbSet<picking> picking { get; set; }
         public virtual DbSet<geoubicacion> geoubicacion { get; set; }
+        public virtual DbSet<PickingGuias> PickingGuias { get; set; }
+        public virtual DbSet<Picking_Estado> Picking_Estado { get; set; }
+        public virtual DbSet<NC_Diario> NC_Diario { get; set; }
+        public virtual DbSet<usuarioOasis> usuario { get; set; }
     
         public virtual ObjectResult<Presupuesto_Result> Presupuesto(string empresa, string sucursal, Nullable<System.DateTime> fecha_desde, Nullable<System.DateTime> fecha_hasta, string tipoCliente)
         {

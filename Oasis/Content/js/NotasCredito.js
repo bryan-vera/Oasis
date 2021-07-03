@@ -78,7 +78,7 @@ $("#GenerarNC").click(function () {
     }
     iniciaLoading();
     $.ajax({
-        url: 'ObtenerNCAfectacion',
+        url: 'ObtenerNC',
         type: 'GET',
         data: {
             empresa: empresa,

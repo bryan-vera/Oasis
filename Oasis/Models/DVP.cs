@@ -43,5 +43,6 @@ namespace Oasis.Models
         public Nullable<System.DateTime> Fecha_NC { get; set; }
         public string clave_acceso { get; set; }
         public int id_factura_cliente { get; set; }
+        public string memo { get; set; }
     }
 }

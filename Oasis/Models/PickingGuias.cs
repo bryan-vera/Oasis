@@ -21,6 +21,6 @@ namespace Oasis.Models
         public Nullable<System.DateTime> fecha_inicio_desp { get; set; }
         public Nullable<System.DateTime> fecha_fin_desp { get; set; }
         public Nullable<System.DateTime> fecha_guia_troquelada { get; set; }
-        public Nullable<int> Diferencia { get; set; }
+        public string diferencia { get; set; }
     }
 }
