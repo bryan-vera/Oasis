@@ -18,9 +18,13 @@
                             <th>Empresa</th>
                             <th>Secuencial</th>
                             <th>Inicio Picking</th>
+                            <th>Usuario IP</th>
                             <th>Fin Picking</th>
+                            <th>Usuario FP</th>
                             <th>Inicio Despacho</th>
+                            <th>Usuario ID</th>
                             <th>Fin Despacho</th>
+                            <th>Usuario FD</th>
                             <th>Generación guía</th>
                             <th>Diferencia tiempo</th>
                         </tr>
@@ -46,19 +50,23 @@
             "processing": true,
             //"serverSide": true,
             "ajax": {
-                "url": "Picking/ReportePick",
+                "url": "ReportePick",
                 "type": "POST",
                 "dataSrc": ""
             },
             "columns": [
                 { "data": "empresa" },
-                { "data": "numero" },
+                { "data": "secuencial" },
                 { "data": "fecha_inicio_pick" },
+                { "data": "usuario_inicio_pick" },
                 { "data": "fecha_fin_pick" },
+                { "data": "usuario_fin_pick" },
                 { "data": "fecha_inicio_desp" },
+                { "data": "usuario_inicio_desp" },
                 { "data": "fecha_fin_desp" },
+                { "data": "usuario_fin_desp" },
                 { "data": "fecha_guia_troquelada" },
-                { "data": "Diferencia" },
+                { "data": "diferencia" },
             ],
             responsive: true,
             language: {

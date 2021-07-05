@@ -499,17 +499,20 @@ advertencia 6002: La tabla o vista 'oasis.dbo.PickingGuias' no tiene definida ni
         <EntityType Name="PickingGuias">
           <Key>
             <PropertyRef Name="empresa" />
-            <PropertyRef Name="numero" />
-            <PropertyRef Name="diferencia" />
+            <PropertyRef Name="secuencial" />
           </Key>
           <Property Name="empresa" Type="varchar" MaxLength="100" Nullable="false" />
-          <Property Name="numero" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="secuencial" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="fecha_inicio_pick" Type="datetime" />
+          <Property Name="usuario_inicio_pick" Type="varchar" MaxLength="101" />
           <Property Name="fecha_fin_pick" Type="datetime" />
+          <Property Name="usuario_fin_pick" Type="varchar" MaxLength="101" />
           <Property Name="fecha_inicio_desp" Type="datetime" />
+          <Property Name="usuario_inicio_desp" Type="varchar" MaxLength="101" />
           <Property Name="fecha_fin_desp" Type="datetime" />
+          <Property Name="usuario_fin_desp" Type="varchar" MaxLength="101" />
           <Property Name="fecha_guia_troquelada" Type="datetime" />
-          <Property Name="diferencia" Type="varchar" MaxLength="1" Nullable="false" />
+          <Property Name="diferencia" Type="int" />
         </EntityType>
         <!--Errores durante la generación:
 advertencia 6002: La tabla o vista 'oasis.dbo.Presupuesto_Vendedor_Detalle' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
@@ -921,11 +924,15 @@ advertencia 6002: La tabla o vista 'oasis.dbo.Ventas_Consolidado' no tiene defin
           <EntitySet Name="PickingGuias" EntityType="Self.PickingGuias" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [PickingGuias].[empresa] AS [empresa], 
-    [PickingGuias].[numero] AS [numero], 
+    [PickingGuias].[secuencial] AS [secuencial], 
     [PickingGuias].[fecha_inicio_pick] AS [fecha_inicio_pick], 
+    [PickingGuias].[usuario_inicio_pick] AS [usuario_inicio_pick], 
     [PickingGuias].[fecha_fin_pick] AS [fecha_fin_pick], 
+    [PickingGuias].[usuario_fin_pick] AS [usuario_fin_pick], 
     [PickingGuias].[fecha_inicio_desp] AS [fecha_inicio_desp], 
+    [PickingGuias].[usuario_inicio_desp] AS [usuario_inicio_desp], 
     [PickingGuias].[fecha_fin_desp] AS [fecha_fin_desp], 
+    [PickingGuias].[usuario_fin_desp] AS [usuario_fin_desp], 
     [PickingGuias].[fecha_guia_troquelada] AS [fecha_guia_troquelada], 
     [PickingGuias].[diferencia] AS [diferencia]
     FROM [dbo].[PickingGuias] AS [PickingGuias]</DefiningQuery>
@@ -1106,10 +1113,10 @@ advertencia 6002: La tabla o vista 'oasis.dbo.Ventas_Consolidado' no tiene defin
           <EntitySet Name="guia_urbano_troq" EntityType="oasisAS2.guia_urbano_troq" />
           <EntitySet Name="picking" EntityType="oasisAS2.picking" />
           <EntitySet Name="geoubicacion" EntityType="oasisAS2.geoubicacion" />
-          <EntitySet Name="PickingGuias" EntityType="oasisAS2.PickingGuias" />
           <EntitySet Name="Picking_Estado" EntityType="oasisAS2.Picking_Estado" />
           <EntitySet Name="NC_Diario" EntityType="oasisAS2.NC_Diario" />
           <EntitySet Name="usuario" EntityType="oasisAS2.usuarioOasis" />
+          <EntitySet Name="PickingGuias" EntityType="oasisAS2.PickingGuias" />
         </EntityContainer>
         <EntityType Name="presupuesto_cabecera">
           <Key>
@@ -1662,21 +1669,6 @@ advertencia 6002: La tabla o vista 'oasis.dbo.Ventas_Consolidado' no tiene defin
           <Property Name="indicador_mock" Type="Boolean" Nullable="false" />
           <Property Name="fecha_hora" Type="DateTime" Nullable="false" Precision="3" />
         </EntityType>
-        <EntityType Name="PickingGuias">
-          <Key>
-            <PropertyRef Name="empresa" />
-            <PropertyRef Name="numero" />
-            <PropertyRef Name="diferencia" />
-          </Key>
-          <Property Name="empresa" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="numero" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="fecha_inicio_pick" Type="DateTime" Precision="3" />
-          <Property Name="fecha_fin_pick" Type="DateTime" Precision="3" />
-          <Property Name="fecha_inicio_desp" Type="DateTime" Precision="3" />
-          <Property Name="fecha_fin_desp" Type="DateTime" Precision="3" />
-          <Property Name="fecha_guia_troquelada" Type="DateTime" Precision="3" />
-          <Property Name="diferencia" Type="String" Nullable="false" MaxLength="1" FixedLength="false" Unicode="false" />
-        </EntityType>
         <EntityType Name="Picking_Estado">
           <Key>
             <PropertyRef Name="id_factura" />
@@ -1738,6 +1730,24 @@ advertencia 6002: La tabla o vista 'oasis.dbo.Ventas_Consolidado' no tiene defin
           <Property Name="ultima_ip" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
           <Property Name="indicador_vendedor" Type="Boolean" />
           <Property Name="id_vendedor" Type="Int32" />
+        </EntityType>
+        <EntityType Name="PickingGuias">
+          <Key>
+            <PropertyRef Name="empresa" />
+            <PropertyRef Name="secuencial" />
+          </Key>
+          <Property Name="empresa" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="secuencial" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="fecha_inicio_pick" Type="DateTime" Precision="3" />
+          <Property Name="usuario_inicio_pick" Type="String" MaxLength="101" FixedLength="false" Unicode="false" />
+          <Property Name="fecha_fin_pick" Type="DateTime" Precision="3" />
+          <Property Name="usuario_fin_pick" Type="String" MaxLength="101" FixedLength="false" Unicode="false" />
+          <Property Name="fecha_inicio_desp" Type="DateTime" Precision="3" />
+          <Property Name="usuario_inicio_desp" Type="String" MaxLength="101" FixedLength="false" Unicode="false" />
+          <Property Name="fecha_fin_desp" Type="DateTime" Precision="3" />
+          <Property Name="usuario_fin_desp" Type="String" MaxLength="101" FixedLength="false" Unicode="false" />
+          <Property Name="fecha_guia_troquelada" Type="DateTime" Precision="3" />
+          <Property Name="diferencia" Type="Int32" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -2248,20 +2258,6 @@ advertencia 6002: La tabla o vista 'oasis.dbo.Ventas_Consolidado' no tiene defin
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="PickingGuias">
-            <EntityTypeMapping TypeName="oasisAS2.PickingGuias">
-              <MappingFragment StoreEntitySet="PickingGuias">
-                <ScalarProperty Name="diferencia" ColumnName="diferencia" />
-                <ScalarProperty Name="fecha_guia_troquelada" ColumnName="fecha_guia_troquelada" />
-                <ScalarProperty Name="fecha_fin_desp" ColumnName="fecha_fin_desp" />
-                <ScalarProperty Name="fecha_inicio_desp" ColumnName="fecha_inicio_desp" />
-                <ScalarProperty Name="fecha_fin_pick" ColumnName="fecha_fin_pick" />
-                <ScalarProperty Name="fecha_inicio_pick" ColumnName="fecha_inicio_pick" />
-                <ScalarProperty Name="numero" ColumnName="numero" />
-                <ScalarProperty Name="empresa" ColumnName="empresa" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Picking_Estado">
             <EntityTypeMapping TypeName="oasisAS2.Picking_Estado">
               <MappingFragment StoreEntitySet="Picking_Estado">
@@ -2317,6 +2313,24 @@ advertencia 6002: La tabla o vista 'oasis.dbo.Ventas_Consolidado' no tiene defin
                 <ScalarProperty Name="password" ColumnName="password" />
                 <ScalarProperty Name="username" ColumnName="username" />
                 <ScalarProperty Name="id_usuario" ColumnName="id_usuario" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PickingGuias">
+            <EntityTypeMapping TypeName="oasisAS2.PickingGuias">
+              <MappingFragment StoreEntitySet="PickingGuias">
+                <ScalarProperty Name="diferencia" ColumnName="diferencia" />
+                <ScalarProperty Name="fecha_guia_troquelada" ColumnName="fecha_guia_troquelada" />
+                <ScalarProperty Name="usuario_fin_desp" ColumnName="usuario_fin_desp" />
+                <ScalarProperty Name="fecha_fin_desp" ColumnName="fecha_fin_desp" />
+                <ScalarProperty Name="usuario_inicio_desp" ColumnName="usuario_inicio_desp" />
+                <ScalarProperty Name="fecha_inicio_desp" ColumnName="fecha_inicio_desp" />
+                <ScalarProperty Name="usuario_fin_pick" ColumnName="usuario_fin_pick" />
+                <ScalarProperty Name="fecha_fin_pick" ColumnName="fecha_fin_pick" />
+                <ScalarProperty Name="usuario_inicio_pick" ColumnName="usuario_inicio_pick" />
+                <ScalarProperty Name="fecha_inicio_pick" ColumnName="fecha_inicio_pick" />
+                <ScalarProperty Name="secuencial" ColumnName="secuencial" />
+                <ScalarProperty Name="empresa" ColumnName="empresa" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -15,12 +15,16 @@ namespace Oasis.Models
     public partial class PickingGuias
     {
         public string empresa { get; set; }
-        public string numero { get; set; }
+        public string secuencial { get; set; }
         public Nullable<System.DateTime> fecha_inicio_pick { get; set; }
+        public string usuario_inicio_pick { get; set; }
         public Nullable<System.DateTime> fecha_fin_pick { get; set; }
+        public string usuario_fin_pick { get; set; }
         public Nullable<System.DateTime> fecha_inicio_desp { get; set; }
+        public string usuario_inicio_desp { get; set; }
         public Nullable<System.DateTime> fecha_fin_desp { get; set; }
+        public string usuario_fin_desp { get; set; }
         public Nullable<System.DateTime> fecha_guia_troquelada { get; set; }
-        public string diferencia { get; set; }
+        public Nullable<int> diferencia { get; set; }
     }
 }

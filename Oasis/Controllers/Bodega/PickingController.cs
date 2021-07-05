@@ -99,14 +99,18 @@ namespace Oasis.Controllers.Bodega
                     .ToList()
                     .Select(x=> new {
                         x.empresa,
-                        numero = x.numero ,
+                        x.secuencial ,
                         //fecha_hora = x.fecha_hora.Value.ToString(),
                         fecha_inicio_pick = x.fecha_inicio_pick?.ToString(),
-                        fecha_inicio_desp = x.fecha_inicio_desp?.ToString(),
+                        usuario_inicio_pick=x.usuario_inicio_pick?.ToString(),
                         fecha_fin_pick = x.fecha_fin_pick?.ToString(),
+                        usuario_fin_pick = x.usuario_fin_pick?.ToString(),
+                        fecha_inicio_desp = x.fecha_inicio_desp?.ToString(),
+                        usuario_inicio_desp = x.usuario_inicio_desp?.ToString(),
                         fecha_fin_desp = x.fecha_fin_desp?.ToString(),
+                        usuario_fin_desp = x.usuario_fin_desp?.ToString(), 
                         fecha_guia_troquelada = x.fecha_guia_troquelada?.ToString(),
-                        Diferencia = "",
+                        diferencia = x.diferencia?.ToString(),
                     });
 
                 var resultado_json = new JsonResult { Data = mis_facturas };
