@@ -25,6 +25,33 @@ namespace Oasis.Controllers.Geoubicacion
             return View();
         }
 
+        [HttpGet]
+        public JsonResult ObtenerDatosGeoPorVisitador(string id_usuario,
+            string fecha_desde, 
+            string fecha_hasta)
+        {
+            DateTime fecha_desde_ = DateTime.Parse(fecha_desde);
+            DateTime fecha_hasta_ = DateTime.Parse(fecha_hasta);
+            var id_usuario_ = Convert.ToInt16(id_usuario);
+            var oasis = new as2oasis();
+            var id_visitador = oasis.usuario.Where(x => x.id_vendedor == id_usuario_).Select(x => x.id_usuario).FirstOrDefault();
+            var datos_geo = oasis.geoubicacion.Where(
+                x => x.id_usuario == id_usuario_
+                &&
+                x.fecha_hora >= fecha_desde_ &&
+                x.fecha_hora <= fecha_hasta_
+                )
+                .ToList()
+                .Select(x => new
+                {
+                    x.latitud,
+                    x.longitud,
+                    fecha_hora = x.fecha_hora.ToLongDateString()
+                })
+                .ToList();
+            return Json(datos_geo,JsonRequestBehavior.AllowGet);
+        }
+
         [HttpPost]
         public HttpStatusCode GrabarUbicacion(DatosUbicacion datos)
         {

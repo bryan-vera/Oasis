@@ -128,36 +128,75 @@
                 });
             }
             ActivarVendedores();
+            $('#fecha_corte').daterangepicker({
+                locale: {
+                    format: 'DD/MM/YYYY',
+                    "daysOfWeek": ["Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sa"],
+                    "monthNames": [
+                        "Enero",
+                        "Febrero",
+                        "Marzo",
+                        "Abril",
+                        "Mayo",
+                        "Junio",
+                        "Julio",
+                        "Agusto",
+                        "Septiembre",
+                        "Octubre",
+                        "Noviembre",
+                        "Diciembre"
+                    ],
+                },
+                startDate: firstDay,
+                endDate: lastDay
+            });
+
             function GenerarDatosGeo() { 
                 var id_visitador = $("#visitador").val();
-                var fecha_desde = ConvertirFecha($('#fecha_presupuesto').data('daterangepicker').startDate._d);
-                var fecha_hasta = ConvertirFecha($('#fecha_presupuesto').data('daterangepicker').endDate._d);
+                var fecha_desde = ConvertirFecha($('#fecha_corte').data('daterangepicker').startDate._d);
+                var fecha_hasta = ConvertirFecha($('#fecha_corte').data('daterangepicker').endDate._d);
+                var CoordenadasMapa = [];
                 iniciaLoading();
                 $.ajax({
                     url: 'ObtenerDatosGeoPorVisitador',
                     type: 'GET',
                     data: {
-                        empresa: empresa,
-                        sucursal: sucursal,
-                        //localidad: this.localidad,
+                        id_usuario: id_visitador,
                         fecha_desde: fecha_desde,
                         fecha_hasta: fecha_hasta,
-                        tipoCliente: JSON.stringify(tipoCliente)
                     },
                     dataType: "JSON",
                     contentType: "application/JSON",
                     success: function (d) {
+                        //var myLatlng = new google.maps.LatLng(parseFloat(trader.geo.lat), parseFloat(trader.geo.lon));
+                        CoordenadasMapa = d.map((data) => [parseFloat(data.latitud), parseFloat(data.longitud)]);
+                        let latLngArray = [];
 
-                        $('#rowcontenedorTabla').remove();
+                        for (let i = 0; i < CoordenadasMapa.length; i++) {
+                            const gData = new google.maps.LatLng(CoordenadasMapa[i][0], CoordenadasMapa[i][1]);
+                            latLngArray.push(gData);
+                        }
+
+                        $('#contenedorTabla').remove();
                         var contenedorTabla = document.createElement("div");
                         contenedorTabla.className = "col-md-12";
                         contenedorTabla.id = "contenedorTabla"
                         var row = document.createElement("div");
                         row.className = "row";
                         row.appendChild(contenedorTabla);
-                        row.id = "rowcontenedorTabla";
                         $('#contenedorPrimario').append(row);
+                        var col = [];
+                        var encabezado = ['Latitud', 'Longitud',
+                            'Fecha/Hora'];
+                        for (var i = 0; i < d.length; i++) {
+                            for (var key in d[i]) {
+                                if (col.indexOf(key) === -1) {
+                                    col.push(key);
+                                }
+                            }
+                        }
 
+                        // CREATE DYNAMIC TABLE.
                         var div = document.createElement("div");
                         var row = document.createElement("div");
                         row.className = "row col-md-4";
@@ -166,104 +205,60 @@
                         card.style = "font-size: 15px;overflow-x: scroll;";
                         var cardbody = document.createElement("div");
                         cardbody.className = "card-body";
+                        var table = document.createElement("table");
+                        table.className = 'table table-hover tableDetalle';
+                        table.id = "tableDetalle";
+                        table.style = '';
 
-                        var totalPresupuestoVentas = 0;
-                        var totalVentas = 0;
-                        var totalAlcanceVentas = 0;
-                        var totalPresupuestoCobros = 0;
-                        var totalCobros = 0;
-                        var totalAlcanceCobros = 0;
+                        // CREATE HTML TABLE HEADER ROW USING THE EXTRACTED HEADERS ABOVE
+                        var thead = document.createElement("thead");
+                        table.appendChild(thead);
+                        var tr_head = document.createElement("tr");
+                        for (var i = 0; i < encabezado.length; i++) {
+                            var th = document.createElement("th");      // TABLE HEADER.
+                            th.innerHTML = encabezado[i];
+                            tr_head.appendChild(th);
+                        }
 
+                        thead.appendChild(tr_head);
 
-                        var sTxt = '<table class="table table-hover" id="tablePresupuesto">';
-                        sTxt += '<thead><tr><th style="text-align:center">ID</th><th  style="text-align:center">Vendedor</th><th style="text-align:center">Cuota ventas</th>';
-                        sTxt += '<th style="text-align:center">Ventas</th><th style="text-align:center">%</th>';
-                        sTxt += '<th style="text-align:center">Cuota cobros</th><th style="text-align:center">Cobros</th>';
-                        sTxt += '<th style="text-align:center">%</th><th style="text-align:center"></th></tr></thead> ';
-                        sTxt += '<tbody>';
-                        $.each(JSON.parse(d), function (index, p) {
-                            sTxt += '<tr>';
-                            sTxt += '<td style="text-align:center">';
-                            sTxt += '<span class="datosLinea" data-id_vendedor=' + p.id_vendedor + ' data-empresa="' + empresa + '" data-sucursal="' + sucursal + '" data-fecha_desde="' + fecha_desde + '" data-fecha_hasta="' + fecha_hasta + '" data-tipocliente="' + tipoCliente + '" hidden></span>';
-                            sTxt += '' + p.id_vendedor + '</td>';
-                            sTxt += '<td style="text-align:center">' + p.nombre_vendedor + '</td>';
-                            sTxt += '<td style="text-align:center">' + formatoValor(p.valor_venta) + '</td>';
-                            sTxt += '<td style="text-align:center">' + formatoValor(p.ventas_neta) + '</td>';
-                            sTxt += '<td style="text-align:center">' + p.alcance_venta.toFixed(2) + '%</td>';
-                            sTxt += '<td style="text-align:center">' + formatoValor(p.valor_cobro) + '</td>';
-                            sTxt += '<td style="text-align:center">' + formatoValor(p.total_cobros) + '</td>';
-                            sTxt += '<td style="text-align:center">' + p.alcance_cobro.toFixed(2) + '%</td>';
-                            sTxt += '<td style="text-align:center" class="noExl"> <div class="btn-group">';
-                            sTxt += '<button type="button" class="btn btn-info" data-toggle="dropdown" id="botonVerDetalle"><i class="fas fa-search"></i></button>';
-                            sTxt += '    <button type = "button" class="btn btn-info dropdown-toggle dropdown-hover dropdown-icon" data-toggle="dropdown" aria-expanded="false"> ';
-                            sTxt += '    <span class="sr-only"> Toggle Dropdown</span> ';
-                            sTxt += '</button> ';
-                            sTxt += '    <div class="dropdown-menu" role = "menu" style = ""> ';
-                            sTxt += '    <a class="dropdown-item" href = "#" onClick="verVentasXVendedor(' + p.id_vendedor + ');" > Ventas </a> ';
-                            sTxt += '    <a class="dropdown-item" href = "#" onClick="verCobrosXVendedor(' + p.id_vendedor + ');" > Cobros </a> ';
-                            sTxt += '    <a class="dropdown-item" href = "#" onClick="verNCXVendedor(' + p.id_vendedor + ');"> N/C</a> ';
-                            sTxt += '</div></td>';
-                            sTxt += '</tr> ';
-                            totalPresupuestoVentas += p.valor_venta;
-                            totalVentas += p.ventas_neta;
-                            totalPresupuestoCobros += p.valor_cobro;
-                            totalCobros += p.total_cobros;
-                        });
-                        sTxt += '</tbody>';
-                        sTxt += '<tfoot style="font-weight: 800;"><tr><td></td><td class="centrar" >TOTAL</td><td class="centrar">' + formatoValor(totalPresupuestoVentas) + '</td>';
-                        sTxt += '<td class="centrar">' + formatoValor(totalVentas) + '</td>';
-                        sTxt += '<td class="centrar">' + ((totalVentas / totalPresupuestoVentas) * 100).toFixed(2) + '%</td>';
-                        sTxt += '<td class="centrar">' + formatoValor(totalPresupuestoCobros) + '</td>';
-                        sTxt += '<td class="centrar">' + formatoValor(totalCobros) + '</td>';
-                        sTxt += '<td class="centrar">' + ((totalCobros / totalPresupuestoCobros) * 100).toFixed(2) + '%</td>';
-                        sTxt += '<td class="centrar"></td>';
-                        sTxt += '</tr></tfoot>';
-                        sTxt += '</table>';
+                        var tbody = document.createElement("tbody");
+                        table.appendChild(tbody);
+                        var tr_body = document.createElement("tr");
+                        // ADD JSON DATA TO THE TABLE AS ROWS.
+                        for (var i = 0; i < d.length; i++) {
+                            tr_body = document.createElement("tr");
+                            for (var j = 0; j < col.length; j++) {
+                                var tabCell = tr_body.insertCell(-1);
+                                tabCell.innerHTML = d[i][col[j]];
+                                tabCell.style = ' white-space: nowrap;';
+                            }
+                            tbody.appendChild(tr_body);
+                        }
 
-                        cardbody.append($.parseHTML(sTxt)[0]);
+                        cardbody.appendChild(table);
                         card.appendChild(cardbody);
                         div.appendChild(card);
+                        //CrearTablaDetalle(div.outerHTML, titulo);
                         $('#contenedorTabla').append(div);
-                        $('#tablePresupuesto').DataTable({
-                            "processing": true, // for show progress bar
-                            "paging": false,
-                            "bInfo": false,
-                            //"scrollY": "500px",
+                        $('#tableDetalle').DataTable({
                             dom: 'Bfrtip',
-                            "buttons": [
-                                {
-                                    "extend": 'copy', "text": 'Copiar', "className": 'btn btn-default btn-xs'
-                                    , exportOptions: { columns: [0, 1, 2, 3, 4, 5, 6, 7] }
-                                },
-                                {
-                                    "extend": 'pdf', "text": 'PDF', "className": 'btn btn-default btn-xs'
-                                    , exportOptions: { columns: [0, 1, 2, 3, 4, 5, 6, 7] }
-                                },
-                                {
-                                    "extend": 'excel', "text": 'Excel', "className": 'btn btn-default btn-xs'
-                                    , exportOptions: { columns: [0, 1, 2, 3, 4, 5, 6, 7] }
-                                },
-                                {
-                                    "extend": 'print', "text": 'Imprimir', "className": 'btn btn-default btn-xs'
-                                    , exportOptions: { columns: [0, 1, 2, 3, 4, 5, 6, 7] }
-                                },
+                            buttons: [
+                                'copy', 'csv', 'excel', 'pdf', 'print'
                             ],
-                            initComplete: function () {
-                                $('.buttons-pdf').html('<i class="far fa-file-excel"></i>')
-                            },
-                            //buttons: [
-                            //    'copy', 'csv', 'excel', 'pdf', 'print'
-                            //],
                             language: {
                                 url: 'https://cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json'
                             }
                         });
-                        var presupuesto = JSON.parse(d);
-                        var vendedores = presupuesto.map(presupuesto => presupuesto.nombre_vendedor);
-                        var ventas = presupuesto.map(presupuesto => presupuesto.ventas_neta);
-                        var cobros = presupuesto.map(presupuesto => presupuesto.total_cobros);
-                        GeneraGraficos(presupuesto);
                         cierraLoading();
+                        var flightPath = new google.maps.Polyline({
+                            map: map,
+                            path: latLngArray,
+                            strokeColor: "#FF0000",
+                            strokeOpacity: 1.0,
+                            strokeWeight: 2
+                        });
+                        flightPath.setMap(map);
                     },
                     error: function (e) {
                         Toast.fire({
@@ -271,7 +266,7 @@
                             title: 'Hubo un error al intentar generar.'
                         })
                     }
-                })
+                }) 
             }
             function ActivarVendedores() {
                 $('.js-data-vendedor-ajax').select2({
