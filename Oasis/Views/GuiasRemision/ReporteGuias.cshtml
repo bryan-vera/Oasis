@@ -1,0 +1,156 @@
+﻿
+@{
+    ViewBag.Title = "Reporte de guías de despacho";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card card-primary">
+            <div class="card-header">
+                <h2 class="card-title">@ViewBag.Title</h2>
+                <div class="card-tools">
+                    <button type="button" class="btn bg-primary btn-sm" data-card-widget="collapse">
+                        <i class="fas fa-minus"></i>
+                    </button>
+                    <button type="button" class="btn bg-primary btn-sm" data-card-widget="remove">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>
+            <!-- form start -->
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <label for="exampleInputEmail1">Empresa</label>
+                                @Html.DropDownList("empresa",
+                                            new SelectList(ViewBag.Opciones, "Value", "Text"),
+                                            htmlAttributes: new { @class = "form-control" })
+                            </div>
+                            <div class="col-lg-6" style="padding-top: 40px;">
+                                <div class="form-group">
+                                    <div class="custom-control custom-checkbox" style="display: inline-block; align-self: center;">
+                                        <input class="custom-control-input" type="checkbox" id="chkEmpresa" >
+                                        <label for="chkEmpresa" class="custom-control-label">Todas las empresas</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        @*<div class="row">
+                            <div class="col-md-10">
+                                <div class="form-group">
+                                    <label>Fecha de corte</label>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text">
+                                                        <i class="far fa-calendar-alt"></i>
+                                                    </span>
+                                                </div>
+                                                <input type="text" class="form-control float-right" id="fecha_corte">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>*@
+                    </div>
+                    <div class="col-md-6">
+                        <div class="row">
+                            <div class="col-md-10">
+                                <div class="form-group">
+                                    <label>Fecha de facturación</label>
+                                    <div class="row">
+                                        <div class="col-md-10">
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text">
+                                                        <i class="far fa-calendar-alt"></i>
+                                                    </span>
+                                                </div>
+                                                <input type="text" class="form-control float-right" id="fecha_factura">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2" style="padding-top: 5px;">
+                                            <div class="form-group">
+                                                <div class="custom-control custom-checkbox" style="display: inline-block; align-self: center;">
+                                                    <input class="form-check-input" name="flexRadioDefault" 
+                                                           style="transform: scale(1.25);"
+                                                           type="radio" id="chkFechaFactura" checked>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-10">
+                                <div class="form-group">
+                                    <label>Fecha de guía de remisión</label>
+                                    <div class="row">
+                                        <div class="col-md-10">
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text">
+                                                        <i class="far fa-calendar-alt"></i>
+                                                    </span>
+                                                </div>
+                                                <input type="text" class="form-control float-right" id="fecha_guia" disabled>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2" style="padding-top: 5px;">
+                                            <div class="form-group">
+                                                <div class="custom-control custom-checkbox" style="display: inline-block; align-self: center;">
+                                                    <input class="form-check-input" name="flexRadioDefault" 
+                                                           style="transform: scale(1.25);"
+                                                           type="radio" id="chkFechaGuia">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        @*<div class="row">
+
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Región</label>
+                    <select class="form-control" id="sucursal">
+                        <option value="COSTA">COSTA</option>
+                        <option value="SIERRA">SIERRA</option>
+                        <option value="AUSTRO">AUSTRO</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="col-lg-6" style="padding-top: 40px;">
+                <div class="form-group">
+                    <div class="custom-control custom-checkbox" style="display: inline-block; align-self: center;">
+                        <input class="custom-control-input" type="checkbox" id="chkRegion">
+                        <label for="chkRegion" class="custom-control-label">Todas las regiones</label>
+                    </div>
+                </div>
+            </div>
+        </div>*@
+                    </div>
+                </div>
+
+            </div>
+            <!-- /.card-body -->
+            <div class="card-footer">
+                <button type="button" id="GenerarReporteGuias" class="btn btn-primary  float-right">Generar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    <script src="~/Content/js/GuiaRemision.js"></script>
+}

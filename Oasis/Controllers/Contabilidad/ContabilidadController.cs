@@ -5,8 +5,11 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Xml.Serialization;
+using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using Oasis.Models;
+using Oasis.Models.ATS;
 
 namespace Oasis.Controllers.Contabilidad
 {
@@ -16,6 +19,32 @@ namespace Oasis.Controllers.Contabilidad
         public ActionResult Autorizaciones()
         {
             return View();
+        } 
+
+        public ActionResult VerATS()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public FileResult DevolverATS(string empresa, string año, string mes )
+        {
+             
+            string dia = "01";
+            var fecha_inicial = DateTime.Parse(año + "/" + mes + "/" + dia).Date;
+            var fecha_final = DateTime.Parse((año + "/" + mes + "/" + DateTime.DaysInMonth(fecha_inicial.Year, fecha_inicial.Month)));
+
+            var r = new Retenciones();
+            r.Empresa = empresa;
+            r.FechaInicio = fecha_inicial;
+            r.FechaFin = fecha_final;
+            var stream = new MemoryStream();
+            var respuesta_xml = r.ObtenerRetenciones();
+            var serializer = new XmlSerializer(typeof(Iva));
+            serializer.Serialize(stream, respuesta_xml);
+            stream.Position = 0;
+            return File(stream, "application/xml", "ATS-" + año + "-" + mes + "-" + empresa + ".xml");
+
         }
 
         [HttpPost]

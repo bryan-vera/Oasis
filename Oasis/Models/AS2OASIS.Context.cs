@@ -27,10 +27,8 @@ namespace Oasis.Models
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<GuiaUrbano> GuiaUrbano { get; set; }
         public virtual DbSet<presupuesto_cabecera> presupuesto_cabecera { get; set; }
         public virtual DbSet<presupuesto_detalle> presupuesto_detalle { get; set; }
-        public virtual DbSet<Cobros_Consolidado> Cobros_Consolidado { get; set; }
         public virtual DbSet<Presupuesto_Vendedor_Detalle> Presupuesto_Vendedor_Detalle { get; set; }
         public virtual DbSet<Vendedores> Vendedores { get; set; }
         public virtual DbSet<Cheques_Postfechados> Cheques_Postfechados { get; set; }
@@ -47,13 +45,18 @@ namespace Oasis.Models
         public virtual DbSet<ordenes_compra> ordenes_compra { get; set; }
         public virtual DbSet<Ventas_Consolidado> Ventas_Consolidado { get; set; }
         public virtual DbSet<DVP> DVP { get; set; }
-        public virtual DbSet<guia_urbano_troq> guia_urbano_troq { get; set; }
         public virtual DbSet<picking> picking { get; set; }
         public virtual DbSet<geoubicacion> geoubicacion { get; set; }
         public virtual DbSet<Picking_Estado> Picking_Estado { get; set; }
-        public virtual DbSet<NC_Diario> NC_Diario { get; set; }
         public virtual DbSet<usuarioOasis> usuario { get; set; }
         public virtual DbSet<PickingGuias> PickingGuias { get; set; }
+        public virtual DbSet<Cobros_Consolidado> Cobros_Consolidado { get; set; }
+        public virtual DbSet<Pedidos> Pedidos { get; set; }
+        public virtual DbSet<NC_Diario> NC_Diario { get; set; }
+        public virtual DbSet<Reporte_GuiasRemision> Reporte_GuiasRemision { get; set; }
+        public virtual DbSet<guia_urbano_troq> guia_urbano_troq { get; set; }
+        public virtual DbSet<GuiaUrbano> GuiaUrbano { get; set; }
+        public virtual DbSet<Orden_Produccion> Orden_Produccion { get; set; }
     
         public virtual ObjectResult<Presupuesto_Result> Presupuesto(string empresa, string sucursal, Nullable<System.DateTime> fecha_desde, Nullable<System.DateTime> fecha_hasta, string tipoCliente)
         {

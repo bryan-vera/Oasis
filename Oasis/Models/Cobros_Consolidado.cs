@@ -21,16 +21,17 @@ namespace Oasis.Models
         public string descripcion2 { get; set; }
         public int estado { get; set; }
         public Nullable<System.DateTime> fecha_aplicacion { get; set; }
+        public Nullable<System.DateTime> fecha_creacion { get; set; }
         public decimal valor { get; set; }
         public string codigo { get; set; }
         public string nombre_comercial { get; set; }
         public string numero { get; set; }
-        public string categoria { get; set; }
-        public int id_vendedor { get; set; }
-        public string vendedor { get; set; }
         public Nullable<System.DateTime> fecha_factura { get; set; }
-        public Nullable<System.DateTime> fecha_creacion { get; set; }
         public Nullable<System.DateTime> fecha_vencimiento { get; set; }
         public string descripcion_factura { get; set; }
+        public string categoria { get; set; }
+        public Nullable<int> id_vendedor { get; set; }
+        public string vendedor { get; set; }
+        public Nullable<decimal> total { get; set; }
     }
 }

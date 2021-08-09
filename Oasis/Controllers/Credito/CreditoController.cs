@@ -173,7 +173,9 @@ namespace Oasis.Controllers.Credito
                         fecha_factura = x.fecha_factura.Value.ToShortDateString(),
                         fecha_vencimiento = x.fecha_vencimiento.Value.ToShortDateString(),
                         x.vendedor,
-                        descripcion = x.descripcion_factura
+                        descripcion = x.descripcion,
+                        descripcion2 = x.descripcion2,
+                        valor_factura = x.total
                     });
 
 
@@ -351,7 +353,7 @@ namespace Oasis.Controllers.Credito
                         x.categoria,
                         x.vendedor_cliente,
                         x.vendedor_factura,
-                        secuencial_factura=(x.secuencial_factura.Replace("-", string.Empty)).Substring(2, x.secuencial_factura.Length-4),
+                        secuencial_factura=(x.secuencial_factura.Replace("-", string.Empty)),
                         fecha_factura = x.fecha_factura.ToShortDateString(),
                         fecha_vencimiento = x.fecha_vencimiento.Value.ToShortDateString(),
                         x.provincia,
@@ -454,7 +456,7 @@ namespace Oasis.Controllers.Credito
                         x.vendedor_cliente,
                         x.vendedor_factura,
                         tipo_documento = "FACT.",
-                        secuencial_factura =(x.secuencial_factura.Replace("-", string.Empty)).Substring(2, x.secuencial_factura.Length-4),
+                        secuencial_factura =(x.secuencial_factura.Replace("-", string.Empty)),
                         fecha_factura = x.fecha_factura.ToShortDateString(),
                         fecha_vencimiento = x.fecha_vencimiento.Value.ToShortDateString(),
                         x.provincia,
@@ -521,7 +523,9 @@ namespace Oasis.Controllers.Credito
                     context.NC_Diario
                     .Where(x => x.empresa == empresa &&
                                 x.sucursal == sucursal &&
-                                categoriaCliente.Contains(x.categoria)
+                                categoriaCliente.Contains(x.categoria) &&
+                                x.fecha_documento>=fecha_desde_ &&
+                                x.fecha_documento<=fecha_hasta_
                             );
 
                 if (!String.IsNullOrEmpty(visitador))
@@ -544,6 +548,8 @@ namespace Oasis.Controllers.Credito
                         fecha_factura = x.fecha_factura.Value.ToShortDateString(),
                         factura = x.numero_factura,
                         x.vendedor,
+                        x.nota,
+                        x.descripcion_documento
                     });
 
                 var nc_json = JsonConvert.SerializeObject(listaNC, Formatting.Indented);
@@ -636,7 +642,7 @@ namespace Oasis.Controllers.Credito
                         x.codigo,
                         x.nombre_cliente,
                         x.codigo_cobro,
-                        valor = x.valor.ToString("N2"),
+                        x.valor,
                         fecha_aplicacion = x.fecha_cobro.Value.ToShortDateString(),
                         fecha_creacion = x.fecha_creacion.Value.ToShortDateString(),
                         x.secuencial_factura,
@@ -670,7 +676,7 @@ namespace Oasis.Controllers.Credito
         {
             List<SelectListItem> lst = new List<SelectListItem>();
 
-            //lst.Add(new SelectListItem() { Text = "LABOVIDA", Value = "LABOV" });
+            lst.Add(new SelectListItem() { Text = "LABOVIDA", Value = "LABORATORIOS LABOVIDA S.A." });
             lst.Add(new SelectListItem() { Text = "LEBENFARMA", Value = "LEBENFARMA S.A." });
             lst.Add(new SelectListItem() { Text = "FARMALIGHT", Value = "FARMALIGHT S.A." });
             lst.Add(new SelectListItem() { Text = "DANIVET", Value = "LABORATORIOS DANIVET S.A." });

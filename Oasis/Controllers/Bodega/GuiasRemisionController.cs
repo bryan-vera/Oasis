@@ -11,6 +11,7 @@ using PagedList;
 using System.Data.Odbc;
 using clsConectaMBA;
 using System.Data;
+using Newtonsoft.Json;
 
 namespace Oasis.Controllers.Bodega
 {
@@ -131,8 +132,102 @@ namespace Oasis.Controllers.Bodega
             return View();
         }
 
-        // GET: GuiasRemision/Create
-        public ActionResult Create()
+        // GET: GuiasRemision/Details/5
+        public ActionResult ReporteGuias()
+        {
+            ViewBag.Opciones = ListaEmpresas();
+            ViewBag.Title = "Guías de despacho";
+            return View();
+        }
+
+        public JsonResult ObtenerReporteGuia(
+            string fecha_desde_factura,
+            string fecha_hasta_factura,
+            string fecha_desde_guia,
+            string fecha_hasta_guia,
+            bool indicador_factura,
+            string empresa = ""
+
+            )
+        {
+
+            DateTime fecha_desde;
+            DateTime fecha_hasta;
+
+            if (indicador_factura)
+            {
+                fecha_desde = DateTime.Parse(fecha_desde_factura);
+                fecha_hasta = DateTime.Parse(fecha_hasta_factura);
+            } else
+            {
+                fecha_desde = DateTime.Parse(fecha_desde_guia);
+                fecha_hasta = DateTime.Parse(fecha_hasta_guia);
+            }
+
+          
+            using (var context = new as2oasis())
+            {
+                IQueryable<Reporte_GuiasRemision> guias;
+
+                if(indicador_factura) {
+                    guias = context
+                    .Reporte_GuiasRemision
+                        .Where(x =>
+                            x.fecha_factura >= fecha_desde &&
+                            x.fecha_factura <= fecha_hasta);
+                } else
+                {
+                    guias = context
+                    .Reporte_GuiasRemision
+                        .Where(x =>
+                            x.fecha_guia >= fecha_desde &&
+                            x.fecha_guia <= fecha_hasta);
+                }
+
+                if (!String.IsNullOrEmpty(empresa))
+                    guias = guias.Where(x => x.empresa == empresa);
+
+                var guias_json = guias.ToList()
+                     .Select(x => new
+                     {
+                         x.empresa,
+                         x.nombre_comercial,
+                         x.secuencial_factura,
+                         fecha_factura = x.fecha_factura.Value.ToString(),
+                         x.secuencial_guia,
+                         fecha_guia = x.fecha_guia == null ? "":x.fecha_guia.Value.ToString(),
+                         x.ciudad,
+                         peso = x.peso == null ? 0 : x.peso,
+                         bultos = x.bultos==null?0:x.bultos,
+                         serial_urbano = x.serial_urbano == null ? "" : x.serial_urbano,
+                         nota_guia = x.nota_guia == null ? "" : x.nota_guia
+                     }) ;
+
+                var resultado = JsonConvert.SerializeObject(guias_json, Formatting.Indented);
+
+                return Json(resultado, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+
+        public List<SelectListItem> ListaEmpresas()
+        {
+            List<SelectListItem> lst = new List<SelectListItem>();
+
+            //lst.Add(new SelectListItem() { Text = "LABOVIDA", Value = "LABOV" });
+            lst.Add(new SelectListItem() { Text = "LEBENFARMA", Value = "LEBENFARMA S.A." });
+            lst.Add(new SelectListItem() { Text = "FARMALIGHT", Value = "FARMALIGHT S.A." });
+            lst.Add(new SelectListItem() { Text = "DANIVET", Value = "LABORATORIOS DANIVET S.A." });
+            lst.Add(new SelectListItem() { Text = "DANIVET 2", Value = "LABORATORIOS DANIVET S.A. 2" });
+            lst.Add(new SelectListItem() { Text = "ANYUPA", Value = "LABORATORIOS ANYUPA S.A." });
+            lst.Add(new SelectListItem() { Text = "MEDITOTAL", Value = "MEDITOTAL S.A." });
+            return lst;
+        }
+
+
+
+    // GET: GuiasRemision/Create
+    public ActionResult Create()
         {
             return View();
         }
@@ -155,7 +250,8 @@ namespace Oasis.Controllers.Bodega
 
 
         // GET: Imprimir
-        public void Imprimir(int id, float peso, float bultos, bool EsLabovida = false)
+        public void Imprimir(int id, decimal peso, int bultos,
+            string guia_urbano, bool EsLabovida = false)
         {
             ConexionMba cs = new ConexionMba();
 
@@ -280,6 +376,9 @@ namespace Oasis.Controllers.Bodega
             registro_guia.provincia = guias.provincia;
             registro_guia.secuencial_factura = guias.secuencial_factura;
             registro_guia.valor_factura = guias.valor_factura;
+            registro_guia.peso = peso;
+            registro_guia.serial_urbano = guia_urbano;
+            registro_guia.bultos = bultos;
             db.guia_urbano_troq.Add(registro_guia);
             db.SaveChanges();
 

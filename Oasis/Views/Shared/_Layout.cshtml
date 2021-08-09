@@ -271,10 +271,28 @@
                             </ul>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
+                                    <a href="@Url.Action("ReporteGuias", "GuiasRemision")"
+                                       class="@Html.IsSelected(actions: "ReporteGuias", controllers: "GuiasRemision")">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Reporte de guías</p>
+                                    </a>
+                                </li>
+                            </ul>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
                                     <a href="@Url.Action("Index", "Picking")"
                                        class="@Html.IsSelected(actions: "Index", controllers: "Picking")">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Picking</p>
+                                    </a>
+                                </li>
+                            </ul>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="@Url.Action("DescargarAPP", "Picking")"
+                                       class="@Html.IsSelected(actions: "DescargarAPP", controllers: "Picking")">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Descargar APP</p>
                                     </a>
                                 </li>
                             </ul>
@@ -412,34 +430,34 @@
                                 </li>
                             </ul>
                             @*<ul class="nav nav-treeview">
-            <li class="nav-item">
-                <a href="@Url.Action("Create", "DetalleOrdenCompra")"
-                   class="@Html.IsSelected(actions: "Create", controllers: "DetalleOrdenCompra")">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p>Generar OC</p>
-                </a>
-            </li>
-        </ul>*@
+                <li class="nav-item">
+                    <a href="@Url.Action("Create", "DetalleOrdenCompra")"
+                       class="@Html.IsSelected(actions: "Create", controllers: "DetalleOrdenCompra")">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>Generar OC</p>
+                    </a>
+                </li>
+            </ul>*@
                             @*<ul class="nav nav-treeview">
-            <li class="@Html.DropdownIsSelected(controllers: "Proveedor")">
-                <a href="#" class="@Html.LabelDropdownIsSelected(controllers: "Proveedor")">
-                    <i class="nav-icon fas fa-handshake"></i>
-                    <p>
-                        Proveedores
-                        <i class="fas fa-angle-left right"></i>
-                    </p>
-                </a>
-                <ul class="nav nav-treeview">
-                    <li class="nav-item">
-                        <a href="@Url.Action("Index", "Proveedor")"
-                           class="@Html.IsSelected(actions: "Index", controllers: "Proveedor")">
-                            <i class="far fa-circle nav-icon"></i>
-                            <p>Listar proveedores</p>
-                        </a>
-                    </li>
-                </ul>
-            </li>
-        </ul>*@
+                <li class="@Html.DropdownIsSelected(controllers: "Proveedor")">
+                    <a href="#" class="@Html.LabelDropdownIsSelected(controllers: "Proveedor")">
+                        <i class="nav-icon fas fa-handshake"></i>
+                        <p>
+                            Proveedores
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="@Url.Action("Index", "Proveedor")"
+                               class="@Html.IsSelected(actions: "Index", controllers: "Proveedor")">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Listar proveedores</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>*@
                             <ul class="nav nav-treeview">
                                 <li class="@Html.DropdownIsSelected(controllers: "Gastos")">
                                     <a href="#" class="@Html.LabelDropdownIsSelected(controllers: "Gastos")">
@@ -485,7 +503,34 @@
                                         <p>Autorizaciones</p>
                                     </a>
                                 </li>
-                            </ul>                            
+                            </ul>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="@Url.Action("VerATS", "Contabilidad")"
+                                       class="@Html.IsSelected(actions: "VerATS", controllers: "Contabilidad")">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>ATS</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="@Html.DropdownIsSelected(controllers: "Produccion")">
+                            <a href="#" class="@Html.LabelDropdownIsSelected(controllers: "Produccion")">
+                                <i class="nav-icon fas fa-file-invoice-dollar"></i>
+                                <p>
+                                    Producción
+                                    <i class="fas fa-angle-left right"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="@Url.Action("Index", "Produccion")"
+                                       class="@Html.IsSelected(actions: "Index", controllers: "Produccion")">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Órdenes</p>
+                                    </a>
+                                </li>
+                            </ul>
                         </li>
                         @*<li class="nav-item">
             <a href="pages/widgets.html" class="nav-link">
@@ -1282,7 +1327,7 @@
                     "Mayo",
                     "Junio",
                     "Julio",
-                    "Agusto",
+                    "Agosto",
                     "Septiembre",
                     "Octubre",
                     "Noviembre",

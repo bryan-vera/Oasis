@@ -27,5 +27,8 @@ namespace Oasis.Models
         public Nullable<decimal> valor_factura { get; set; }
         public Nullable<System.DateTime> fecha_guia_troquelada { get; set; }
         public string direccion { get; set; }
+        public Nullable<decimal> peso { get; set; }
+        public string serial_urbano { get; set; }
+        public Nullable<int> bultos { get; set; }
     }
 }

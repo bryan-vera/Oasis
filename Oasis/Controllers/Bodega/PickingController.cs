@@ -186,7 +186,7 @@ namespace Oasis.Controllers.Bodega
             {
                 var facturas =
                     context.DVP
-                    .Where(x => x.Secuencial_documento.Contains(Secuencial) && 
+                    .Where(x => x.Secuencial_documento.Replace("-",string.Empty).Contains(Secuencial) && 
                     x.Empresa.Contains(Empresa))
                     .GroupBy(x => new {
                         x.id_factura_cliente,
@@ -261,14 +261,40 @@ namespace Oasis.Controllers.Bodega
             }
         }
 
+        class InfoFactura
+        {
+            public String Cliente;
+            public int id_factura_cliente;
+            public string Secuencial_documento;
+            public DateTime? Fecha_factura;
+            public String Empresa;
+            public String clave_acceso;
+        }
 
         [HttpGet]
-        public string LecturaPicking(string ClaveAcceso)
+        public string LecturaPicking(
+            string ClaveAcceso="",
+            int CodigoFactura=0
+            )
         {
-            ClaveAcceso = ClaveAcceso.Substring(1, ClaveAcceso.Length - 1);
+            bool indicador_id_factura = false;
+            bool indicador_clave_acceso = false;
+
+            if (ClaveAcceso != "")
+            {
+                indicador_clave_acceso = true;
+                ClaveAcceso = ClaveAcceso.Substring(1, ClaveAcceso.Length - 1);
+            } else
+            {
+                indicador_id_factura = true;
+            }
+
             using (var context = new as2oasis())
             {
-                var id_factura =
+                var id_factura = new InfoFactura();
+                if (indicador_clave_acceso)
+                {
+                    id_factura =
                     context.DVP
                     .Where(x => x.clave_acceso.Contains(ClaveAcceso))
                     .GroupBy(x => new {
@@ -279,19 +305,45 @@ namespace Oasis.Controllers.Bodega
                         x.Empresa,
                         x.clave_acceso
                     })
-                    .Select(x => new {
-                        x.Key.Cliente,
-                        x.Key.id_factura_cliente,
-                        x.Key.Secuencial_documento,
-                        x.Key.Fecha_factura,
-                        x.Key.Empresa,
-                        x.Key.clave_acceso
+                    .Select(x => new InfoFactura {
+                        Cliente = x.Key.Cliente,
+                        id_factura_cliente= x.Key.id_factura_cliente,
+                        Secuencial_documento= x.Key.Secuencial_documento,
+                        Fecha_factura= x.Key.Fecha_factura,
+                        Empresa= x.Key.Empresa,
+                        clave_acceso= x.Key.clave_acceso
                     })
                     .FirstOrDefault();
+                } else
+                 if(indicador_id_factura)
+                {
+                    id_factura =
+                    context.DVP
+                    .Where(x => x.id_factura_cliente==CodigoFactura)
+                    .GroupBy(x => new {
+                        x.id_factura_cliente,
+                        x.Secuencial_documento,
+                        x.Cliente,
+                        x.Fecha_factura,
+                        x.Empresa,
+                        x.clave_acceso
+                    })
+                    .Select(x => new InfoFactura
+                    {
+                        Cliente = x.Key.Cliente,
+                        id_factura_cliente = x.Key.id_factura_cliente,
+                        Secuencial_documento = x.Key.Secuencial_documento,
+                        Fecha_factura = x.Key.Fecha_factura,
+                        Empresa = x.Key.Empresa,
+                        clave_acceso = x.Key.clave_acceso
+                    })
+                    .FirstOrDefault();
+                }
+
 
                 var detalle_factura =
                     context.DVP
-                    .Where(x => x.clave_acceso == ClaveAcceso)
+                    .Where(x => x.id_factura_cliente == id_factura.id_factura_cliente)
                     .Select(x => new { x.Producto, x.Código_producto, x.Cantidad })
                     .GroupBy(x => new { x.Producto, x.Código_producto })
                     .ToList()

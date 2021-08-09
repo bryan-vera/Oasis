@@ -59,7 +59,7 @@
                 <div class="row">
                     <div class="col-md-5">
                         <div class="form-group">
-                            <label>Fecha de facturación:</label>
+                            <label>Fecha de creación:</label>
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="input-group">
@@ -125,7 +125,7 @@
             </div>
             <!-- /.card-body -->
             <div class="card-footer">
-                <button type="button" id="GenerarFacturas" class="btn btn-primary  float-right">Generar</button>
+                <button type="button" id="GenerarDatos" class="btn btn-primary  float-right">Generar</button>
             </div>
         </div>
     </div>
@@ -188,7 +188,7 @@
         }
     </script>
     <script>
-        $("#GenerarFacturas").click(function () {
+        $("#GenerarDatos").click(function () {
             var tipoCliente = [];
             var empresa = $("#empresa_ind").val();
             var sucursal = $("#sucursal_ind").val();
@@ -242,7 +242,7 @@
                         "CODIGO COBRO", "FECHA CREACION", "FECHA APLICACIÓN",
                         "VALOR", "SECUNCIAL FACTURA", "FECHA FACTURA",
                         "FECHA VENCIMIENTO", "VENDEDOR",
-                        "DESCRIPCION"];
+                        "DESCRIPCION", "DESCRIPCION 2"," VALOR FACTURA"];
                     for (var i = 0; i < d.length; i++) {
                         for (var key in d[i]) {
                             if (col.indexOf(key) === -1) {

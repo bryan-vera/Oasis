@@ -31,5 +31,6 @@ namespace Oasis.Models
         public Nullable<int> id_vendedor { get; set; }
         public string vendedor { get; set; }
         public string nombre_agente_comercial { get; set; }
+        public string nota { get; set; }
     }
 }

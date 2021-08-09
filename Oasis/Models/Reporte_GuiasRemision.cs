@@ -12,28 +12,18 @@ namespace Oasis.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class GuiaUrbano
+    public partial class Reporte_GuiasRemision
     {
-        public string identificacion { get; set; }
-        public int id_guia_remision { get; set; }
-        public int id_organizacion { get; set; }
         public string empresa { get; set; }
-        public string secuencial_factura { get; set; }
-        public string provincia { get; set; }
-        public string ciudad { get; set; }
-        public string parroquia { get; set; }
-        public Nullable<System.DateTime> fecha_factura { get; set; }
-        public decimal valor_factura { get; set; }
-        public Nullable<System.DateTime> fecha_guia { get; set; }
-        public string descripcion { get; set; }
-        public string email { get; set; }
-        public string secuencial_guia { get; set; }
         public string nombre_comercial { get; set; }
-        public string vendedor { get; set; }
-        public string telefono1 { get; set; }
-        public string telefono2 { get; set; }
-        public string direccion { get; set; }
+        public string secuencial_factura { get; set; }
+        public Nullable<System.DateTime> fecha_factura { get; set; }
+        public string secuencial_guia { get; set; }
+        public Nullable<System.DateTime> fecha_guia { get; set; }
+        public string ciudad { get; set; }
+        public Nullable<decimal> peso { get; set; }
+        public string serial_urbano { get; set; }
         public string nota_guia { get; set; }
-        public string nombre { get; set; }
+        public Nullable<int> bultos { get; set; }
     }
 }

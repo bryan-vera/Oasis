@@ -4,12 +4,10 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="dfd32fbb2ee44dfa9089e4ea9e0ebd08" Name="Diagram1" ZoomLevel="99">
-        <EntityTypeShape EntityType="oasisAS2.GuiaUrbano" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+      <Diagram DiagramId="dfd32fbb2ee44dfa9089e4ea9e0ebd08" Name="Diagram1" ZoomLevel="64">
         <EntityTypeShape EntityType="oasisAS2.presupuesto_cabecera" Width="1.5" PointX="3.75" PointY="1" />
         <EntityTypeShape EntityType="oasisAS2.presupuesto_detalle" Width="1.5" PointX="6" PointY="1.125" />
         <AssociationConnector Association="oasisAS2.FK__presupues__id_pr__2D27B809" />
-        <EntityTypeShape EntityType="oasisAS2.Cobros_Consolidado" Width="1.5" PointX="8.375" PointY="0.75" />
         <EntityTypeShape EntityType="oasisAS2.Presupuesto_Vendedor_Detalle" Width="1.5" PointX="5" PointY="4.5" />
         <EntityTypeShape EntityType="oasisAS2.Vendedores" Width="1.5" PointX="0.75" PointY="6.75" />
         <EntityTypeShape EntityType="oasisAS2.Cheques_Postfechados" Width="1.5" PointX="3.375" PointY="8.75" />
@@ -28,13 +26,18 @@
         <EntityTypeShape EntityType="oasisAS2.ordenes_compra" Width="2.375" PointX="14.625" PointY="1.25" />
         <EntityTypeShape EntityType="oasisAS2.Ventas_Consolidado" Width="1.5" PointX="0.75" PointY="14.75" />
         <EntityTypeShape EntityType="oasisAS2.DVP" Width="1.5" PointX="16.75" PointY="11" />
-        <EntityTypeShape EntityType="oasisAS2.guia_urbano_troq" Width="1.5" PointX="3.375" PointY="15.75" />
         <EntityTypeShape EntityType="oasisAS2.picking" Width="1.5" PointX="15.375" PointY="4.75" />
         <EntityTypeShape EntityType="oasisAS2.geoubicacion" Width="1.5" PointX="5.375" PointY="14.75" />
         <EntityTypeShape EntityType="oasisAS2.Picking_Estado" Width="1.5" PointX="11.375" PointY="16.75" />
-        <EntityTypeShape EntityType="oasisAS2.NC_Diario" Width="1.5" PointX="13.375" PointY="16.75" />
         <EntityTypeShape EntityType="oasisAS2.usuarioOasis" Width="1.5" PointX="17.375" PointY="4.75" />
         <EntityTypeShape EntityType="oasisAS2.PickingGuias" Width="1.5" PointX="7.375" PointY="14.75" />
+        <EntityTypeShape EntityType="oasisAS2.Cobros_Consolidado" Width="1.5" PointX="15.375" PointY="18.75" />
+        <EntityTypeShape EntityType="oasisAS2.Pedidos" Width="1.5" PointX="17.375" PointY="18.75" />
+        <EntityTypeShape EntityType="oasisAS2.NC_Diario" Width="1.5" PointX="19.375" PointY="0.75" />
+        <EntityTypeShape EntityType="oasisAS2.Reporte_GuiasRemision" Width="1.5" PointX="3.375" PointY="17.75" />
+        <EntityTypeShape EntityType="oasisAS2.guia_urbano_troq" Width="1.5" PointX="8.375" PointY="0.75" />
+        <EntityTypeShape EntityType="oasisAS2.GuiaUrbano" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="oasisAS2.Orden_Produccion" Width="1.5" PointX="5.375" PointY="19.75" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

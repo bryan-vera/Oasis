@@ -37,5 +37,6 @@ namespace Oasis.Models
         public Nullable<System.DateTime> fecha_factura { get; set; }
         public Nullable<System.DateTime> fecha_vencimiento_factura { get; set; }
         public string descripcion_factura { get; set; }
+        public Nullable<decimal> valor_factura { get; set; }
     }
 }

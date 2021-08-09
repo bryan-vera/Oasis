@@ -42,7 +42,7 @@ $('#fecha_corte').daterangepicker({
             "Mayo",
             "Junio",
             "Julio",
-            "Agusto",
+            "Agosto",
             "Septiembre",
             "Octubre",
             "Noviembre",
@@ -104,7 +104,9 @@ $("#GenerarNC").click(function () {
             var encabezado = ["EMPRESA", "SUCURSAL", "RUC",
                 "CLIENTE",
                 "FECHA NC", "SECUENCIAL NC", "MOTIVO", "VALOR",
-                "FECHA FACTURA", "FACTURA", "VISITADOR"];
+                "FECHA FACTURA", "FACTURA", "VISITADOR",
+                "NOTA","DESCRIPCIÓN"
+            ];
             for (var i = 0; i < d.length; i++) {
                 for (var key in d[i]) {
                     if (col.indexOf(key) === -1) {
