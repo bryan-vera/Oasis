@@ -509,6 +509,9 @@
     <Compile Include="Models\CarteraEmpresa_Result.cs">
       <DependentUpon>AS2OASIS.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Cartera_Proveedor.cs">
+      <DependentUpon>AS2OASIS.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\casa_comercial.cs">
       <DependentUpon>AS2.tt</DependentUpon>
     </Compile>
@@ -1628,6 +1631,9 @@
       <DependentUpon>AS2.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Orden_Produccion.cs">
+      <DependentUpon>AS2OASIS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Orden_Produccion_Cabecera.cs">
       <DependentUpon>AS2OASIS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\orden_salida_material.cs">
@@ -4782,6 +4788,7 @@
     <Content Include="Views\GuiasRemision\ReporteGuias.cshtml" />
     <Content Include="Views\Contabilidad\VerATS.cshtml" />
     <Content Include="Views\Produccion\Index.cshtml" />
+    <Content Include="Views\Contabilidad\CuentasPorPagar.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

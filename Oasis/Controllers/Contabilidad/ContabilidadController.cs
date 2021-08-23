@@ -26,6 +26,71 @@ namespace Oasis.Controllers.Contabilidad
             return View();
         }
 
+        public ActionResult CuentasPorPagar()
+        {
+            ViewBag.Opciones = ListaEmpresas();
+            ViewBag.Title = "Cuentas por pagar";
+            return View();
+        }
+
+        public List<SelectListItem> ListaEmpresas()
+        {
+            List<SelectListItem> lst = new List<SelectListItem>();
+
+            lst.Add(new SelectListItem() { Text = "LABOVIDA", Value = "LABOVIDA S.A." });
+            lst.Add(new SelectListItem() { Text = "LEBENFARMA", Value = "LEBENFARMA S.A." });
+            lst.Add(new SelectListItem() { Text = "FARMALIGHT", Value = "FARMALIGHT S.A." });
+            lst.Add(new SelectListItem() { Text = "DANIVET", Value = "LABORATORIOS DANIVET S.A." });
+            lst.Add(new SelectListItem() { Text = "DANIVET 2", Value = "LABORATORIOS DANIVET S.A. 2" });
+            lst.Add(new SelectListItem() { Text = "ANYUPA", Value = "LABORATORIOS ANYUPA S.A." });
+            lst.Add(new SelectListItem() { Text = "MEDITOTAL", Value = "MEDITOTAL S.A." });
+            return lst;
+        }
+
+        public JsonResult ObtenerCarteraPorPagar(
+           string empresa,
+           string fecha_desde,
+           string fecha_hasta
+           )
+        {
+
+            DateTime fecha_desde_ = DateTime.Parse(fecha_desde);
+            DateTime fecha_hasta_ = DateTime.Parse(fecha_hasta);
+
+            using (var context = new as2oasis())
+            {
+                var cartera =
+                    context.Cartera_Proveedor
+                    .Where(x => x.empresa == empresa &&  
+                                x.fecha_factura >= fecha_desde_ &&
+                                x.fecha_factura <= fecha_hasta_
+                            );
+
+                var lista_cartera = cartera
+                    .ToList()
+                    .Select(x => new {
+                        x.empresa,
+                        x.identificacion,
+                        x.nombre_comercial,
+                        x.categoria,
+                        secuencial_factura = (x.secuencial_factura.Replace("-", string.Empty)),
+                        fecha_factura = x.fecha_factura.ToShortDateString(),
+                        fecha_vencimiento = x.fecha_vencimiento.Value.ToShortDateString(),
+                        x.provincia,
+                        x.ciudad,
+                        x.parroquia,
+                        x.direccion,
+                        valor_factura = x.valor_factura, 
+                        saldo_pendiente = x.saldo,
+                        //x.dias_emitida,
+                        //x.dias_diferencia
+                    });
+
+                //var cartera_json = JsonConvert.SerializeObject(lista_cartera, Formatting.Indented);
+                return Json(lista_cartera, JsonRequestBehavior.AllowGet);
+            }
+        }
+
         [HttpPost]
         public FileResult DevolverATS(string empresa, string año, string mes )
         {

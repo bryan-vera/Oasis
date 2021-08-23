@@ -130,13 +130,103 @@
 @section Scripts { 
     <script>
 
+        function imprimirOrden(lote) {
+            $.ajax({
+                url: 'ImprimirOrdenProduccion',
+                type: "GET",
+                data: { lote: lote },
+                success: function (d) {
+                    if (d.length > 0) {
+                        let pdfWindow = window.open("")
+                        pdfWindow.document.write(
+                            "<iframe width='100%' height='100%' src='data:application/pdf;base64," +
+                            encodeURI(d) + "'></iframe>"
+                        )
+
+                        Toast.fire({
+                            icon: 'success',
+                            title: 'Se ha generado la OC de forma correcta.'
+                        })
+                    }
+                },
+                error: function (e) {
+                    Toast.fire({
+                        icon: 'error',
+                        title: 'Hubo un error al intentar guardar.'
+                    })
+                }
+            });
+        }
+
+        $(".imprimir").click(function () {
+            id_guia = this.dataset.id_guia_remision;
+            codigoOrganizacion = this.dataset.codigo_organizacion;
+            var EsLabovida = false;
+            if (codigoOrganizacion == 69) {
+                EsLabovida = true;
+            }
+            Swal.mixin({
+                input: 'text',
+                confirmButtonText: 'Siguiente &rarr;',
+                showCancelButton: true,
+                progressSteps: ['1', '2', '3'],
+                showLoaderOnConfirm: true,
+            }).queue([
+                {
+                    title: 'Generar guía',
+                    text: 'Ingrese el peso'
+                },
+                {
+                    title: 'Generar guía',
+                    text: 'Ingrese la cantidad de bultos'
+                },
+                {
+                    title: 'Generar guía',
+                    text: 'Ingrese la guía urbano'
+                }
+            ]).then((result) => {
+                if (result.value) {
+                    peso = result.value[0];
+                    bultos = result.value[1];
+                    guia_urbano = result.value[2];
+                    $.ajax({
+                        url: 'GuiasRemision/Imprimir/' + id_guia,
+                        type: "GET",
+                        data: { peso: peso, bultos: bultos, guia_urbano: guia_urbano, EsLabovida: EsLabovida },
+                        success: function (d) {
+                            if (d.length > 0) {
+                                let pdfWindow = window.open("")
+                                pdfWindow.document.write(
+                                    //"<iframe width='100%' height='100%' src='data:application/pdf;base64," +
+                                    encodeURI(d)
+                                    //+ "'></iframe>"
+                                )
+
+                                Toast.fire({
+                                    icon: 'success',
+                                    title: 'Se ha generado la OC de forma correcta.'
+                                })
+                            }
+                        },
+                        error: function (e) {
+                            Toast.fire({
+                                icon: 'error',
+                                title: 'Hubo un error al intentar guardar.'
+                            })
+                        }
+
+                    })
+                }
+            })
+        });
+
         $("#GenerarDatos").click(function () {
             var fecha_desde = ConvertirFecha($('#fecha_corte').data('daterangepicker').startDate._d);
             var fecha_hasta = ConvertirFecha($('#fecha_corte').data('daterangepicker').endDate._d);
-            //iniciaLoading();
+            iniciaLoading();
 
             $.ajax({
-                url: 'Produccion/ObtenerOP',
+                url: 'ObtenerOP',
                 type: 'GET',
                 data: {
                     fecha_desde: fecha_desde,
@@ -154,8 +244,8 @@
                     row.appendChild(contenedorTabla);
                     $('#contenedorPrimario').append(row);
                     var col = [];
-                    var encabezado = ["O.F.", "COD. PRODUCTO", "DESCRIPCION PRODUCTO", "CANTIDAD A ELABORAR",
-                        "CANTIDAD ELABORADA", "RENDIMIENTO", "LOTE", "PLANTA", "ACCION"];
+                    var encabezado = ["LOTE","FECHA", "COD. PRODUCTO", "DESCRIPCION PRODUCTO", "CANTIDAD A ELABORAR",
+                        "CANTIDAD ELABORADA", "RENDIMIENTO", "ACCION"];
                     for (var i = 0; i < d.length; i++) {
                         for (var key in d[i]) {
                             if (col.indexOf(key) === -1) {
@@ -201,6 +291,9 @@
                             tabCell.innerHTML = d[i][col[j]];
                             tabCell.style = ' white-space: nowrap;';
                         }
+                        var tabCell = tr_body.insertCell(-1);
+                        tabCell.innerHTML = '<button class="btn btn-info imprimir" onClick="imprimirOrden(\'' + d[i][col[0]] +'\')" >Imprimir</button>';
+                        tabCell.style = ' white-space: nowrap;';
                         tbody.appendChild(tr_body);
                     }
 

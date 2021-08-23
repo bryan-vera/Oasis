@@ -22,7 +22,7 @@ namespace Oasis.Models
         public string ciudad { get; set; }
         public System.DateTime fecha_factura { get; set; }
         public Nullable<decimal> valor_factura { get; set; }
-        public Nullable<System.DateTime> fecha_guia { get; set; }
+        public System.DateTime fecha_guia { get; set; }
         public string descripcion { get; set; }
         public string email { get; set; }
         public string nombre_comercial { get; set; }

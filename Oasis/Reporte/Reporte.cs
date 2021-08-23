@@ -96,6 +96,13 @@ namespace Oasis
             return doc;
         }
 
+        public Document CrearDocA4()
+        {
+            var doc =  new Document(PageSize.A4);
+            this.doc = doc;
+            return doc;
+        }
+
         public void InsertarTexto(PdfWriter writer,String text, int x, int y)
         {
             PdfContentByte cb = writer.DirectContent;

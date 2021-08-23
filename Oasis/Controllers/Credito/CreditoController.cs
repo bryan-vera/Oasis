@@ -268,7 +268,7 @@ namespace Oasis.Controllers.Credito
                     nc_.secuencial_nc = item.secuencial_nc;
                     nc_.cliente = item.nombre_fiscal;
                     nc_.motivo = item.motivo_nc;
-                    nc_.valor_nc = ((float)item.valor_nc).ToString("N2", System.Globalization.CultureInfo.InvariantCulture);
+                    nc_.valor_nc =item.valor_nc.ToString();
                     NC.Add(nc_);
                 }
                 var nc_json = JsonConvert.SerializeObject(NC, Formatting.Indented);
@@ -598,7 +598,7 @@ namespace Oasis.Controllers.Credito
                         fecha_documento = x.fecha_documento.Value.ToShortDateString(),
                         x.secuencial_nc,
                         x.motivo_nc,
-                        valor = x.valor_nc.Value.ToString("N2"),
+                        valor = x.valor_nc,
                         fecha_factura = x.fecha_factura.Value.ToShortDateString(),
                         factura = x.numero_factura,
                         x.vendedor,
@@ -676,7 +676,7 @@ namespace Oasis.Controllers.Credito
         {
             List<SelectListItem> lst = new List<SelectListItem>();
 
-            lst.Add(new SelectListItem() { Text = "LABOVIDA", Value = "LABORATORIOS LABOVIDA S.A." });
+            lst.Add(new SelectListItem() { Text = "LABOVIDA", Value = "LABOVIDA S.A." });
             lst.Add(new SelectListItem() { Text = "LEBENFARMA", Value = "LEBENFARMA S.A." });
             lst.Add(new SelectListItem() { Text = "FARMALIGHT", Value = "FARMALIGHT S.A." });
             lst.Add(new SelectListItem() { Text = "DANIVET", Value = "LABORATORIOS DANIVET S.A." });

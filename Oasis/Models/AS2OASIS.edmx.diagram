@@ -37,7 +37,9 @@
         <EntityTypeShape EntityType="oasisAS2.Reporte_GuiasRemision" Width="1.5" PointX="3.375" PointY="17.75" />
         <EntityTypeShape EntityType="oasisAS2.guia_urbano_troq" Width="1.5" PointX="8.375" PointY="0.75" />
         <EntityTypeShape EntityType="oasisAS2.GuiaUrbano" Width="1.5" PointX="0.75" PointY="0.75" />
-        <EntityTypeShape EntityType="oasisAS2.Orden_Produccion" Width="1.5" PointX="5.375" PointY="19.75" />
+        <EntityTypeShape EntityType="oasisAS2.Cartera_Proveedor" Width="1.5" PointX="19.375" PointY="6.75" />
+        <EntityTypeShape EntityType="oasisAS2.Orden_Produccion" Width="1.5" PointX="7.625" PointY="18.5" />
+        <EntityTypeShape EntityType="oasisAS2.Orden_Produccion_Cabecera" Width="1.5" PointX="10.375" PointY="19.75" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

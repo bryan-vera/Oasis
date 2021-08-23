@@ -1,0 +1,230 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card card-primary">
+            <div class="card-header">
+                <h2 class="card-title">@ViewBag.Title</h2>
+                <div class="card-tools">
+                    <button type="button" class="btn bg-primary btn-sm" data-card-widget="collapse">
+                        <i class="fas fa-minus"></i>
+                    </button>
+                    <button type="button" class="btn bg-primary btn-sm" data-card-widget="remove">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>
+            <!-- form start -->
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Empresa</label>
+                            @Html.DropDownList("empresa_ind",
+                                        new SelectList(ViewBag.Opciones, "Value", "Text"),
+                                        htmlAttributes: new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="col-md-5">
+                        <div class="form-group">
+                            <label for="proveedor">Proveedor</label>
+                            <select class="form-control js-data-vendedor-ajax" id="proveedor" disabled>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-1">
+                        <div class="form-group">
+                            <label for="chkProveedor">Todos</label>
+                            <input class="form-control" type="checkbox" id="chkProveedor" checked>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label>Fecha de corte</label>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">
+                                                <i class="far fa-calendar-alt"></i>
+                                            </span>
+                                        </div>
+                                        <input type="text" class="form-control float-right" id="fecha_corte">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /.card-body -->
+            <div class="card-footer">
+                <button type="button" id="GenerarCarteraPorPagar" class="btn btn-primary  float-right">Generar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    <script src="~/Content/js/CuentaPorPagar.js"></script>
+    <script>
+
+        $('#fecha_corte').daterangepicker({
+            locale: {
+                format: 'DD/MM/YYYY',
+                "daysOfWeek": [
+                    "Do",
+                    "Lu",
+                    "Ma",
+                    "Mi",
+                    "Ju",
+                    "Vi",
+                    "Sa"
+                ],
+                "monthNames": [
+                    "Enero",
+                    "Febrero",
+                    "Marzo",
+                    "Abril",
+                    "Mayo",
+                    "Junio",
+                    "Julio",
+                    "Agosto",
+                    "Septiembre",
+                    "Octubre",
+                    "Noviembre",
+                    "Diciembre"
+                ],
+            },
+            startDate: firstDay,
+            endDate: lastDay
+        });
+
+        $('#chkProveedor').click( 
+            function () {
+                if (this.checked) {
+                    $("#proveedor").prop("disabled", true);
+                } else {
+                    $("#proveedor").prop("disabled", false);
+                }
+            });
+
+        $("#GenerarCarteraPorPagar").click(function () {
+            var empresa = $("#empresa_ind").val();
+            var fecha_desde = ConvertirFecha($('#fecha_corte').data('daterangepicker').startDate._d);
+            var fecha_hasta = ConvertirFecha($('#fecha_corte').data('daterangepicker').endDate._d);
+                       
+            iniciaLoading();
+            $.ajax({
+                url: 'ObtenerCarteraPorPagar',
+                type: 'GET',
+                data: {
+                    empresa: empresa,
+                    fecha_desde: fecha_desde,
+                    fecha_hasta: fecha_hasta
+                },
+                dataType: "JSON",
+                contentType: "application/JSON",
+                success: function (d) {
+                    $('#contenedorTabla').remove();
+                    var contenedorTabla = document.createElement("div");
+                    contenedorTabla.className = "col-md-12";
+                    contenedorTabla.id = "contenedorTabla"
+                    var row = document.createElement("div");
+                    row.className = "row";
+                    row.appendChild(contenedorTabla);
+                    $('#contenedorPrimario').append(row);
+                    var col = [];
+                    var encabezado = [
+                        'EMPRESA',
+                        'RUC', 'CLIENTE', 'CATEGORIA',
+                        'SECUENCIAL',
+                        'FECHA FACTURA', 'FECHA VENCIMIENTO',
+                        'PROVINCIA', 'CIUDAD', 'PARROQUIA', 'DIRECCION',
+                        'VALOR FACTURA', 'SALDO PENDIENTE',
+                        //'DIAS EMITIDAS', 'DIAS VENCIDA'
+                    ];
+
+                    for (var i = 0; i < d.length; i++) {
+                        for (var key in d[i]) {
+                            if (col.indexOf(key) === -1) {
+                                col.push(key);
+                            }
+                        }
+                    }
+
+                    // CREATE DYNAMIC TABLE.
+                    var div = document.createElement("div");
+                    var row = document.createElement("div");
+                    row.className = "row col-md-4";
+                    var card = document.createElement("div");
+                    card.className = "card";
+                    card.style = "font-size: 15px;overflow-x: scroll;";
+                    var cardbody = document.createElement("div");
+                    cardbody.className = "card-body";
+                    var table = document.createElement("table");
+                    table.className = 'table table-hover tableDetalle';
+                    table.id = "tableDetalle";
+                    table.style = '';
+
+                    // CREATE HTML TABLE HEADER ROW USING THE EXTRACTED HEADERS ABOVE
+                    var thead = document.createElement("thead");
+                    table.appendChild(thead);
+                    var tr_head = document.createElement("tr");
+                    for (var i = 0; i < encabezado.length; i++) {
+                        var th = document.createElement("th");      // TABLE HEADER.
+                        th.innerHTML = encabezado[i];
+                        tr_head.appendChild(th);
+                    }
+
+                    thead.appendChild(tr_head);
+
+                    var tbody = document.createElement("tbody");
+                    table.appendChild(tbody);
+                    var tr_body = document.createElement("tr");
+                    // ADD JSON DATA TO THE TABLE AS ROWS.
+                    for (var i = 0; i < d.length; i++) {
+                        tr_body = document.createElement("tr");
+                        for (var j = 0; j < col.length; j++) {
+                            var tabCell = tr_body.insertCell(-1);
+                            tabCell.innerHTML = d[i][col[j]];
+                            tabCell.style = ' white-space: nowrap;';
+                        }
+                        tbody.appendChild(tr_body);
+                    }
+
+                    cardbody.appendChild(table);
+                    card.appendChild(cardbody);
+                    div.appendChild(card);
+                    //CrearTablaDetalle(div.outerHTML, titulo);
+                    $('#contenedorTabla').append(div);
+                    $('#tableDetalle').DataTable({
+                        dom: 'Bfrtip',
+                        buttons: [
+                            'copy', 'csv', 'excel', 'pdf', 'print'
+                        ],
+                        language: {
+                            url: 'https://cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json'
+                        }
+                    });
+                    cierraLoading();
+                },
+                error: function (e) {
+                    cierraLoading();
+                    Toast.fire({
+                        icon: 'error',
+                        title: 'Hubo un error al intentar generar.'
+                    })
+                }
+            })
+        });
+    </script>
+}

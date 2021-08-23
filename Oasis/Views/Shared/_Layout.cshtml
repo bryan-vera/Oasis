@@ -513,6 +513,15 @@
                                     </a>
                                 </li>
                             </ul>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="@Url.Action("CuentasPorPagar", "Contabilidad")"
+                                       class="@Html.IsSelected(actions: "CuentasPorPagar", controllers: "Contabilidad")">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Cuentas por pagar</p>
+                                    </a>
+                                </li>
+                            </ul>
                         </li>
                         <li class="@Html.DropdownIsSelected(controllers: "Produccion")">
                             <a href="#" class="@Html.LabelDropdownIsSelected(controllers: "Produccion")">

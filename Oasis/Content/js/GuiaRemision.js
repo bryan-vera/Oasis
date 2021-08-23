@@ -1,6 +1,4 @@
 ﻿
-
-
 $(".imprimir").click(function () {
     id_guia = this.dataset.id_guia_remision;
     codigoOrganizacion = this.dataset.codigo_organizacion;
@@ -61,6 +59,7 @@ $(".imprimir").click(function () {
         }
     })
 });
+
 $("#GenerarReporteGuias").click(function () {
     let empresa;
     let indicador_factura;

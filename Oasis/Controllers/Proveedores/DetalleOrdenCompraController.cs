@@ -18,7 +18,7 @@ namespace Oasis.Controllers.Proveedores
         {
             List<SelectListItem> lst = new List<SelectListItem>();
 
-            //lst.Add(new SelectListItem() { Text = "LABOVIDA", Value = "LABOV" });
+            lst.Add(new SelectListItem() { Text = "LABOVIDA", Value = "LABOVIDA S.A." });
             lst.Add(new SelectListItem() { Text = "LEBENFARMA", Value = "LEBENFARMA S.A." });
             lst.Add(new SelectListItem() { Text = "FARMALIGHT", Value = "FARMALIGHT S.A." });
             lst.Add(new SelectListItem() { Text = "DANIVET", Value = "LABORATORIOS DANIVET S.A." });

@@ -14,8 +14,11 @@ namespace Oasis.Models
     
     public partial class Orden_Produccion
     {
+        public string lote { get; set; }
         public string OP { get; set; }
         public Nullable<System.DateTime> Fecha_creacion_OP { get; set; }
+        public Nullable<System.DateTime> fecha_modificacion { get; set; }
+        public Nullable<System.DateTime> fecha_cierre { get; set; }
         public string codigo_producto { get; set; }
         public string descripcion_producto { get; set; }
         public string planta { get; set; }
@@ -29,10 +32,13 @@ namespace Oasis.Models
         public bool indicador_suborden { get; set; }
         public Nullable<int> id_orden_fabricacion_padre { get; set; }
         public string codigo_lote { get; set; }
-        public int id_producto { get; set; }
+        public Nullable<int> id_producto { get; set; }
+        public string cod__producto_material { get; set; }
+        public string nombre_material { get; set; }
+        public string um_material { get; set; }
         public Nullable<decimal> cantidad_producto_mp_me { get; set; }
         public Nullable<decimal> cantidad_despachada { get; set; }
-        public decimal cantidad_devuelta { get; set; }
+        public Nullable<decimal> cantidad_devuelta { get; set; }
         public Nullable<decimal> cantidad_utilizada { get; set; }
         public string nombre { get; set; }
     }

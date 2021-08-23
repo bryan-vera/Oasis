@@ -55,7 +55,7 @@ namespace Oasis.Controllers.Bodega
                 .Select(x => new GuiaUrbano
                 {
                     id_organizacion=69,
-                    empresa = "LABORATORIOS LABOVIDA S.A.",
+                    empresa = "(MBA) LABORATORIOS LABOVIDA S.A. ",
                     provincia = x.Field<string>(2),
                     ciudad = x.Field<string>(3),
                     parroquia = x.Field<string>(4),
@@ -147,10 +147,8 @@ namespace Oasis.Controllers.Bodega
             string fecha_hasta_guia,
             bool indicador_factura,
             string empresa = ""
-
             )
         {
-
             DateTime fecha_desde;
             DateTime fecha_hasta;
 
@@ -214,7 +212,7 @@ namespace Oasis.Controllers.Bodega
         {
             List<SelectListItem> lst = new List<SelectListItem>();
 
-            //lst.Add(new SelectListItem() { Text = "LABOVIDA", Value = "LABOV" });
+            lst.Add(new SelectListItem() { Text = "LABOVIDA", Value = "LABOVIDA S.A." });
             lst.Add(new SelectListItem() { Text = "LEBENFARMA", Value = "LEBENFARMA S.A." });
             lst.Add(new SelectListItem() { Text = "FARMALIGHT", Value = "FARMALIGHT S.A." });
             lst.Add(new SelectListItem() { Text = "DANIVET", Value = "LABORATORIOS DANIVET S.A." });
@@ -317,7 +315,6 @@ namespace Oasis.Controllers.Bodega
                     .Where(x => x.id_guia_remision == id
                         && (EsLabovida==true?x.id_organizacion==69: x.id_organizacion != 69)
                     ).FirstOrDefault();
-
 
 
 

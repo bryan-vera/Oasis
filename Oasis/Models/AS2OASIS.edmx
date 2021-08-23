@@ -219,6 +219,35 @@ advertencia 6002: La tabla o vista 'oasis.dbo.Cartera' no tiene definida ninguna
           <Property Name="contacto" Type="varchar" MaxLength="100" />
         </EntityType>
         <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'oasis.dbo.Cartera_Proveedor' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+        <EntityType Name="Cartera_Proveedor">
+          <Key>
+            <PropertyRef Name="empresa" />
+            <PropertyRef Name="identificacion" />
+            <PropertyRef Name="nombre_comercial" />
+            <PropertyRef Name="categoria" />
+            <PropertyRef Name="fecha_factura" />
+            <PropertyRef Name="ciudad" />
+            <PropertyRef Name="direccion" />
+            <PropertyRef Name="saldo" />
+          </Key>
+          <Property Name="empresa" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="identificacion" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="nombre_comercial" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="categoria" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="secuencial_factura" Type="varchar" MaxLength="8000" />
+          <Property Name="fecha_factura" Type="date" Nullable="false" />
+          <Property Name="fecha vencimiento" Type="date" />
+          <Property Name="provincia" Type="varchar" MaxLength="50" />
+          <Property Name="ciudad" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="parroquia" Type="varchar" MaxLength="100" />
+          <Property Name="direccion" Type="varchar" MaxLength="1204" Nullable="false" />
+          <Property Name="valor_factura" Type="numeric" Precision="15" Scale="2" />
+          <Property Name="dias_emitida" Type="int" />
+          <Property Name="dias_diferencia" Type="int" />
+          <Property Name="saldo" Type="numeric" Precision="14" Scale="2" Nullable="false" />
+        </EntityType>
+        <!--Errores durante la generación:
 advertencia 6002: La tabla o vista 'oasis.dbo.Cheques_Postfechados' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
         <EntityType Name="Cheques_Postfechados">
           <Key>
@@ -466,12 +495,12 @@ advertencia 6002: La tabla o vista 'oasis.dbo.Orden_Produccion' no tiene definid
             <PropertyRef Name="planta" />
             <PropertyRef Name="nombre_ruta" />
             <PropertyRef Name="indicador_suborden" />
-            <PropertyRef Name="id_producto" />
-            <PropertyRef Name="cantidad_devuelta" />
-            <PropertyRef Name="nombre" />
           </Key>
+          <Property Name="lote" Type="varchar" MaxLength="50" />
           <Property Name="OP" Type="varchar" MaxLength="20" Nullable="false" />
           <Property Name="Fecha creacion OP" Type="datetime2" Precision="7" />
+          <Property Name="fecha_modificacion" Type="datetime2" Precision="7" />
+          <Property Name="fecha_cierre" Type="datetime2" Precision="7" />
           <Property Name="codigo producto" Type="varchar" MaxLength="50" />
           <Property Name="descripcion producto" Type="varchar" MaxLength="300" />
           <Property Name="planta" Type="varchar" MaxLength="50" Nullable="false" />
@@ -485,12 +514,37 @@ advertencia 6002: La tabla o vista 'oasis.dbo.Orden_Produccion' no tiene definid
           <Property Name="indicador_suborden" Type="bit" Nullable="false" />
           <Property Name="id_orden_fabricacion_padre" Type="int" />
           <Property Name="codigo_lote" Type="varchar" MaxLength="50" />
-          <Property Name="id_producto" Type="int" Nullable="false" />
+          <Property Name="id_producto" Type="int" />
+          <Property Name="cod. producto material" Type="varchar" MaxLength="50" />
+          <Property Name="nombre_material" Type="varchar" MaxLength="50" />
+          <Property Name="um material" Type="varchar" MaxLength="50" />
           <Property Name="cantidad_producto_mp_me" Type="numeric" Precision="14" Scale="6" />
           <Property Name="cantidad_despachada" Type="numeric" Precision="14" Scale="6" />
-          <Property Name="cantidad_devuelta" Type="numeric" Precision="12" Scale="2" Nullable="false" />
+          <Property Name="cantidad_devuelta" Type="numeric" Precision="14" Scale="6" />
           <Property Name="cantidad_utilizada" Type="numeric" Precision="14" Scale="6" />
+          <Property Name="nombre" Type="varchar" MaxLength="300" />
+        </EntityType>
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'oasis.dbo.Orden_Produccion_Cabecera' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+        <EntityType Name="Orden_Produccion_Cabecera">
+          <Key>
+            <PropertyRef Name="OP" />
+            <PropertyRef Name="lote" />
+            <PropertyRef Name="fecha" />
+            <PropertyRef Name="codigo" />
+            <PropertyRef Name="nombre" />
+            <PropertyRef Name="planta" />
+          </Key>
+          <Property Name="OP" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="lote" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="fecha" Type="date" Nullable="false" />
+          <Property Name="fecha_cierre" Type="datetime2" Precision="7" />
+          <Property Name="codigo" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="cantidad" Type="int" />
+          <Property Name="cantidad_fabricada" Type="int" />
+          <Property Name="rendimiento" Type="numeric" Precision="37" Scale="21" />
           <Property Name="nombre" Type="varchar" MaxLength="300" Nullable="false" />
+          <Property Name="planta" Type="varchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <!--Errores durante la generación:
 advertencia 6002: La tabla o vista 'oasis.dbo.ordenes_compra' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
@@ -662,10 +716,11 @@ advertencia 6002: La tabla o vista 'oasis.dbo.Ventas_Consolidado' no tiene defin
             <PropertyRef Name="id_organizacion" />
             <PropertyRef Name="secuencial_factura" />
             <PropertyRef Name="ciudad" />
+            <PropertyRef Name="fecha_factura" />
+            
             <PropertyRef Name="nombre_comercial" />
             <PropertyRef Name="categoria" />
             <PropertyRef Name="estado" />
-            <PropertyRef Name="fecha_factura" />
           </Key>
           <Property Name="empresa" Type="varchar" MaxLength="200" />
           <Property Name="sucursal" Type="varchar" MaxLength="50" />
@@ -673,9 +728,9 @@ advertencia 6002: La tabla o vista 'oasis.dbo.Ventas_Consolidado' no tiene defin
           <Property Name="id_organizacion" Type="int" Nullable="false" />
           <Property Name="secuencial_factura" Type="varchar" MaxLength="20" Nullable="false" />
           <Property Name="ciudad" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="fecha_factura" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="fecha_factura" Type="date" Nullable="false" />
           <Property Name="valor_factura" Type="numeric" Precision="15" Scale="2" />
-          <Property Name="fecha_guia" Type="datetime2" Precision="7" />
+          <Property Name="fecha_guia" Type="date" Nullable="false" />
           <Property Name="descripcion" Type="varchar" MaxLength="2000" />
           <Property Name="email" Type="varchar" MaxLength="500" />
           <Property Name="nombre_comercial" Type="varchar" MaxLength="200" Nullable="false" />
@@ -829,6 +884,25 @@ advertencia 6002: La tabla o vista 'oasis.dbo.Ventas_Consolidado' no tiene defin
     [Cartera].[dias_diferencia] AS [dias_diferencia], 
     [Cartera].[contacto] AS [contacto]
     FROM [dbo].[Cartera] AS [Cartera]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="Cartera_Proveedor" EntityType="Self.Cartera_Proveedor" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Cartera_Proveedor].[empresa] AS [empresa], 
+    [Cartera_Proveedor].[identificacion] AS [identificacion], 
+    [Cartera_Proveedor].[nombre_comercial] AS [nombre_comercial], 
+    [Cartera_Proveedor].[categoria] AS [categoria], 
+    [Cartera_Proveedor].[secuencial_factura] AS [secuencial_factura], 
+    [Cartera_Proveedor].[fecha_factura] AS [fecha_factura], 
+    [Cartera_Proveedor].[fecha vencimiento] AS [fecha vencimiento], 
+    [Cartera_Proveedor].[provincia] AS [provincia], 
+    [Cartera_Proveedor].[ciudad] AS [ciudad], 
+    [Cartera_Proveedor].[parroquia] AS [parroquia], 
+    [Cartera_Proveedor].[direccion] AS [direccion], 
+    [Cartera_Proveedor].[valor_factura] AS [valor_factura], 
+    [Cartera_Proveedor].[dias_emitida] AS [dias_emitida], 
+    [Cartera_Proveedor].[dias_diferencia] AS [dias_diferencia], 
+    [Cartera_Proveedor].[saldo] AS [saldo]
+    FROM [dbo].[Cartera_Proveedor] AS [Cartera_Proveedor]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="Cheques_Postfechados" EntityType="Self.Cheques_Postfechados" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
@@ -1003,8 +1077,11 @@ advertencia 6002: La tabla o vista 'oasis.dbo.Ventas_Consolidado' no tiene defin
           </EntitySet>
           <EntitySet Name="Orden_Produccion" EntityType="Self.Orden_Produccion" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
+    [Orden_Produccion].[lote] AS [lote], 
     [Orden_Produccion].[OP] AS [OP], 
     [Orden_Produccion].[Fecha creacion OP] AS [Fecha creacion OP], 
+    [Orden_Produccion].[fecha_modificacion] AS [fecha_modificacion], 
+    [Orden_Produccion].[fecha_cierre] AS [fecha_cierre], 
     [Orden_Produccion].[codigo producto] AS [codigo producto], 
     [Orden_Produccion].[descripcion producto] AS [descripcion producto], 
     [Orden_Produccion].[planta] AS [planta], 
@@ -1019,12 +1096,29 @@ advertencia 6002: La tabla o vista 'oasis.dbo.Ventas_Consolidado' no tiene defin
     [Orden_Produccion].[id_orden_fabricacion_padre] AS [id_orden_fabricacion_padre], 
     [Orden_Produccion].[codigo_lote] AS [codigo_lote], 
     [Orden_Produccion].[id_producto] AS [id_producto], 
+    [Orden_Produccion].[cod. producto material] AS [cod. producto material], 
+    [Orden_Produccion].[nombre_material] AS [nombre_material], 
+    [Orden_Produccion].[um material] AS [um material], 
     [Orden_Produccion].[cantidad_producto_mp_me] AS [cantidad_producto_mp_me], 
     [Orden_Produccion].[cantidad_despachada] AS [cantidad_despachada], 
     [Orden_Produccion].[cantidad_devuelta] AS [cantidad_devuelta], 
     [Orden_Produccion].[cantidad_utilizada] AS [cantidad_utilizada], 
     [Orden_Produccion].[nombre] AS [nombre]
     FROM [dbo].[Orden_Produccion] AS [Orden_Produccion]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="Orden_Produccion_Cabecera" EntityType="Self.Orden_Produccion_Cabecera" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Orden_Produccion_Cabecera].[OP] AS [OP], 
+    [Orden_Produccion_Cabecera].[lote] AS [lote], 
+    [Orden_Produccion_Cabecera].[fecha] AS [fecha], 
+    [Orden_Produccion_Cabecera].[fecha_cierre] AS [fecha_cierre], 
+    [Orden_Produccion_Cabecera].[codigo] AS [codigo], 
+    [Orden_Produccion_Cabecera].[cantidad] AS [cantidad], 
+    [Orden_Produccion_Cabecera].[cantidad_fabricada] AS [cantidad_fabricada], 
+    [Orden_Produccion_Cabecera].[rendimiento] AS [rendimiento], 
+    [Orden_Produccion_Cabecera].[nombre] AS [nombre], 
+    [Orden_Produccion_Cabecera].[planta] AS [planta]
+    FROM [dbo].[Orden_Produccion_Cabecera] AS [Orden_Produccion_Cabecera]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="ordenes_compra" EntityType="Self.ordenes_compra" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
@@ -1256,7 +1350,9 @@ advertencia 6002: La tabla o vista 'oasis.dbo.Ventas_Consolidado' no tiene defin
           <EntitySet Name="Reporte_GuiasRemision" EntityType="oasisAS2.Reporte_GuiasRemision" />
           <EntitySet Name="guia_urbano_troq" EntityType="oasisAS2.guia_urbano_troq" />
           <EntitySet Name="GuiaUrbano" EntityType="oasisAS2.GuiaUrbano" />
+          <EntitySet Name="Cartera_Proveedor" EntityType="oasisAS2.Cartera_Proveedor" />
           <EntitySet Name="Orden_Produccion" EntityType="oasisAS2.Orden_Produccion" />
+          <EntitySet Name="Orden_Produccion_Cabecera" EntityType="oasisAS2.Orden_Produccion_Cabecera" />
         </EntityContainer>
         <EntityType Name="presupuesto_cabecera">
           <Key>
@@ -1682,9 +1778,9 @@ advertencia 6002: La tabla o vista 'oasis.dbo.Ventas_Consolidado' no tiene defin
           <Property Name="id_organizacion" Type="Int32" Nullable="false" />
           <Property Name="secuencial_factura" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="ciudad" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="fecha_factura" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="fecha_factura" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="valor_factura" Type="Decimal" Precision="15" Scale="2" />
-          <Property Name="fecha_guia" Type="DateTime" Precision="7" />
+          <Property Name="fecha_guia" Type="DateTime" Precision="0" Nullable="false" />
           <Property Name="descripcion" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
           <Property Name="email" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
           <Property Name="nombre_comercial" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
@@ -1985,18 +2081,45 @@ advertencia 6002: La tabla o vista 'oasis.dbo.Ventas_Consolidado' no tiene defin
           <Property Name="nota_guia" Type="String" MaxLength="5000" FixedLength="false" Unicode="false" />
           <Property Name="nombre" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
+        <EntityType Name="Cartera_Proveedor">
+          <Key>
+            <PropertyRef Name="empresa" />
+            <PropertyRef Name="identificacion" />
+            <PropertyRef Name="nombre_comercial" />
+            <PropertyRef Name="categoria" />
+            <PropertyRef Name="fecha_factura" />
+            <PropertyRef Name="ciudad" />
+            <PropertyRef Name="direccion" />
+            <PropertyRef Name="saldo" />
+          </Key>
+          <Property Name="empresa" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="identificacion" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="nombre_comercial" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="categoria" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="secuencial_factura" Type="String" MaxLength="8000" FixedLength="false" Unicode="false" />
+          <Property Name="fecha_factura" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="fecha_vencimiento" Type="DateTime" Precision="0" />
+          <Property Name="provincia" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ciudad" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="parroquia" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="direccion" Type="String" Nullable="false" MaxLength="1204" FixedLength="false" Unicode="false" />
+          <Property Name="valor_factura" Type="Decimal" Precision="15" Scale="2" />
+          <Property Name="dias_emitida" Type="Int32" />
+          <Property Name="dias_diferencia" Type="Int32" />
+          <Property Name="saldo" Type="Decimal" Nullable="false" Precision="14" Scale="2" />
+        </EntityType>
         <EntityType Name="Orden_Produccion">
           <Key>
             <PropertyRef Name="OP" />
             <PropertyRef Name="planta" />
             <PropertyRef Name="nombre_ruta" />
             <PropertyRef Name="indicador_suborden" />
-            <PropertyRef Name="id_producto" />
-            <PropertyRef Name="cantidad_devuelta" />
-            <PropertyRef Name="nombre" />
           </Key>
+          <Property Name="lote" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="OP" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="Fecha_creacion_OP" Type="DateTime" Precision="7" />
+          <Property Name="fecha_modificacion" Type="DateTime" Precision="7" />
+          <Property Name="fecha_cierre" Type="DateTime" Precision="7" />
           <Property Name="codigo_producto" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="descripcion_producto" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
           <Property Name="planta" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
@@ -2010,12 +2133,35 @@ advertencia 6002: La tabla o vista 'oasis.dbo.Ventas_Consolidado' no tiene defin
           <Property Name="indicador_suborden" Type="Boolean" Nullable="false" />
           <Property Name="id_orden_fabricacion_padre" Type="Int32" />
           <Property Name="codigo_lote" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="id_producto" Type="Int32" Nullable="false" />
+          <Property Name="id_producto" Type="Int32" />
+          <Property Name="cod__producto_material" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="nombre_material" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="um_material" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="cantidad_producto_mp_me" Type="Decimal" Precision="14" Scale="6" />
           <Property Name="cantidad_despachada" Type="Decimal" Precision="14" Scale="6" />
-          <Property Name="cantidad_devuelta" Type="Decimal" Nullable="false" Precision="12" Scale="2" />
+          <Property Name="cantidad_devuelta" Type="Decimal" Precision="14" Scale="6" />
           <Property Name="cantidad_utilizada" Type="Decimal" Precision="14" Scale="6" />
+          <Property Name="nombre" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Orden_Produccion_Cabecera">
+          <Key>
+            <PropertyRef Name="OP" />
+            <PropertyRef Name="lote" />
+            <PropertyRef Name="fecha" />
+            <PropertyRef Name="codigo" />
+            <PropertyRef Name="nombre" />
+            <PropertyRef Name="planta" />
+          </Key>
+          <Property Name="OP" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="lote" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="fecha" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="fecha_cierre" Type="DateTime" Precision="7" />
+          <Property Name="codigo" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="cantidad" Type="Int32" />
+          <Property Name="cantidad_fabricada" Type="Int32" />
+          <Property Name="rendimiento" Type="Decimal" Precision="37" Scale="21" />
           <Property Name="nombre" Type="String" Nullable="false" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Name="planta" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -2659,6 +2805,27 @@ advertencia 6002: La tabla o vista 'oasis.dbo.Ventas_Consolidado' no tiene defin
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="Cartera_Proveedor">
+            <EntityTypeMapping TypeName="oasisAS2.Cartera_Proveedor">
+              <MappingFragment StoreEntitySet="Cartera_Proveedor">
+                <ScalarProperty Name="saldo" ColumnName="saldo" />
+                <ScalarProperty Name="dias_diferencia" ColumnName="dias_diferencia" />
+                <ScalarProperty Name="dias_emitida" ColumnName="dias_emitida" />
+                <ScalarProperty Name="valor_factura" ColumnName="valor_factura" />
+                <ScalarProperty Name="direccion" ColumnName="direccion" />
+                <ScalarProperty Name="parroquia" ColumnName="parroquia" />
+                <ScalarProperty Name="ciudad" ColumnName="ciudad" />
+                <ScalarProperty Name="provincia" ColumnName="provincia" />
+                <ScalarProperty Name="fecha_vencimiento" ColumnName="fecha vencimiento" />
+                <ScalarProperty Name="fecha_factura" ColumnName="fecha_factura" />
+                <ScalarProperty Name="secuencial_factura" ColumnName="secuencial_factura" />
+                <ScalarProperty Name="categoria" ColumnName="categoria" />
+                <ScalarProperty Name="nombre_comercial" ColumnName="nombre_comercial" />
+                <ScalarProperty Name="identificacion" ColumnName="identificacion" />
+                <ScalarProperty Name="empresa" ColumnName="empresa" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Orden_Produccion">
             <EntityTypeMapping TypeName="oasisAS2.Orden_Produccion">
               <MappingFragment StoreEntitySet="Orden_Produccion">
@@ -2667,6 +2834,9 @@ advertencia 6002: La tabla o vista 'oasis.dbo.Ventas_Consolidado' no tiene defin
                 <ScalarProperty Name="cantidad_devuelta" ColumnName="cantidad_devuelta" />
                 <ScalarProperty Name="cantidad_despachada" ColumnName="cantidad_despachada" />
                 <ScalarProperty Name="cantidad_producto_mp_me" ColumnName="cantidad_producto_mp_me" />
+                <ScalarProperty Name="um_material" ColumnName="um material" />
+                <ScalarProperty Name="nombre_material" ColumnName="nombre_material" />
+                <ScalarProperty Name="cod__producto_material" ColumnName="cod. producto material" />
                 <ScalarProperty Name="id_producto" ColumnName="id_producto" />
                 <ScalarProperty Name="codigo_lote" ColumnName="codigo_lote" />
                 <ScalarProperty Name="id_orden_fabricacion_padre" ColumnName="id_orden_fabricacion_padre" />
@@ -2681,7 +2851,26 @@ advertencia 6002: La tabla o vista 'oasis.dbo.Ventas_Consolidado' no tiene defin
                 <ScalarProperty Name="planta" ColumnName="planta" />
                 <ScalarProperty Name="descripcion_producto" ColumnName="descripcion producto" />
                 <ScalarProperty Name="codigo_producto" ColumnName="codigo producto" />
+                <ScalarProperty Name="fecha_cierre" ColumnName="fecha_cierre" />
+                <ScalarProperty Name="fecha_modificacion" ColumnName="fecha_modificacion" />
                 <ScalarProperty Name="Fecha_creacion_OP" ColumnName="Fecha creacion OP" />
+                <ScalarProperty Name="OP" ColumnName="OP" />
+                <ScalarProperty Name="lote" ColumnName="lote" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Orden_Produccion_Cabecera">
+            <EntityTypeMapping TypeName="oasisAS2.Orden_Produccion_Cabecera">
+              <MappingFragment StoreEntitySet="Orden_Produccion_Cabecera">
+                <ScalarProperty Name="planta" ColumnName="planta" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="rendimiento" ColumnName="rendimiento" />
+                <ScalarProperty Name="cantidad_fabricada" ColumnName="cantidad_fabricada" />
+                <ScalarProperty Name="cantidad" ColumnName="cantidad" />
+                <ScalarProperty Name="codigo" ColumnName="codigo" />
+                <ScalarProperty Name="fecha_cierre" ColumnName="fecha_cierre" />
+                <ScalarProperty Name="fecha" ColumnName="fecha" />
+                <ScalarProperty Name="lote" ColumnName="lote" />
                 <ScalarProperty Name="OP" ColumnName="OP" />
               </MappingFragment>
             </EntityTypeMapping>

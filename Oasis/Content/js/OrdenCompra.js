@@ -126,57 +126,34 @@ function SumatoriaSubtotales() {
     var rows = tableElem.rows;
     var tableBody = tableElem.getElementsByTagName("tbody").item(0);
     var i;
-    var valortotal = parseFloat($("#DiferenciaTotalOC").data("valortotal"));
+    var valor_total_teorico = parseFloat($("#DiferenciaTotalOC").data("valortotal"));
     var whichColumn = 4;
     var howManyRows = tableBody.rows.length;
     var subtotal = 0;
-    var subtotal_iva = 0;
+    var total_iva = 0;
     var descuentoTotal = 0;
+    var subtotal_sin_iva = 0;
+    var total = 0;
+
     for (i = 1; i <= howManyRows; i++) {
         cell = rows[i].cells[3];
         //celdaDsct = rows[i].cells[3];
         linea_iva = $(rows[i].cells[2]).find(':input')[0].dataset.iva;
-        subtotal_iva += linea_iva == "true" ? parseFloat($(cell).find(':input').val())*0.12 : 0.00;
-        subtotal += parseFloat($(cell).find(':input').val() == "" ? 0.00 : $(cell).find(':input').val());
+        total_iva += linea_iva == "true" ? parseFloat($(cell).find(':input').val())*0.12 : 0.00;
+        subtotal += parseFloat($(cell).find(':input').val() == "" ? 0.00 : $(cell).find(':input').val()) + total_iva;
+        subtotal_sin_iva += parseFloat($(cell).find(':input').val() == "" ? 0.00 : $(cell).find(':input').val());
         //descuentoTotal += parseFloat($(celdaDsct).find(':input').val() == "" ? 0.00 : $(celdaDsct).find(':input').val());
         //subtotal += parseFloat(thisTextNode.value,2).toFixed(2);
     }
-    $("#SubtotalPrincipalOC").val((subtotal - subtotal_iva).toFixed(2));
-    $("#IVAPrincipalOC").val(subtotal_iva.toFixed(2));
-    $("#TotalPrincipalOC").val(subtotal.toFixed(2));
-    $("#DiferenciaTotalOC").val((valortotal-subtotal).toFixed(2));
+    total = subtotal_sin_iva + total_iva;
+    $("#SubtotalPrincipalOC").val((subtotal_sin_iva).toFixed(2));
+    $("#IVAPrincipalOC").val(total_iva.toFixed(2));
+    $("#TotalPrincipalOC").val((total).toFixed(2));
+    $("#DiferenciaTotalOC").val((valor_total_teorico-total).toFixed(2));
     
 }
 
 function ActivarProductos() {
-    //$('.js-data-proveedor-ajax').select2({
-    //    //selectOnClose: true,
-    //    minimumInputLength: 2,
-    //    language: {
-    //        inputTooShort: function () { return "Ingresar dos o más caracteres"; }
-    //    },
-    //    tags: [],
-    //    ajax: {
-    //        url: '/Proveedor/ObtenerProveedores',
-    //        processResults: function (data) {
-    //            return {
-    //                results: $.map(data, function (item) {
-    //                    return {
-    //                        text: item.nombre_comercial,
-    //                        id: item.identificacion
-    //                    }
-    //                })
-    //            };
-    //        },
-    //        dataType: 'json',
-    //        data: function (params) {
-    //            var query = {
-    //                textoBusqueda: params.term,
-    //            }
-    //            return query;
-    //        }
-    //    }
-    //});
 
     $('.js-data-example-ajax').select2({
         //selectOnClose: true,
@@ -209,14 +186,21 @@ function ActivarProductos() {
             }
         }
     }).on('change', function (e) {
-        var valor_unitario = $(this).select2('data')[0].valor_unitario;
         var grava_iva = $(this).select2('data')[0].grava_iva;
+        var valor_unitario;
+        //if (grava_iva) {
+        //    valor_unitario = Math.round($(this).select2('data')[0].valor_unitario*1.12,2);
+        //} else {
+            valor_unitario = $(this).select2('data')[0].valor_unitario;
+        //}
+
         var $tr = $(this).parents("tr");
         $(this).parent().siblings().each(function () {
             var elemento_ = $(this).find('input');
             if (elemento_.attr('id') == "ValorUnitarioOC") {
                 elemento_.val(valor_unitario);
                 elemento_.attr('data-iva', grava_iva);
+                //elemento_.attr('data-valor_iva', grava_iva);
             }
         });
     });
