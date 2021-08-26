@@ -282,6 +282,9 @@
     <Reference Include="Ubiety.Dns.Core, Version=2.2.1.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
       <HintPath>..\packages\MySql.Data.8.0.21\lib\net452\Ubiety.Dns.Core.dll</HintPath>
     </Reference>
+    <Reference Include="WebDriver, Version=3.141.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Selenium.WebDriver.3.141.0\lib\net45\WebDriver.dll</HintPath>
+    </Reference>
     <Reference Include="WebGrease">
       <Private>True</Private>
       <HintPath>..\packages\WebGrease.1.6.0\lib\WebGrease.dll</HintPath>
@@ -317,6 +320,7 @@
     <Compile Include="Controllers\Bodega\PickingController.cs" />
     <Compile Include="Controllers\Contabilidad\ContabilidadController.cs" />
     <Compile Include="Controllers\Credito\CreditoController.cs" />
+    <Compile Include="Controllers\Credito\IntercompanyController.cs" />
     <Compile Include="Controllers\Credito\PresupuestoController.cs" />
     <Compile Include="Controllers\GastosController.cs" />
     <Compile Include="Controllers\Geoubicacion\GeoubicacionController.cs" />
@@ -423,6 +427,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>AS2OASIS.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Models\AS2\PaginaAS2.cs" />
     <Compile Include="Models\asiento.cs">
       <DependentUpon>AS2.tt</DependentUpon>
     </Compile>
@@ -2550,6 +2555,7 @@
     <Compile Include="ViewModel\PresupuestoEdicion.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="chromedriver.exe" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -4793,6 +4799,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\Autenticacion\" />
+    <Folder Include="Views\Intercompany\" />
     <Folder Include="Views\InventarioGastos\" />
     <Folder Include="Views\InventarioItem\" />
     <Folder Include="Views\Visitador\" />
@@ -4855,8 +4862,10 @@
     <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
     <Error Condition="!Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.4.4\build\EntityFramework.props'))" />
     <Error Condition="!Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.4.4\build\EntityFramework.targets'))" />
+    <Error Condition="!Exists('..\packages\Selenium.WebDriver.ChromeDriver.92.0.4515.10700\build\Selenium.WebDriver.ChromeDriver.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Selenium.WebDriver.ChromeDriver.92.0.4515.10700\build\Selenium.WebDriver.ChromeDriver.targets'))" />
   </Target>
   <Import Project="..\packages\EntityFramework.6.4.4\build\EntityFramework.targets" Condition="Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.targets')" />
+  <Import Project="..\packages\Selenium.WebDriver.ChromeDriver.92.0.4515.10700\build\Selenium.WebDriver.ChromeDriver.targets" Condition="Exists('..\packages\Selenium.WebDriver.ChromeDriver.92.0.4515.10700\build\Selenium.WebDriver.ChromeDriver.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

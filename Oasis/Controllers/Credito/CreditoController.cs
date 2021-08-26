@@ -544,7 +544,7 @@ namespace Oasis.Controllers.Credito
                         fecha_documento = x.fecha_documento.Value.ToShortDateString(),
                         x.secuencial_nc,
                         x.motivo_nc,
-                        valor = x.valor_nc.Value.ToString("N2"),
+                        x.valor_nc,
                         fecha_factura = x.fecha_factura.Value.ToShortDateString(),
                         factura = x.numero_factura,
                         x.vendedor,

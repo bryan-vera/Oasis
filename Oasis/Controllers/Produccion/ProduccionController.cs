@@ -19,7 +19,7 @@ namespace Oasis.Controllers.Produccion
             return View();
         }
 
-        public ActionResult ImprimirOrdenProduccion(string lote)
+        public void ImprimirOrdenProduccion(string lote)
         {
             var context = new as2oasis();
             var cabecera_op =
